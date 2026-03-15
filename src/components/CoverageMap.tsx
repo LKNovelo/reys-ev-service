@@ -84,16 +84,17 @@ const dotColors: Record<string, string> = {
   extended: "#F5A623",
 };
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare global {
   interface Window {
-    google: typeof google;
+    google: any;
     initCoverageMap: () => void;
   }
 }
 
 export default function CoverageMap() {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstance = useRef<google.maps.Map | null>(null);
+  const mapInstance = useRef<any>(null);
 
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY) return;
