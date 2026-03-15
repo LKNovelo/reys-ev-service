@@ -47,7 +47,7 @@ export const blogPostSchema = defineType({
       ]}),
     ]}),
     defineField({ name: "references", title: "References & further reading", type: "array", of: [
-      defineArrayMember({ type: "object", name: "reference", fields: [
+      defineArrayMember({ type: "object", name: "externalLink", fields: [
         defineField({ name: "group", title: "Group", type: "string", options: { list: [
           { title: "Tesla official", value: "Tesla official" },
           { title: "Parts & ordering", value: "Parts & ordering" },
@@ -70,7 +70,7 @@ export const blogPostSchema = defineType({
       return {
         title: selection.title as string | undefined,
         subtitle: sub ? new Date(sub).toLocaleDateString() : "Draft",
-        media: selection.media as React.ReactNode,
+        media: selection.media,
       };
     },
   },
