@@ -67,7 +67,11 @@ export const blogPostSchema = defineType({
     select: { title: "title", subtitle: "publishedAt", media: "coverImage" },
     prepare(selection: Record<string, unknown>) {
       const sub = selection.subtitle as string | undefined;
-      return { title: selection.title, subtitle: sub ? new Date(sub).toLocaleDateString() : "Draft", media: selection.media };
+      return {
+        title: selection.title as string | undefined,
+        subtitle: sub ? new Date(sub).toLocaleDateString() : "Draft",
+        media: selection.media,
+      };
     },
   },
 });

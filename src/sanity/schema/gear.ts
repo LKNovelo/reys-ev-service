@@ -96,7 +96,11 @@ export const gearSchema = defineType({
   preview: {
     select: { title: "name", subtitle: "brand", media: "productImage" },
     prepare(selection: Record<string, unknown>) {
-      return { title: selection.title, subtitle: selection.subtitle, media: selection.media };
+      return {
+        title: selection.title as string | undefined,
+        subtitle: selection.subtitle as string | undefined,
+        media: selection.media,
+      };
     },
   },
 });
