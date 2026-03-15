@@ -1,7 +1,7 @@
 import Nav    from "@/components/Nav";
 import Footer from "@/components/Footer";
 import BlogList from "@/components/BlogList";
-import { getAllPosts, getAllKeywords } from "@/lib/blogData";
+import { fetchAllBlogPosts, collectKeywords } from "@/lib/blogQueries";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -9,9 +9,9 @@ export const metadata: Metadata = {
   description: "Tesla maintenance tips, service findings, software update notes, and EV guides from Ray Novelo — written from real jobs in Southern California.",
 };
 
-export default function BlogPage() {
-  const posts = getAllPosts();
-  const keywords = getAllKeywords();
+export default async function BlogPage() {
+  const posts = await fetchAllBlogPosts();
+  const keywords = collectKeywords(posts);
 
   return (
     <>
@@ -40,7 +40,9 @@ export default function BlogPage() {
         </div>
 
         {/* Blog listing with filtering */}
-        <BlogList posts={posts} keywords={keywords} />
+        <div className="max-w-5xl mx-auto px-5 py-12">
+          <BlogList posts={posts} keywords={keywords} />
+        </div>
 
         {/* Newsletter */}
         <div className="bg-brand-green-dk px-5 py-14">

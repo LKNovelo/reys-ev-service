@@ -2,8 +2,10 @@ import Nav    from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Link   from "next/link";
 import { notFound } from "next/navigation";
-import { getPostBySlug, getAllPosts, calculateReadTime } from "@/lib/blogData";
-import type { ContentBlock } from "@/lib/blogData";
+import { PortableText } from "@portabletext/react";
+import type { PortableTextComponents } from "@portabletext/react";
+import { fetchBlogPost, fetchAllSlugs, calcReadTime } from "@/lib/blogQueries";
+import { urlFor } from "@/lib/sanity";
 import type { Metadata } from "next";
 
 interface PageProps {
@@ -11,122 +13,177 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return getAllPosts().map((post) => ({ slug: post.slug }));
+  const slugs = await fetchAllSlugs();
+  return slugs.map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await fetchBlogPost(slug);
   if (!post) return { title: "Post not found" };
   return {
-    title: `${post.title} — Ray's EV Service`,
-    description: post.excerpt,
+    title: post.seoTitle || `${post.title} — Ray's EV Service`,
+    description: post.seoDesc || post.excerpt || undefined,
   };
 }
 
-/* ── Content block renderer ──────────────────────────────────────────────── */
-function RenderBlock({ block, index }: { block: ContentBlock; index: number }) {
-  switch (block.type) {
-    case "p":
-      return <p className="text-base mb-5">{block.text}</p>;
+/* ── Custom Portable Text components ──────────────────────────────────────── */
 
-    case "h2":
+const ptComponents: PortableTextComponents = {
+  block: {
+    h2: ({ children, value }) => {
+      const id = value._key || "";
       return (
         <h2
-          id={block.id}
+          id={id}
           className="font-display font-semibold text-brand-dark text-2xl tracking-wide mt-8 mb-4 pt-6 border-t border-brand-border"
         >
-          {block.text}
+          {children}
         </h2>
       );
-
-    case "fieldNote":
+    },
+    h3: ({ children }) => (
+      <h3 className="font-display font-semibold text-brand-dark text-xl tracking-wide mt-6 mb-3">
+        {children}
+      </h3>
+    ),
+    normal: ({ children }) => (
+      <p className="text-base mb-5">{children}</p>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className="border-l-4 border-brand-border pl-4 italic text-brand-muted mb-5">
+        {children}
+      </blockquote>
+    ),
+  },
+  marks: {
+    strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
+    em: ({ children }) => <em>{children}</em>,
+    link: ({ value, children }) => (
+      <a
+        href={value?.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-brand-blue underline hover:text-brand-green transition-colors"
+      >
+        {children}
+      </a>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => <ul className="list-disc pl-6 mb-5 flex flex-col gap-1">{children}</ul>,
+    number: ({ children }) => <ol className="list-decimal pl-6 mb-5 flex flex-col gap-1">{children}</ol>,
+  },
+  listItem: {
+    bullet: ({ children }) => <li className="text-base">{children}</li>,
+    number: ({ children }) => <li className="text-base">{children}</li>,
+  },
+  types: {
+    inlineImage: ({ value }) => {
+      if (!value?.asset) return null;
       return (
-        <div className="border-l-4 border-brand-green bg-brand-green-lt rounded-r-lg px-5 py-4 my-6">
-          <p className="font-body text-[10px] font-semibold text-brand-green uppercase tracking-wider mb-2 flex items-center gap-1.5">
-            ⚡ Field note — Ray Novelo
-          </p>
-          <p className="font-body text-sm leading-relaxed" style={{ color: "#1a3a0a" }}>
-            {block.text}
-          </p>
-        </div>
+        <figure className="my-6">
+          <img
+            src={urlFor(value).width(800).url()}
+            alt={value.alt || ""}
+            className="rounded-lg w-full"
+          />
+          {value.caption && (
+            <figcaption className="font-body text-xs text-brand-muted mt-2 text-center">{value.caption}</figcaption>
+          )}
+        </figure>
       );
-
-    case "warning":
-      return (
-        <div className="border-l-4 border-brand-amber bg-amber-50 rounded-r-lg px-5 py-4 my-6">
-          <p className="font-body text-[10px] font-semibold text-amber-800 uppercase tracking-wider mb-2">
-            ⚠ {block.heading}
-          </p>
-          <p className="font-body text-sm leading-relaxed text-amber-900">{block.text}</p>
-        </div>
-      );
-
-    case "faultCodes":
-      return (
-        <div className="bg-brand-dark rounded-lg p-4 my-5">
-          <p className="font-body text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-3">
-            Relevant fault codes
-          </p>
-          {block.codes.map(({ code, desc }) => (
-            <div key={code} className="mb-3 last:mb-0">
-              <span className="font-mono text-brand-amber text-sm block">{code}</span>
-              <span className="font-mono text-gray-400 text-xs">{desc}</span>
-            </div>
-          ))}
-        </div>
-      );
-
-    case "checklist":
-      return (
-        <ul className="flex flex-col gap-3 mb-6">
-          {block.items.map((item) => (
-            <li key={item} className="flex items-start gap-3 font-body text-base">
-              <span className="text-brand-green mt-0.5 shrink-0">✓</span>
-              {item}
-            </li>
-          ))}
-        </ul>
-      );
-
-    case "serviceCTA":
-      return (
-        <div className="border border-brand-green rounded-card p-5 my-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div className="flex-1">
-            <h3 className="font-display font-semibold text-brand-dark text-base tracking-wide mb-1">
-              {block.heading}
-            </h3>
-            <p className="font-body text-brand-muted text-sm">{block.text}</p>
+    },
+    fieldNote: ({ value }) => (
+      <div className="border-l-4 border-brand-green bg-brand-green-lt rounded-r-lg px-5 py-4 my-6">
+        <p className="font-body text-[10px] font-semibold text-brand-green uppercase tracking-wider mb-2 flex items-center gap-1.5">
+          ⚡ Field note — Ray Novelo
+        </p>
+        <p className="font-body text-sm leading-relaxed" style={{ color: "#1a3a0a" }}>
+          {value.body}
+        </p>
+      </div>
+    ),
+    warningNote: ({ value }) => (
+      <div className="border-l-4 border-brand-amber bg-amber-50 rounded-r-lg px-5 py-4 my-6">
+        <p className="font-body text-[10px] font-semibold text-amber-800 uppercase tracking-wider mb-2">
+          ⚠ {value.heading || "Warning"}
+        </p>
+        <p className="font-body text-sm leading-relaxed text-amber-900">{value.body}</p>
+      </div>
+    ),
+    faultCodeBlock: ({ value }) => (
+      <div className="bg-brand-dark rounded-lg p-4 my-5">
+        <p className="font-body text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-3">
+          Relevant fault codes
+        </p>
+        {value.codes?.map((fc: { code: string; desc: string }, i: number) => (
+          <div key={i} className="mb-3 last:mb-0">
+            <span className="font-mono text-brand-amber text-sm block">{fc.code}</span>
+            <span className="font-mono text-gray-400 text-xs">{fc.desc}</span>
           </div>
-          <a
-            href="tel:+19516226222"
-            className="font-body font-semibold text-sm bg-brand-green text-white px-4 py-2.5 rounded-lg hover:bg-brand-green-dk transition-colors whitespace-nowrap shrink-0"
-          >
-            Call or text Ray
-          </a>
+        ))}
+      </div>
+    ),
+    checklist: ({ value }) => (
+      <ul className="flex flex-col gap-3 mb-6">
+        {value.items?.map((item: string, i: number) => (
+          <li key={i} className="flex items-start gap-3 font-body text-base">
+            <span className="text-brand-green mt-0.5 shrink-0">✓</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    ),
+    serviceCTA: ({ value }) => (
+      <div className="border border-brand-green rounded-card p-5 my-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <div className="flex-1">
+          <h3 className="font-display font-semibold text-brand-dark text-base tracking-wide mb-1">
+            {value.heading}
+          </h3>
+          <p className="font-body text-brand-muted text-sm">{value.ctaText}</p>
         </div>
-      );
+        <a
+          href="tel:+19516226222"
+          className="font-body font-semibold text-sm bg-brand-green text-white px-4 py-2.5 rounded-lg hover:bg-brand-green-dk transition-colors whitespace-nowrap shrink-0"
+        >
+          Call or text Ray
+        </a>
+      </div>
+    ),
+  },
+};
 
-    default:
-      return null;
-  }
-}
+/* ── Page component ───────────────────────────────────────────────────────── */
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await fetchBlogPost(slug);
   if (!post) notFound();
 
-  const readTime = calculateReadTime(post);
-  const allPosts = getAllPosts();
-  const relatedPosts = post.relatedSlugs
-    .map((s) => allPosts.find((p) => p.slug === s))
-    .filter(Boolean);
+  // Extract plain text for read time
+  const bodyText = post.body
+    ?.filter((b: { _type?: string; children?: { text?: string }[] }) => b._type === "block")
+    .flatMap((b: { children?: { text?: string }[] }) => b.children?.map((c: { text?: string }) => c.text || "") || [])
+    .join(" ") || "";
+  const readTime = calcReadTime(bodyText);
 
   // Build table of contents from h2 blocks
-  const toc = post.content
-    .filter((b): b is ContentBlock & { type: "h2" } => b.type === "h2")
-    .map((b) => ({ text: b.text, id: b.id }));
+  const toc = post.body
+    ?.filter((b: { _type?: string; style?: string }) => b._type === "block" && b.style === "h2")
+    .map((b: { _key?: string; children?: { text?: string }[] }) => ({
+      text: b.children?.map((c: { text?: string }) => c.text || "").join("") || "",
+      id: b._key || "",
+    })) || [];
+
+  // Group references by group name
+  const refGroups: Record<string, typeof post.references> = {};
+  if (post.references) {
+    for (const ref of post.references) {
+      if (!refGroups[ref.group]) refGroups[ref.group] = [];
+      refGroups[ref.group]!.push(ref);
+    }
+  }
 
   return (
     <>
@@ -151,34 +208,50 @@ export default async function BlogPostPage({ params }: PageProps) {
             <h1 className="font-display font-semibold text-brand-dark text-3xl sm:text-4xl tracking-wide leading-tight mb-4">
               {post.title}
             </h1>
-            <p className="font-body text-brand-muted text-lg leading-relaxed mb-6">
-              {post.excerpt}
-            </p>
+            {post.excerpt && (
+              <p className="font-body text-brand-muted text-lg leading-relaxed mb-6">
+                {post.excerpt}
+              </p>
+            )}
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-full bg-brand-green-lt border-2 border-brand-green flex items-center justify-center font-display font-semibold text-brand-green text-sm shrink-0">
                 RN
               </div>
               <div>
                 <p className="font-body font-semibold text-brand-dark text-sm">Ray Novelo</p>
-                <p className="font-body text-brand-muted text-xs">{post.displayDate} · {readTime}</p>
+                <p className="font-body text-brand-muted text-xs">
+                  {new Date(post.publishedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })} · {readTime}
+                </p>
               </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {post.keywords.map((tag) => (
-                <span key={tag} className="font-body text-xs border border-brand-border text-brand-muted px-2.5 py-1 rounded-full">
-                  {tag}
-                </span>
-              ))}
-            </div>
+            {post.keywords && post.keywords.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {post.keywords.map((tag) => (
+                  <span key={tag} className="font-body text-xs border border-brand-border text-brand-muted px-2.5 py-1 rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Hero image placeholder */}
-        <div className="bg-brand-surface border-b border-brand-border h-64 flex flex-col items-center justify-center gap-2">
-          <span className="text-4xl">📷</span>
-          <p className="font-body text-brand-muted text-sm">Cover photo — uploaded via Sanity CMS</p>
-          <p className="font-body text-xs text-brand-border">Recommended: 1200×630px</p>
-        </div>
+        {/* Cover image or placeholder */}
+        {post.coverImage?.asset ? (
+          <div className="border-b border-brand-border">
+            <img
+              src={urlFor(post.coverImage).width(1200).height(630).url()}
+              alt={post.coverImage.alt || post.title}
+              className="w-full h-64 object-cover"
+            />
+          </div>
+        ) : (
+          <div className="bg-brand-surface border-b border-brand-border h-64 flex flex-col items-center justify-center gap-2">
+            <span className="text-4xl">📷</span>
+            <p className="font-body text-brand-muted text-sm">Cover photo — uploaded via Sanity CMS</p>
+            <p className="font-body text-xs text-brand-border">Recommended: 1200×630px</p>
+          </div>
+        )}
 
         {/* Article + sidebar */}
         <div className="max-w-5xl mx-auto grid lg:grid-cols-[1fr_240px] gap-0 border-b border-brand-border">
@@ -186,13 +259,11 @@ export default async function BlogPostPage({ params }: PageProps) {
           {/* Article body */}
           <article className="px-5 py-12 lg:px-10 lg:border-r lg:border-brand-border">
             <div className="font-body text-brand-dark leading-relaxed max-w-2xl">
-              {post.content.map((block, i) => (
-                <RenderBlock key={i} block={block} index={i} />
-              ))}
+              <PortableText value={post.body || []} components={ptComponents} />
             </div>
 
             {/* References section */}
-            {post.references.length > 0 && (
+            {post.references && post.references.length > 0 && (
               <div className="border-t border-brand-border pt-8 mt-10">
                 <h2 className="font-display font-semibold text-brand-dark text-xl tracking-wide mb-1">
                   References &amp; further reading
@@ -200,11 +271,11 @@ export default async function BlogPostPage({ params }: PageProps) {
                 <p className="font-body text-brand-muted text-xs mb-6">
                   External resources related to this post. We link directly — no paywalls, no affiliate links.
                 </p>
-                {post.references.map(({ group, items }) => (
+                {Object.entries(refGroups).map(([group, items]) => (
                   <div key={group} className="mb-6">
                     <p className="font-body text-[10px] font-semibold text-brand-muted uppercase tracking-wider mb-3">{group}</p>
                     <div className="flex flex-col gap-3">
-                      {items.map(({ title, source, desc, url }) => (
+                      {items!.map(({ title, source, desc, url }) => (
                         <a
                           key={title}
                           href={url}
@@ -214,8 +285,8 @@ export default async function BlogPostPage({ params }: PageProps) {
                         >
                           <div className="flex-1 min-w-0">
                             <p className="font-body font-semibold text-brand-blue text-sm mb-0.5 group-hover:underline">{title}</p>
-                            <p className="font-body text-brand-muted text-xs mb-1">{source}</p>
-                            <p className="font-body text-brand-muted text-xs leading-relaxed">{desc}</p>
+                            {source && <p className="font-body text-brand-muted text-xs mb-1">{source}</p>}
+                            {desc && <p className="font-body text-brand-muted text-xs leading-relaxed">{desc}</p>}
                           </div>
                           <span className="text-brand-muted text-sm shrink-0 mt-0.5">↗</span>
                         </a>
@@ -282,18 +353,20 @@ export default async function BlogPostPage({ params }: PageProps) {
             </div>
 
             {/* Related tags */}
-            <div>
-              <h3 className="font-body text-[10px] font-semibold text-brand-muted uppercase tracking-wider mb-3">
-                Related topics
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {post.keywords.map((tag) => (
-                  <span key={tag} className="font-body text-xs border border-brand-border text-brand-muted px-2.5 py-1 rounded-full">
-                    {tag}
-                  </span>
-                ))}
+            {post.keywords && post.keywords.length > 0 && (
+              <div>
+                <h3 className="font-body text-[10px] font-semibold text-brand-muted uppercase tracking-wider mb-3">
+                  Related topics
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {post.keywords.map((tag) => (
+                    <span key={tag} className="font-body text-xs border border-brand-border text-brand-muted px-2.5 py-1 rounded-full">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </aside>
         </div>
 
@@ -317,16 +390,24 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
 
         {/* Related posts */}
-        {relatedPosts.length > 0 && (
+        {post.relatedPosts && post.relatedPosts.length > 0 && (
           <div className="bg-white border-b border-brand-border px-5 py-12">
             <div className="max-w-4xl mx-auto">
               <h2 className="font-display font-semibold text-brand-dark text-2xl tracking-wide mb-6">Related posts</h2>
               <div className="grid sm:grid-cols-3 gap-5">
-                {relatedPosts.map((related) => related && (
-                  <Link key={related.slug} href={`/blog/${related.slug}`} className="group rounded-card border border-brand-border overflow-hidden hover:border-brand-green transition-colors">
-                    <div className="bg-brand-surface h-20 flex items-center justify-center border-b border-brand-border">
-                      <span className="text-2xl">📄</span>
-                    </div>
+                {post.relatedPosts.map((related) => (
+                  <Link key={related._id} href={`/blog/${related.slug}`} className="group rounded-card border border-brand-border overflow-hidden hover:border-brand-green transition-colors">
+                    {related.coverImage?.asset ? (
+                      <img
+                        src={urlFor(related.coverImage).width(400).height(200).url()}
+                        alt={related.coverImage.alt || related.title}
+                        className="w-full h-20 object-cover border-b border-brand-border"
+                      />
+                    ) : (
+                      <div className="bg-brand-surface h-20 flex items-center justify-center border-b border-brand-border">
+                        <span className="text-2xl">📄</span>
+                      </div>
+                    )}
                     <div className="p-4">
                       <span className="font-body text-[10px] font-semibold text-brand-blue uppercase tracking-wider block mb-2">{related.category}</span>
                       <h3 className="font-display font-semibold text-brand-dark text-sm tracking-wide leading-snug group-hover:text-brand-green transition-colors">

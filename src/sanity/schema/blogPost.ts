@@ -8,8 +8,7 @@ export const blogPostSchema = defineType({
     defineField({ name: "title", title: "Title", type: "string", validation: (r) => r.required() }),
     defineField({ name: "slug", title: "Slug", type: "slug", options: { source: "title", maxLength: 96 }, validation: (r) => r.required() }),
     defineField({ name: "publishedAt", title: "Published at", type: "datetime", validation: (r) => r.required() }),
-    defineField({ name: "featured", title: "Featured post", type: "boolean", initialValue: false, description: "Only one post should be featured at a time" }),
-    defineField({ name: "excerpt", title: "Excerpt", type: "text", rows: 3, validation: (r) => r.max(200) }),
+    defineField({ name: "excerpt", title: "Excerpt", type: "text", rows: 3, validation: (r) => r.max(300) }),
     defineField({ name: "coverImage", title: "Cover image", type: "image", options: { hotspot: true }, fields: [
       defineField({ name: "alt", title: "Alt text", type: "string", validation: (r) => r.required() }),
       defineField({ name: "caption", title: "Caption (optional)", type: "string" }),
@@ -22,7 +21,15 @@ export const blogPostSchema = defineType({
       { title: "Service finding", value: "Service finding" },
       { title: "EV 101", value: "EV 101" },
       { title: "Supercharger", value: "Supercharger" },
-    ]}}),
+    ]}, validation: (r) => r.required() }),
+    defineField({
+      name: "keywords",
+      title: "Keywords / filter tags",
+      type: "array",
+      of: [defineArrayMember({ type: "string" })],
+      options: { layout: "tags" },
+      description: "Used for blog filter buttons on the listing page",
+    }),
     defineField({ name: "body", title: "Body", type: "array", of: [
       defineArrayMember({ type: "block" }),
       defineArrayMember({ type: "image", name: "inlineImage", options: { hotspot: true }, fields: [
@@ -41,6 +48,13 @@ export const blogPostSchema = defineType({
           defineField({ name: "code", title: "Fault code", type: "string" }),
           defineField({ name: "desc", title: "Description", type: "string" }),
         ]})] }),
+      ]}),
+      defineArrayMember({ type: "object", name: "checklist", title: "Checklist (green checkmarks)", fields: [
+        defineField({ name: "items", title: "Checklist items", type: "array", of: [defineArrayMember({ type: "string" })], validation: (r) => r.required().min(1) }),
+      ]}),
+      defineArrayMember({ type: "object", name: "serviceCTA", title: "Service call-to-action box", fields: [
+        defineField({ name: "heading", title: "CTA heading", type: "string", validation: (r) => r.required() }),
+        defineField({ name: "ctaText", title: "CTA body text", type: "text", rows: 2, validation: (r) => r.required() }),
       ]}),
       defineArrayMember({ type: "object", name: "inlineProduct", title: "Inline product recommendation", fields: [
         defineField({ name: "product", title: "Product", type: "reference", to: [{ type: "gear" }], validation: (r) => r.required() }),
@@ -62,6 +76,9 @@ export const blogPostSchema = defineType({
     defineField({ name: "relatedPosts", title: "Related posts (max 3)", type: "array", of: [defineArrayMember({ type: "reference", to: [{ type: "blogPost" }] })], validation: (r) => r.max(3) }),
     defineField({ name: "seoTitle", title: "SEO title override", type: "string", validation: (r) => r.max(60) }),
     defineField({ name: "seoDesc", title: "SEO meta description", type: "text", rows: 2, validation: (r) => r.max(155) }),
+  ],
+  orderings: [
+    { title: "Published (newest)", name: "publishedAtDesc", by: [{ field: "publishedAt", direction: "desc" }] },
   ],
   preview: {
     select: { title: "title", subtitle: "publishedAt", media: "coverImage" },
