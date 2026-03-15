@@ -18,7 +18,7 @@ const SERVICES_QUERY = `*[_type == "service"] | order(order asc) {
   slug
 }`;
 
-const icons: Record<string, JSX.Element> = {
+const icons: Record<string, React.ReactNode> = {
   "Full EV Diagnostic": (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
       <circle cx="11" cy="11" r="9" stroke="#1A5C00" strokeWidth="1.4"/>
