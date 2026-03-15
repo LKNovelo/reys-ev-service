@@ -2,6 +2,7 @@ import Nav    from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { CTABar } from "@/components/CTABlocks";
 import CoverageMap from "@/components/CoverageMap";
+import ZipChecker from "@/components/ZipChecker";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -16,39 +17,39 @@ const zones = [
     name: "91 Corridor & Inland Empire",
     fee: "No travel fee",
     feeStyle: "bg-brand-green-lt text-brand-green",
-    highway: "Via 91 Freeway from Corona",
-    cities: ["Corona ★ home base","Riverside","Anaheim","Santa Ana","Garden Grove","Orange","Fullerton","Irvine","Huntington Beach","Ontario","Rancho Cucamonga"],
-    note: "Home base is Corona. The 91 west makes Anaheim and OC quick and predictable.",
+    highway: "Via 91 Freeway from Corona · I-15 south to Lake Elsinore",
+    cities: ["Corona ★ home base","Riverside","Anaheim","Santa Ana","Garden Grove","Orange","Fullerton","Irvine","Huntington Beach","Ontario","Rancho Cucamonga","Norco","Lake Elsinore","Perris"],
+    note: "Home base is Corona. The 91 west makes Anaheim and OC quick and predictable. I-15 south covers Lake Elsinore.",
     active: true,
   },
   {
     id: "secondary",
     dot: "bg-brand-blue",
-    name: "Temecula / LA / wider area",
+    name: "LA County",
     fee: "Small travel fee",
     feeStyle: "bg-brand-blue-lt text-brand-blue",
-    highway: "I-15 south · I-10 west",
-    cities: ["Temecula","Murrieta","Los Angeles","Long Beach","Pasadena","Torrance","Compton","Pomona","Moreno Valley","Hemet","Lake Elsinore"],
-    note: "Temecula is south on I-15 — adds meaningful drive time in traffic. Fee confirmed at booking.",
+    highway: "I-10 west · 60 west · 91 west",
+    cities: ["Los Angeles","Long Beach","Pasadena","Torrance","Compton","Pomona","Glendale","Alhambra","Downey","Whittier","Inglewood"],
+    note: "LA County adds meaningful drive time. Small flat fee confirmed at booking.",
     active: false,
   },
   {
     id: "extended",
     dot: "bg-brand-amber",
-    name: "San Diego metro",
+    name: "San Diego / Temecula",
     fee: "Call first",
     feeStyle: "bg-amber-50 text-amber-800",
-    highway: "I-15 south",
-    cities: ["San Diego","Chula Vista","Oceanside","Carlsbad","Escondido","Encinitas","El Cajon","Vista","Santee","Poway","National City"],
-    note: "Available depending on scheduling. Ray will give a straight answer on timing and fee.",
+    highway: "I-15 south past Lake Elsinore",
+    cities: ["Temecula","Murrieta","San Diego","Chula Vista","Oceanside","Carlsbad","Escondido","Encinitas","El Cajon","Vista","Santee","Poway","National City"],
+    note: "Temecula and south — available depending on scheduling. Ray will give a straight answer on timing and fee.",
     active: false,
   },
 ];
 
 const faq = [
-  { q: "Why is Anaheim no fee but Temecula has a travel fee?", a: "Zones are based on drive time from Corona, not straight-line distance. From Corona, Anaheim is a direct shot west on the 91 — predictable and quick. Temecula is south on the I-15, which adds real time depending on traffic." },
+  { q: "Why is Anaheim no fee but Temecula has a travel fee?", a: "Zones are based on drive time from Corona, not straight-line distance. From Corona, Anaheim is a direct shot west on the 91 — predictable and quick. Temecula is south on the I-15 past Lake Elsinore, which adds real time depending on traffic." },
   { q: "My car can't be driven — can you still come?", a: "Yes. Call directly rather than submitting a form — Ray can triage faster over the phone. For completely dead cars (12V failure, won't unlock), he carries replacement units in the van." },
-  { q: "How far in advance do I need to book?", a: "Same-day is often available in the primary zone. Secondary zone is usually next day. San Diego depends on the week. For anything affecting your ability to drive, call immediately — Ray will prioritize." },
+  { q: "How far in advance do I need to book?", a: "Same-day is often available in the primary zone. LA is usually next day. San Diego and Temecula depend on the week. For anything affecting your ability to drive, call immediately — Ray will prioritize." },
   { q: "Can you come to my workplace or apartment?", a: "Yes — home, office, or any parking area with safe working space alongside the vehicle. Underground garages can depend on clearance; mention it when you book." },
   { q: "What if I'm just outside the service area?", a: "Call anyway. The zone lines aren't rigid — if the job is right and the route works, Ray will find a way." },
 ];
@@ -68,19 +69,9 @@ export default function CoveragePage() {
             </h1>
             <p className="font-body text-brand-muted text-lg leading-relaxed max-w-xl mb-8">
               Zones are based on drive time, not distance on a map. Not sure if you&apos;re in range?
-              Call or text — Ray will confirm before you fill anything out.
+              Check your zip or call — Ray will confirm before you fill anything out.
             </p>
-            <div className="flex flex-wrap items-center gap-3">
-              <input type="text" placeholder="Enter your zip code"
-                className="font-body border border-brand-border rounded-lg px-4 py-2.5 text-sm text-brand-dark placeholder-brand-muted focus:outline-none focus:border-brand-green w-44" />
-              <button className="font-body font-semibold text-sm bg-brand-green text-white px-5 py-2.5 rounded-lg hover:bg-brand-green-dk transition-colors">
-                Check coverage
-              </button>
-              <span className="font-body text-brand-muted text-sm">or</span>
-              <a href="tel:+19516226222" className="font-body font-semibold text-brand-green text-sm hover:underline">
-                (951) 622-6222
-              </a>
-            </div>
+            <ZipChecker />
           </div>
         </div>
 
@@ -90,7 +81,7 @@ export default function CoveragePage() {
             <span className="text-brand-blue text-lg shrink-0">→</span>
             <p className="font-body text-brand-blue text-sm leading-relaxed">
               Zones follow real drive times. Anaheim and Santa Ana are quick on the 91 from Corona — no travel fee.
-              Temecula is farther south on the 15 — small fee applies.
+              Temecula is farther south on the I-15 past Lake Elsinore — call first.
             </p>
           </div>
         </div>
@@ -103,9 +94,9 @@ export default function CoveragePage() {
             <CoverageMap />
             <div className="bg-white border-t border-brand-border px-5 py-3 flex flex-wrap gap-4">
               {[
-                { dot: "bg-brand-green", label: "Primary — 91 corridor (no fee)" },
-                { dot: "bg-brand-blue",  label: "Secondary — Temecula / LA (small fee)" },
-                { dot: "bg-brand-amber", label: "San Diego (call first)" },
+                { dot: "bg-brand-green", label: "Primary — 91 corridor & IE (no fee)" },
+                { dot: "bg-brand-blue",  label: "LA County (small fee)" },
+                { dot: "bg-brand-amber", label: "San Diego / Temecula (call first)" },
               ].map(({ dot, label }) => (
                 <div key={label} className="flex items-center gap-2">
                   <span className={`w-2.5 h-2.5 rounded-full ${dot} shrink-0`} />
@@ -184,9 +175,9 @@ export default function CoveragePage() {
             <p className="font-body text-brand-muted text-base mb-8 max-w-xl">Always confirmed before dispatch. Never added after the fact.</p>
             <div className="grid sm:grid-cols-3 gap-5 mb-6">
               {[
-                { v: "$0", name: "91 Corridor & IE", desc: "Corona, Riverside, Anaheim, Santa Ana, OC along the 91.", dot: "bg-brand-green" },
-                { v: "TBD", name: "Temecula / LA / wider", desc: "Small flat fee confirmed at booking based on exact location.", dot: "bg-brand-blue" },
-                { v: "Call first", name: "San Diego metro", desc: "Available depending on scheduling. Ray will give a straight answer.", dot: "bg-brand-amber" },
+                { v: "$0", name: "91 Corridor & IE", desc: "Corona, Riverside, Anaheim, Santa Ana, OC along the 91, south to Lake Elsinore.", dot: "bg-brand-green" },
+                { v: "TBD", name: "LA County", desc: "Small flat fee confirmed at booking based on exact location.", dot: "bg-brand-blue" },
+                { v: "Call first", name: "San Diego / Temecula", desc: "Available depending on scheduling. Ray will give a straight answer.", dot: "bg-brand-amber" },
               ].map(({ v, name, desc, dot }) => (
                 <div key={name} className="bg-white rounded-card border border-brand-border p-5 text-center">
                   <span className={`w-4 h-4 rounded-full ${dot} block mx-auto mb-3`} />

@@ -1,5 +1,6 @@
 import Nav    from "@/components/Nav";
 import Footer from "@/components/Footer";
+import ZipChecker from "@/components/ZipChecker";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -56,6 +57,15 @@ export default function ContactPage() {
             </p>
 
             <form className="flex flex-col gap-5" action="mailto:RaysEVService@gmail.com" method="get">
+
+              {/* Coverage check */}
+              <div className="bg-brand-surface border border-brand-border rounded-card p-4">
+                <p className="font-body text-sm font-semibold text-brand-dark mb-1">Check if you&apos;re in our service area</p>
+                <p className="font-body text-xs text-brand-muted mb-3 leading-relaxed">
+                  Enter your zip to see your zone and any travel fee before booking.
+                </p>
+                <ZipChecker compact showCoverageLink />
+              </div>
 
               {/* Service type */}
               <div>
