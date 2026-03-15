@@ -1,6 +1,7 @@
 import Nav    from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { CTABar } from "@/components/CTABlocks";
+import { sanityFetch } from "@/lib/sanity";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,93 +9,30 @@ export const metadata: Metadata = {
   description: "Mobile Tesla diagnostics, battery service, charging repair, and pre-purchase inspections. Serving LA to San Diego from Corona, CA.",
 };
 
-const services = [
-  {
-    id: "diagnostic",
-    name: "Full EV Diagnostic",
-    badge: "Most requested",
-    price: "$149",
-    priceSuffix: "flat",
-    credited: true,
-    desc: "Tesla Toolbox 3 scan of all vehicle systems. Fault codes, battery health report, and written findings — all on-site.",
-    includes: [
-      "All fault codes read and explained",
-      "Battery state-of-health report",
-      "Written findings document",
-      "Repair recommendation (no obligation)",
-    ],
-  },
-  {
-    id: "battery",
-    name: "Battery & BMS Service",
-    price: "$299",
-    priceSuffix: "starting",
-    credited: false,
-    desc: "Cell balancing, state-of-health testing, and battery management system calibration. Range loss diagnosis included.",
-    includes: [
-      "BMS calibration and reset",
-      "Individual cell health check",
-      "Range loss root-cause diagnosis",
-      "Written report",
-    ],
-  },
-  {
-    id: "charging",
-    name: "Charging System Repair",
-    price: "$199",
-    priceSuffix: "starting",
-    credited: false,
-    desc: "Won't charge? Slow charging? We diagnose onboard charger faults, charge port issues, and 12V system failures.",
-    includes: [
-      "Onboard charger fault diagnosis",
-      "Charge port inspection & latch check",
-      "12V charging circuit test",
-      "Parts quoted before work begins",
-    ],
-  },
-  {
-    id: "electrical",
-    name: "12V System & Electrical",
-    price: "$129",
-    priceSuffix: "starting",
-    credited: false,
-    desc: "12V battery replacement, HV contactor testing, and low-voltage wiring faults. Common Tesla 12V units carried in-van.",
-    includes: [
-      "12V battery test and replacement",
-      "HV contactor health check",
-      "Low-voltage wiring diagnosis",
-      "Model 3/Y/S/X units in stock",
-    ],
-  },
-  {
-    id: "remote",
-    name: "Remote Pre-Diagnostic",
-    price: "$100",
-    priceSuffix: "flat",
-    credited: true,
-    desc: "Send us your fault codes before booking. Ray reviews remotely and confirms job scope — no surprise costs on dispatch.",
-    includes: [
-      "Remote Toolbox 3 fault code review",
-      "Scope and parts confirmation",
-      "Written pre-visit summary",
-      "Credited toward on-site repair",
-    ],
-  },
-  {
-    id: "inspection",
-    name: "Pre-Purchase Inspection",
-    price: "$249",
-    priceSuffix: "flat",
-    credited: false,
-    desc: "Buying a used Tesla? We inspect battery health, safety systems, and fault history before you sign anything.",
-    includes: [
-      "Full Toolbox 3 diagnostic scan",
-      "Battery degradation assessment",
-      "Fault history review",
-      "Written PDF report",
-    ],
-  },
-];
+interface Service {
+  _id: string;
+  title: string;
+  shortDesc: string;
+  price: number;
+  priceSuffix: string;
+  featured: boolean;
+  tag?: string;
+  footerNote?: string;
+  slug: { current: string };
+}
+
+const SERVICES_QUERY = `*[_type == "service"] | order(order asc) {
+  _id, title, shortDesc, price, priceSuffix, featured, tag, footerNote, slug
+}`;
+
+const includes: Record<string, string[]> = {
+  "Full EV Diagnostic": ["All fault codes read and explained","Battery state-of-health report","Written findings document","Repair recommendation (no obligation)"],
+  "Battery & BMS Service": ["BMS calibration and reset","Individual cell health check","Range loss root-cause diagnosis","Written report"],
+  "Charging System Repair": ["Onboard charger fault diagnosis","Charge port inspection & latch check","12V charging circuit test","Parts quoted before work begins"],
+  "12V System & Electrical": ["12V battery test and replacement","HV contactor health check","Low-voltage wiring diagnosis","Model 3/Y/S/X units in stock"],
+  "Remote Pre-Diagnostic": ["Remote Toolbox 3 fault code review","Scope and parts confirmation","Written pre-visit summary","Credited toward on-site repair"],
+  "Pre-Purchase Inspection": ["Full Toolbox 3 diagnostic scan","Battery degradation assessment","Fault history review","Written PDF report"],
+};
 
 const warrantyNotes = [
   { miles: "Under 50,000 miles", note: "Use your Tesla bumper-to-bumper warranty first. Ray will tell you this himself." },
@@ -102,7 +40,9 @@ const warrantyNotes = [
   { miles: "Outside warranty or not covered", note: "That's where we come in — same Toolbox 3 diagnosis at a fraction of dealer cost." },
 ];
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await sanityFetch<Service[]>(SERVICES_QUERY);
+
   return (
     <>
       <Nav />
@@ -136,27 +76,27 @@ export default function ServicesPage() {
               What we do
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {services.map(({ id, name, badge, price, priceSuffix, credited, desc, includes }) => (
+              {services.map(({ _id, title, shortDesc, price, priceSuffix, featured, tag, footerNote, slug }) => (
                 <div
-                  id={id}
-                  key={id}
+                  id={slug?.current}
+                  key={_id}
                   className={`rounded-card border flex flex-col p-5 scroll-mt-20 ${
-                    badge ? "border-brand-green" : "border-brand-border"
+                    featured ? "border-brand-green" : "border-brand-border"
                   }`}
                 >
-                  {badge && (
+                  {tag && (
                     <span className="font-body text-[10px] font-semibold bg-brand-green text-white px-2.5 py-1 rounded-full mb-3 self-start">
-                      {badge}
+                      {tag}
                     </span>
                   )}
                   <h3 className="font-display font-semibold text-brand-dark text-xl tracking-wide mb-2">
-                    {name}
+                    {title}
                   </h3>
                   <p className="font-body text-brand-muted text-sm leading-relaxed mb-4 flex-1">
-                    {desc}
+                    {shortDesc}
                   </p>
                   <ul className="flex flex-col gap-1.5 mb-4">
-                    {includes.map((item) => (
+                    {(includes[title] ?? []).map((item) => (
                       <li key={item} className="flex items-start gap-2 font-body text-xs text-brand-muted">
                         <span className="text-brand-green mt-0.5 shrink-0">✓</span>
                         {item}
@@ -165,12 +105,12 @@ export default function ServicesPage() {
                   </ul>
                   <div className="pt-3 border-t border-brand-border flex items-center justify-between">
                     <div>
-                      <span className="font-display font-semibold text-brand-green text-xl">{price}</span>
+                      <span className="font-display font-semibold text-brand-green text-xl">${price}</span>
                       <span className="font-body text-brand-muted text-xs ml-1">{priceSuffix}</span>
                     </div>
-                    {credited && (
+                    {footerNote && (
                       <span className="font-body text-[10px] text-brand-blue bg-brand-blue-lt px-2 py-1 rounded-full">
-                        Credited toward repair
+                        {footerNote}
                       </span>
                     )}
                   </div>
@@ -215,7 +155,6 @@ export default function ServicesPage() {
             </h2>
             <p className="font-body text-brand-muted text-base mb-8 max-w-2xl">
               Ray will tell you this himself. If your car is under warranty and the issue is covered, use it.
-              We only step in when it&apos;s not covered or expired.
             </p>
             <div className="flex flex-col gap-3 max-w-2xl">
               {warrantyNotes.map(({ miles, note }) => (
