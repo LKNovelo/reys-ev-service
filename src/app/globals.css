@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --green:        #1A5C00;
+  --blue:         #2B5FA6;
+  --amber:        #F5A623;
+  --dark:         #1A1A1A;
+  --green-light:  #F2F8EE;
+  --blue-light:   #EEF4FC;
+  --surface:      #F7F7F5;
+  --muted:        #6B6B6B;
+  --border:       #E0E0E0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--dark);
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Typography scale ── */
+.text-display {
+  font-size: clamp(28px, 5vw, 46px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.5px;
+}
+
+.text-heading {
+  font-size: clamp(20px, 3.5vw, 28px);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+/* ── Overscroll colour match for hero ── */
+@supports (overscroll-behavior: contain) {
+  body { overscroll-behavior-y: none; }
+}
