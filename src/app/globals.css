@@ -3,42 +3,42 @@
 @tailwind utilities;
 
 :root {
-  --green:        #1A5C00;
-  --blue:         #2B5FA6;
-  --amber:        #F5A623;
-  --dark:         #1A1A1A;
-  --green-light:  #F2F8EE;
-  --blue-light:   #EEF4FC;
-  --surface:      #F7F7F5;
-  --muted:        #6B6B6B;
-  --border:       #E0E0E0;
+  --green:    #1A5C00;
+  --green-dk: #0f3a00;
+  --green-lt: #e8f2e3;
+  --blue:     #2B5FA6;
+  --blue-lt:  #e6edf8;
+  --amber:    #F5A623;
+  --dark:     #1A1A1A;
+  --muted:    #6B7280;
+  --surface:  #F8F8F6;
+  --border:   #E5E7EB;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
+  font-family: var(--font-body), "Source Sans 3", system-ui, sans-serif;
   color: var(--dark);
-  background: #ffffff;
+  background: #fff;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ── Typography scale ── */
-.text-display {
-  font-size: clamp(28px, 5vw, 46px);
-  font-weight: 800;
-  line-height: 1.12;
-  letter-spacing: -0.5px;
+h1, h2, h3, h4 {
+  font-family: var(--font-display), "Oswald", sans-serif;
 }
 
-.text-heading {
-  font-size: clamp(20px, 3.5vw, 28px);
-  font-weight: 800;
-  line-height: 1.2;
+/* ── Section utility ── */
+.section-label {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
-/* ── Overscroll colour match for hero ── */
-@supports (overscroll-behavior: contain) {
-  body { overscroll-behavior-y: none; }
-}
+/* ── Divider ── */
+.hairline { border-color: var(--border); }

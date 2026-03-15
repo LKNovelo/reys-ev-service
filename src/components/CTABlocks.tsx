@@ -1,66 +1,81 @@
-// ── AboutStrip ────────────────────────────────────────────────────────────────
+import Link from "next/link";
 
-const creds = [
-  "U.S. Marine Corps",
-  "Boeing Electrical",
-  "Tesla Toolbox 3",
-  "Tesla S · 3 · X · Y",
-  "EV Only — No Hybrids",
-];
-
+/* ── About / Ray strip ─────────────────────────────────────── */
 export function AboutStrip() {
   return (
-    <section className="bg-[#111] text-white px-5 py-12">
-      <div className="max-w-6xl mx-auto max-w-2xl">
-        <h2 className="font-bold text-xl mb-3">
-          Built by someone who fixes things right
-        </h2>
-        <p className="text-white/72 text-sm leading-relaxed mb-5">
-          Rey Novelo is a U.S. Marine veteran with Boeing electrical training
-          and years of EV-specific repair experience. He doesn&rsquo;t guess —
-          he diagnoses with OEM tools. And he only works on EVs.
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {creds.map((c) => (
-            <span
-              key={c}
-              className="bg-white/9 border border-white/18 text-white text-[11px] font-semibold px-3 py-1.5 rounded-pill"
-            >
-              {c}
+    <section className="py-16 px-5 bg-white border-t border-brand-border">
+      <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_auto] gap-8 items-center">
+        <div>
+          <span className="section-label">The person behind the van</span>
+          <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-4">
+            Boeing-trained. Marine-disciplined.<br className="hidden sm:block" />
+            EV-obsessed since 2018.
+          </h2>
+          <p className="font-body text-brand-muted text-base leading-relaxed max-w-2xl">
+            Ray Novelo was a satellite and radar technician in the U.S. Marine Corps,
+            then a Boeing-trained electrical specialist — before a broken window regulator
+            on his own car pulled him into the EV world. He apprenticed at Tesla-specialized
+            garages starting in 2018, launched his own mobile service in 2023, and hasn&apos;t
+            looked back. Every job gets a written report. Every price is quoted before work begins.
+          </p>
+          <div className="flex flex-wrap gap-3 mt-6">
+            <span className="font-body text-xs font-semibold bg-brand-blue-lt text-brand-blue px-3 py-1.5 rounded-full border border-brand-blue border-opacity-30">
+              U.S. Marine veteran
             </span>
-          ))}
+            <span className="font-body text-xs font-semibold bg-brand-green-lt text-brand-green px-3 py-1.5 rounded-full border border-brand-green border-opacity-30">
+              Tesla Toolbox 3 certified
+            </span>
+            <span className="font-body text-xs font-semibold bg-brand-blue-lt text-brand-blue px-3 py-1.5 rounded-full border border-brand-blue border-opacity-30">
+              Boeing electrical training
+            </span>
+            <span className="font-body text-xs font-semibold bg-brand-green-lt text-brand-green px-3 py-1.5 rounded-full border border-brand-green border-opacity-30">
+              EV since 2018
+            </span>
+          </div>
+        </div>
+        <div className="shrink-0">
+          <Link
+            href="/about"
+            className="font-body inline-flex items-center gap-2 text-brand-green font-semibold text-sm border border-brand-green px-6 py-3 rounded-lg hover:bg-brand-green-lt transition-colors whitespace-nowrap"
+          >
+            About Ray →
+          </Link>
         </div>
       </div>
     </section>
   );
 }
 
-// ── CTABar ────────────────────────────────────────────────────────────────────
-
-import Link from "next/link";
-
+/* ── Full-width CTA bar ────────────────────────────────────── */
 export function CTABar() {
   return (
-    <section className="bg-[#F5A623] px-5 py-10 text-center">
-      <h2 className="font-extrabold text-xl text-[#1A1A1A] mb-1">
-        Ready to get your Tesla sorted?
-      </h2>
-      <p className="text-[#1A1A1A]/65 text-sm mb-6">
-        Mon–Fri 7am–6pm &nbsp;&middot;&nbsp; Sat–Sun by appointment
-      </p>
-      <div className="flex flex-wrap gap-3 justify-center">
-        <a
-          href="tel:+19516226222"
-          className="bg-[#1A1A1A] text-white font-bold text-sm px-6 py-3 rounded-lg hover:bg-black transition-colors"
-        >
-          Call (951) 622-6222
-        </a>
-        <Link
-          href="/contact"
-          className="text-[#1A1A1A] font-semibold text-sm px-6 py-3 rounded-lg border-2 border-[#1A1A1A]/70 hover:border-[#1A1A1A] transition-colors"
-        >
-          Send a message
-        </Link>
+    <section className="bg-brand-green-dk py-14 px-5">
+      <div className="max-w-6xl mx-auto text-center">
+        <span className="section-label text-white/40">Ready to book</span>
+        <h2 className="font-display font-semibold text-white text-4xl tracking-wide mb-3">
+          Get your Tesla back on the road
+        </h2>
+        <p className="font-body text-white/65 text-base mb-8 max-w-lg mx-auto leading-relaxed">
+          Call or text — Ray answers directly. No call center, no hold music.
+          Text your fault codes and we&apos;ll pre-screen before dispatch.
+        </p>
+        <div className="flex flex-wrap gap-3 justify-center">
+          <a
+            href="tel:+19516226222"
+            className="bg-brand-amber text-brand-dark font-body font-semibold text-base px-7 py-3.5 rounded-lg hover:brightness-95 transition-all"
+          >
+            Call (951) 622-6222
+          </a>
+          <a
+            href="mailto:RaysEVService@gmail.com"
+            className="font-body font-semibold text-base px-7 py-3.5 rounded-lg border border-white/30 text-white hover:border-white/60 hover:bg-white/5 transition-all"
+          >
+            Email for a quote
+          </a>
+        </div>
+        <p className="font-body text-white/35 text-xs mt-6">
+          Or text your fault codes to (951) 622-6222 — we&apos;ll pre-diagnose before dispatch
+        </p>
       </div>
     </section>
   );

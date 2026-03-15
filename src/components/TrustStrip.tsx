@@ -1,23 +1,27 @@
-const signals = [
-  { label: "USMC Veteran",     sub: "Discipline · Integrity"  },
-  { label: "Boeing-Trained",   sub: "Electrical systems"      },
-  { label: "Tesla Toolbox 3",  sub: "OEM-level diagnostics"   },
-  { label: "LA → San Diego",   sub: "Mobile coverage"         },
+const stats = [
+  { value: "Tesla S / 3 / X / Y", label: "Models served — no hybrids" },
+  { value: "Same-day",            label: "Dispatch in primary zone"    },
+  { value: "Boeing-trained",      label: "Electrical specialist"       },
+  { value: "U.S. Marine",         label: "Veteran-owned & operated"    },
 ];
 
 export default function TrustStrip() {
   return (
-    <div className="bg-[#2B5FA6] py-3.5 px-5">
-      <div className="max-w-6xl mx-auto flex flex-wrap justify-center divide-x divide-white/20">
-        {signals.map(({ label, sub }) => (
+    <div className="bg-brand-green">
+      <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4">
+        {stats.map(({ value, label }, i) => (
           <div
-            key={label}
-            className="px-5 py-1 text-center first:pl-0 last:pr-0"
+            key={value}
+            className={`px-6 py-5 text-center ${
+              i < stats.length - 1 ? "border-r border-white/20" : ""
+            }`}
           >
-            <p className="text-white text-[11px] font-bold tracking-[0.5px] uppercase">
+            <span className="font-display font-semibold text-white text-lg sm:text-xl tracking-wide block">
+              {value}
+            </span>
+            <span className="font-body text-white/65 text-xs mt-1 block leading-snug">
               {label}
-            </p>
-            <p className="text-white/65 text-[9px] mt-0.5">{sub}</p>
+            </span>
           </div>
         ))}
       </div>

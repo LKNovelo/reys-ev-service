@@ -10,18 +10,21 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          green:  "#1A5C00",
-          blue:   "#2B5FA6",
-          amber:  "#F5A623",
-          dark:   "#1A1A1A",
-          "green-light": "#F2F8EE",
-          "blue-light":  "#EEF4FC",
-          muted:  "#6B6B6B",
-          surface: "#F7F7F5",
+          green:      "#1A5C00",
+          "green-dk": "#0f3a00",
+          "green-lt": "#e8f2e3",
+          blue:       "#2B5FA6",
+          "blue-lt":  "#e6edf8",
+          amber:      "#F5A623",
+          dark:       "#1A1A1A",
+          muted:      "#6B7280",
+          surface:    "#F8F8F6",
+          border:     "#E5E7EB",
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Oswald", "sans-serif"],
+        body:    ["var(--font-body)", "Source Sans 3", "system-ui", "sans-serif"],
       },
       borderRadius: {
         card: "12px",

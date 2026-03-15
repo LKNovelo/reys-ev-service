@@ -1,145 +1,61 @@
-# Rey's EV Service — Phase 3 Build
+# Ray's EV Service — Website
 
-**Stack:** Next.js 15 · Tailwind CSS · Sanity CMS · Vercel · Cloudflare DNS
+Mobile Tesla repair and diagnostics, LA to San Diego. Built with Next.js 15, Sanity CMS, Tailwind CSS, deployed on Vercel.
 
----
+## Stack
 
-## Project structure
+- **Framework**: Next.js 15 (App Router)
+- **CMS**: Sanity v3 — studio at `/studio`
+- **Styling**: Tailwind CSS v3
+- **Fonts**: Oswald (display) + Source Sans 3 (body) via next/font/google
+- **Deployment**: Vercel
 
-```
-reys-ev-service/
-├── src/
-│   ├── app/
-│   │   ├── globals.css          # Brand CSS variables + Tailwind base
-│   │   ├── layout.tsx           # Root layout + metadata
-│   │   ├── page.tsx             # Home page
-│   │   └── studio/[[...tool]]/  # Embedded Sanity Studio at /studio
-│   ├── components/
-│   │   ├── Logo.tsx             # Interstate shield SVG
-│   │   ├── Nav.tsx              # Sticky nav + mobile drawer
-│   │   ├── Hero.tsx             # Hero section
-│   │   ├── TrustStrip.tsx       # Blue trust bar
-│   │   ├── Services.tsx         # 3-card pricing section
-│   │   ├── Coverage.tsx         # Zone list
-│   │   ├── CTABlocks.tsx        # About strip + amber CTA bar
-│   │   └── Footer.tsx           # Full site footer
-│   ├── lib/
-│   │   └── sanity.ts            # Sanity client + urlFor + sanityFetch
-│   └── sanity/schema/
-│       ├── service.ts           # Service document type
-│       ├── blogPost.ts          # Blog post document type
-│       └── index.ts             # Schema export
-├── sanity.config.ts             # Sanity Studio config
-├── next.config.ts
-├── tailwind.config.ts
-├── tsconfig.json
-├── vercel.json
-└── .env.example
-```
+## Pages
 
----
+| Route | Description |
+|---|---|
+| `/` | Home |
+| `/services` | Services & pricing |
+| `/coverage` | Coverage map (Google Maps embed) |
+| `/ev-guide` | New owners guide |
+| `/blog` | Blog index |
+| `/blog/[slug]` | Individual blog post |
+| `/about` | About Ray |
+| `/contact` | Contact & booking form |
+| `/gear` | Ray's gear recommendations (affiliate) |
+| `/studio` | Sanity CMS studio |
 
-## First-time setup
+## Getting started
 
-### 1. Install dependencies
 ```bash
 npm install
-```
-
-### 2. Create Sanity project
-```bash
-npx sanity init
-# Choose "Create new project" → name it "reys-ev-service"
-# Dataset: production
-# Note the projectId printed at the end
-```
-
-### 3. Configure environment
-```bash
 cp .env.example .env.local
-# Edit .env.local — paste your Sanity projectId
-```
-
-### 4. Run locally
-```bash
+# Fill in NEXT_PUBLIC_SANITY_PROJECT_ID and other keys
 npm run dev
-# → http://localhost:3000       Home page
-# → http://localhost:3000/studio  Sanity Studio
 ```
 
----
+## Environment variables
 
-## Deploy to Vercel
+| Variable | Required | Description |
+|---|---|---|
+| `NEXT_PUBLIC_SANITY_PROJECT_ID` | Yes | From sanity.io/manage |
+| `NEXT_PUBLIC_SANITY_DATASET` | No | Defaults to `production` |
+| `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` | For coverage page | Maps JavaScript API key |
 
-### Option A — Vercel CLI (fastest)
-```bash
-npx vercel --prod
-# Follow prompts: link to existing repo or create new project
-# Add env vars when prompted: NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET
-```
+## Sanity schema types
 
-### Option B — GitHub integration
-1. Push repo to `LKNovelo/reys-ev-service`
-2. Go to vercel.com → New Project → Import from GitHub
-3. Add env vars in Vercel dashboard → Settings → Environment Variables
-4. Deploy
+- **service** — Services & pricing (editable without code)
+- **blogPost** — Blog posts with rich body (fieldNote, warningNote, faultCodeBlock, inlineProduct blocks)
+- **gear** — Ray's gear recommendations with Amazon affiliate links
 
----
+## Brand
 
-## Cloudflare DNS
+- Green: `#1A5C00`
+- Blue: `#2B5FA6`
+- Amber: `#F5A623`
+- Display font: Oswald
+- Body font: Source Sans 3
 
-After Vercel gives you a deployment URL:
-1. Cloudflare Dashboard → raysevservice.com → DNS
-2. Add CNAME record:
-   - Name: `@` (or `www`)
-   - Target: `cname.vercel-dns.com`
-   - Proxy: **ON** (orange cloud)
-3. In Vercel: Project → Settings → Domains → Add `raysevservice.com`
-4. SSL auto-provisions within a few minutes
+## Contact
 
----
-
-## Sanity Studio access
-
-- **Local:** `http://localhost:3000/studio`
-- **Production:** `https://raysevservice.com/studio`
-
-Add Rey as a team member in the Sanity dashboard so he can edit content without you.
-
----
-
-## Next pages to build (Phase 3 continued)
-
-| Page           | Route            | Status  |
-|----------------|------------------|---------|
-| Home           | `/`              | ✅ Done  |
-| Services       | `/services`      | Next    |
-| Coverage / Map | `/coverage`      | Next    |
-| New Owners     | `/new-owners`    | Next    |
-| Blog Index     | `/blog`          | Next    |
-| Blog Post      | `/blog/[slug]`   | Next    |
-| About          | `/about`         | Next    |
-| Contact        | `/contact`       | Next    |
-| Rey's Gear     | `/gear`          | Next    |
-
----
-
-## Brand tokens (quick reference)
-
-| Token      | Value     | Use                    |
-|------------|-----------|------------------------|
-| Green      | `#1A5C00` | Hero bg, prices, CTAs  |
-| Blue       | `#2B5FA6` | Trust strip, links     |
-| Amber      | `#F5A623` | Accent, CTA bar        |
-| Dark       | `#1A1A1A` | Body text              |
-| Surface    | `#F7F7F5` | Alt section bg         |
-| Muted      | `#6B6B6B` | Secondary text         |
-
-## Color Palette
-- Green: #1A5C00
-- Blue: #2B5FA6
-- Accent: #F5A623
-- Text: #1A1A1A
-
-## Amazon Affiliate Link
-- Your unique Associate ID is: raysevservice-20
+Ray Novelo · (951) 622-6222 · RaysEVService@gmail.com · raysevservice.com

@@ -2,58 +2,84 @@ import Link from "next/link";
 
 const zones = [
   {
-    dot:   "bg-[#1A5C00]",
-    title: "Primary Zone — No Travel Fee",
-    desc:  "Corona, Riverside, Anaheim, Santa Ana, OC along the 91",
+    color: "bg-brand-green",
+    name: "91 Corridor & Inland Empire",
+    fee: "No travel fee",
+    feeStyle: "bg-brand-green-lt text-brand-green",
+    cities: "Corona · Riverside · Anaheim · Santa Ana · Orange · Fullerton · Irvine · Huntington Beach",
+    note: "Home base is Corona. The 91 freeway makes OC quick and predictable.",
   },
   {
-    dot:   "bg-[#2B5FA6]",
-    title: "Secondary Zone — Small Travel Fee",
-    desc:  "Temecula, Murrieta, LA, Long Beach",
+    color: "bg-brand-blue",
+    name: "Temecula / LA / wider area",
+    fee: "Small travel fee",
+    feeStyle: "bg-brand-blue-lt text-brand-blue",
+    cities: "Temecula · Murrieta · Los Angeles · Long Beach · Pasadena · Torrance · Moreno Valley",
+    note: "Fee confirmed at booking. Temecula's I-15 traffic adds real drive time from Corona.",
   },
   {
-    dot:   "bg-[#aaa]",
-    title: "San Diego — Call First",
-    desc:  "Call (951) 622-6222 to confirm availability before booking",
+    color: "bg-brand-amber",
+    name: "San Diego metro",
+    fee: "Call first",
+    feeStyle: "bg-amber-50 text-amber-800",
+    cities: "San Diego · Chula Vista · Oceanside · Carlsbad · Escondido · Encinitas",
+    note: "Available depending on scheduling. Ray will give you a straight answer.",
   },
 ];
 
 export default function Coverage() {
   return (
-    <section className="bg-[#F7F7F5] px-5 py-12">
+    <section className="py-16 px-5 bg-brand-surface border-t border-brand-border">
       <div className="max-w-6xl mx-auto">
-        <p className="text-[#2B5FA6] text-[10px] font-bold tracking-[1.8px] uppercase mb-1.5">
-          Coverage
-        </p>
-        <h2 className="font-extrabold tracking-tight mb-1"
-            style={{ fontSize: "clamp(18px, 3vw, 24px)" }}>
-          Where Rey drives
-        </h2>
-        <p className="text-sm text-[#6B6B6B] mb-5">
-          Home base: Corona, CA — anchored on the 91 corridor.
-        </p>
 
-        <div className="grid gap-3">
-          {zones.map(({ dot, title, desc }) => (
-            <div
-              key={title}
-              className="flex items-start gap-3 bg-white rounded-[10px] border border-[#E8E8E8] px-4 py-3.5"
-            >
-              <span className={`w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0 ${dot}`} />
-              <div>
-                <p className="text-sm font-bold mb-0.5">{title}</p>
-                <p className="text-xs text-[#666]">{desc}</p>
+        <div className="mb-10">
+          <span className="section-label">Where we go</span>
+          <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide">
+            Coverage area
+          </h2>
+          <p className="font-body text-brand-muted text-base mt-2 max-w-xl">
+            Zones are based on drive time from Corona — not straight-line distance. The 91 freeway makes Anaheim and OC closer than they look on a map.
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-3 gap-4 mb-8">
+          {zones.map(({ color, name, fee, feeStyle, cities, note }) => (
+            <div key={name} className="bg-white rounded-card border border-brand-border p-5">
+              <div className="flex items-center gap-2.5 mb-3">
+                <span className={`w-3 h-3 rounded-full ${color} shrink-0`} />
+                <h3 className="font-display font-semibold text-brand-dark text-base tracking-wide leading-tight">
+                  {name}
+                </h3>
               </div>
+              <span className={`font-body text-xs font-semibold px-2.5 py-1 rounded-full inline-block mb-3 ${feeStyle}`}>
+                {fee}
+              </span>
+              <p className="font-body text-brand-muted text-xs leading-relaxed mb-2">{cities}</p>
+              <p className="font-body text-brand-muted text-xs italic leading-relaxed">{note}</p>
             </div>
           ))}
         </div>
 
-        <Link
-          href="/coverage"
-          className="inline-block mt-5 text-[#2B5FA6] text-sm font-semibold hover:underline underline-offset-2"
-        >
-          View interactive coverage map →
-        </Link>
+        <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+          <p className="font-body text-brand-muted text-sm">
+            Not sure if you&apos;re in range?
+          </p>
+          <div className="flex gap-3">
+            <a
+              href="tel:+19516226222"
+              className="font-body font-semibold text-sm text-brand-green hover:underline"
+            >
+              Call (951) 622-6222
+            </a>
+            <span className="text-brand-muted">·</span>
+            <Link
+              href="/coverage"
+              className="font-body font-semibold text-sm text-brand-blue hover:underline"
+            >
+              View full coverage map →
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );

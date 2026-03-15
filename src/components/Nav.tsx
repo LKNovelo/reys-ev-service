@@ -5,29 +5,29 @@ import { useState } from "react";
 import Logo from "./Logo";
 
 const links = [
-  { href: "/services",    label: "Services"    },
-  { href: "/coverage",    label: "Coverage"    },
-  { href: "/new-owners",  label: "New Owners"  },
-  { href: "/blog",        label: "Blog"        },
-  { href: "/about",       label: "About"       },
-  { href: "/contact",     label: "Contact"     },
+  { href: "/services",   label: "Services"   },
+  { href: "/ev-guide",   label: "EV Guide"   },
+  { href: "/blog",       label: "Blog"       },
+  { href: "/gear",       label: "Ray's Gear" },
+  { href: "/about",      label: "About"      },
+  { href: "/contact",    label: "Contact"    },
 ];
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="bg-[#111] sticky top-0 z-50">
+    <header className="bg-white border-b border-brand-border sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-5 flex items-center justify-between h-14">
 
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <Logo size={36} />
+        <Link href="/" className="flex items-center gap-2.5 shrink-0">
+          <Logo size={38} />
           <div className="leading-tight">
-            <span className="text-white font-semibold text-sm tracking-tight block">
-              Rey&rsquo;s EV Service
+            <span className="text-brand-dark font-semibold text-sm tracking-tight block font-body">
+              Ray&rsquo;s EV Service
             </span>
-            <span className="text-white/50 text-[10px] tracking-wide block">
+            <span className="text-brand-muted text-[10px] tracking-wide block font-body">
               Mobile EV Repair &middot; LA to San Diego
             </span>
           </div>
@@ -39,7 +39,7 @@ export default function Nav() {
             <Link
               key={href}
               href={href}
-              className="text-white/65 hover:text-white text-sm transition-colors"
+              className="text-brand-muted hover:text-brand-green text-sm font-body transition-colors"
             >
               {label}
             </Link>
@@ -49,14 +49,14 @@ export default function Nav() {
         {/* Phone CTA */}
         <a
           href="tel:+19516226222"
-          className="bg-[#F5A623] text-[#1A1A1A] text-sm font-bold px-3.5 py-2 rounded-md hover:bg-[#e09b1f] transition-colors"
+          className="hidden md:inline-flex bg-brand-green text-white text-sm font-semibold font-body px-4 py-2 rounded-lg hover:bg-brand-green-dk transition-colors"
         >
           (951) 622-6222
         </a>
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden ml-3 text-white"
+          className="md:hidden text-brand-dark"
           onClick={() => setOpen(!open)}
           aria-label="Toggle menu"
         >
@@ -76,17 +76,23 @@ export default function Nav() {
 
       {/* Mobile drawer */}
       {open && (
-        <div className="md:hidden bg-[#1a1a1a] border-t border-white/10 px-5 pb-4">
+        <div className="md:hidden bg-white border-t border-brand-border px-5 pb-4">
           {links.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
-              className="block text-white/75 hover:text-white py-3 text-sm border-b border-white/[0.07] last:border-0"
+              className="block text-brand-muted hover:text-brand-green py-3 text-sm font-body border-b border-brand-border last:border-0"
               onClick={() => setOpen(false)}
             >
               {label}
             </Link>
           ))}
+          <a
+            href="tel:+19516226222"
+            className="mt-4 flex items-center justify-center bg-brand-green text-white text-sm font-semibold font-body px-4 py-3 rounded-lg"
+          >
+            Call (951) 622-6222
+          </a>
         </div>
       )}
     </header>
