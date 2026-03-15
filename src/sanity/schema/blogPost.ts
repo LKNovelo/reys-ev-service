@@ -70,7 +70,7 @@ export const blogPostSchema = defineType({
       return {
         title: selection.title as string | undefined,
         subtitle: sub ? new Date(sub).toLocaleDateString() : "Draft",
-        media: selection.media,
+        media: selection.media as React.ReactNode,
       };
     },
   },

@@ -99,7 +99,7 @@ export const gearSchema = defineType({
       return {
         title: selection.title as string | undefined,
         subtitle: selection.subtitle as string | undefined,
-        media: selection.media,
+        media: selection.media as React.ReactNode,
       };
     },
   },
