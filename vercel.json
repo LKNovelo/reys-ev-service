@@ -3,8 +3,4 @@
   "buildCommand": "next build",
   "outputDirectory": ".next",
   "installCommand": "npm install",
-  "env": {
-    "NEXT_PUBLIC_SANITY_PROJECT_ID": "@sanity-project-id",
-    "NEXT_PUBLIC_SANITY_DATASET":    "@sanity-dataset"
-  }
 }
