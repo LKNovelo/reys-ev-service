@@ -190,7 +190,7 @@ export default function ContactPage() {
             />
           </div>
 
-          <CTAButton onClick={handleSubmit}>Send Message</CTAButton>
+          <CTAButton>Send Message</CTAButton>
         </form>
 
         {/* Contact Info */}

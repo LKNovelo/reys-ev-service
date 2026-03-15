@@ -26,7 +26,7 @@ const articles = [
     icon: '🏠',
     title: 'Home Charging Setup Guide',
     summary:
-      'Setting up home charging is easier than you think. Here\u2019s what you need to know before scheduling an installation.',
+      "Setting up home charging is easier than you think. Here's what you need to know before scheduling an installation.",
     points: [
       'Assess your electrical panel — most homes need a 240V/50A circuit.',
       'Choose a UL-listed Level 2 EVSE from a reputable brand.',
