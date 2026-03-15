@@ -13,7 +13,7 @@ export function AboutStrip() {
           </h2>
           <p className="font-body text-brand-muted text-base leading-relaxed max-w-2xl">
             Ray Novelo was a satellite and radar technician in the U.S. Marine Corps,
-            then a Aerospace-trained electrical specialist — before a broken window regulator
+            then an Aerospace-trained electrical specialist — before a broken window regulator
             on his own car pulled him into the EV world. He apprenticed at Tesla-specialized
             garages starting in 2018, launched his own mobile service in 2023, and hasn&apos;t
             looked back. Every job gets a written report. Every price is quoted before work begins.

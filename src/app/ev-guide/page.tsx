@@ -28,7 +28,7 @@ export default function EvGuidePage() {
               Switching from gas to electric?<br className="hidden lg:block" /> Here&apos;s what actually changes.
             </h1>
             <p className="font-body text-brand-muted text-lg leading-relaxed max-w-2xl mb-6">
-              A plain-language guide for new Tesla owners. Written from the field by a Aerospace-trained EV specialist
+              A plain-language guide for new Tesla owners. Written from the field by an Aerospace-trained EV specialist
               who has seen what trips people up in the first 90 days.
             </p>
             <div className="flex flex-wrap gap-2 mb-6">
