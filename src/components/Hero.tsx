@@ -7,7 +7,7 @@ const credentials = [
     color: "bg-brand-green-lt text-brand-green border-brand-green",
   },
   {
-    label: "Boeing-trained",
+    label: "Aerospace-trained",
     desc: "High-voltage electrical specialist. Aerospace precision applied to EVs.",
     color: "bg-brand-blue-lt text-brand-blue border-brand-blue",
   },

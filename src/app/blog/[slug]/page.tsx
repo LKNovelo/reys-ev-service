@@ -381,7 +381,7 @@ export default function BlogPostPage() {
               <p className="font-display font-semibold text-brand-dark text-base tracking-wide">Ray Novelo</p>
               <p className="font-body text-xs text-brand-green mb-2">Owner, Ray&apos;s EV Service · Tesla specialist</p>
               <p className="font-body text-brand-muted text-sm leading-relaxed">
-                U.S. Marine veteran and Boeing-trained electrical specialist. Ray has been diagnosing and
+                U.S. Marine veteran and Aerospace-trained electrical specialist. Ray has been diagnosing and
                 repairing Teslas since 2018 — apprenticing at EV-specialized garages before launching his
                 own mobile service in 2023. Every post is based on real jobs, real fault codes, and real
                 conversations with Tesla owners across Southern California.

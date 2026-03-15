@@ -8,12 +8,12 @@ export function AboutStrip() {
         <div>
           <span className="section-label">The person behind the van</span>
           <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-4">
-            Boeing-trained. Marine-disciplined.<br className="hidden sm:block" />
+            Aerospace-trained. Marine-disciplined.<br className="hidden sm:block" />
             EV-obsessed since 2018.
           </h2>
           <p className="font-body text-brand-muted text-base leading-relaxed max-w-2xl">
             Ray Novelo was a satellite and radar technician in the U.S. Marine Corps,
-            then a Boeing-trained electrical specialist — before a broken window regulator
+            then a Aerospace-trained electrical specialist — before a broken window regulator
             on his own car pulled him into the EV world. He apprenticed at Tesla-specialized
             garages starting in 2018, launched his own mobile service in 2023, and hasn&apos;t
             looked back. Every job gets a written report. Every price is quoted before work begins.
@@ -26,7 +26,7 @@ export function AboutStrip() {
               Tesla Toolbox 3 certified
             </span>
             <span className="font-body text-xs font-semibold bg-brand-blue-lt text-brand-blue px-3 py-1.5 rounded-full border border-brand-blue border-opacity-30">
-              Boeing electrical training
+              Aerospace electrical training
             </span>
             <span className="font-body text-xs font-semibold bg-brand-green-lt text-brand-green px-3 py-1.5 rounded-full border border-brand-green border-opacity-30">
               EV since 2018

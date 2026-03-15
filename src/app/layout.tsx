@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   description:
     "Veteran-owned mobile EV diagnostics and repair for Tesla S/3/X/Y. " +
-    "Boeing-trained electrical specialist, Tesla Toolbox 3 certified. " +
+    "Aerospace-trained electrical specialist, Tesla Toolbox 3 certified. " +
     "Serving Corona, Riverside, Anaheim, Santa Ana, OC, LA, and San Diego.",
   keywords: [
     "Tesla repair Southern California",

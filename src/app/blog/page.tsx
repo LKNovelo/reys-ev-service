@@ -114,7 +114,7 @@ export default function BlogPage() {
               not marketing copy. Real jobs, real Teslas, real Southern California roads.
             </p>
             <div className="flex flex-wrap gap-4 font-body text-sm">
-              <span className="text-white/60">Boeing-trained electrical specialist</span>
+              <span className="text-white/60">Aerospace-trained electrical specialist</span>
               <span className="text-white/30">·</span>
               <span className="text-white/60">U.S. Marine veteran</span>
               <span className="text-white/30">·</span>
@@ -238,7 +238,7 @@ export default function BlogPage() {
               <p className="font-display font-semibold text-brand-dark text-base tracking-wide">Ray Novelo</p>
               <p className="font-body text-xs text-brand-green mb-1">Owner, Ray&apos;s EV Service · Tesla specialist</p>
               <p className="font-body text-brand-muted text-sm leading-relaxed">
-                U.S. Marine veteran and Boeing-trained electrical specialist. Every post is based on real jobs,
+                U.S. Marine veteran and Aerospace-trained electrical specialist. Every post is based on real jobs,
                 real fault codes, and real conversations with Tesla owners across Southern California.
               </p>
             </div>

@@ -41,7 +41,7 @@ sanity/dist/
 Thumbs.db
 
 # testing
-coverage/
+#coverage/
 .nyc_output/
 
 # turbo
@@ -50,3 +50,5 @@ coverage/
 # vercel
 .vercel/
 out/
+.vercel
+.env*.local

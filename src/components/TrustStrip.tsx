@@ -1,7 +1,7 @@
 const stats = [
   { value: "Tesla S / 3 / X / Y", label: "Models served — no hybrids" },
   { value: "Same-day",            label: "Dispatch in primary zone"    },
-  { value: "Boeing-trained",      label: "Electrical specialist"       },
+  { value: "Aerospace-trained",      label: "Electrical specialist"       },
   { value: "U.S. Marine",         label: "Veteran-owned & operated"    },
 ];
 

@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About Ray — Ray's EV Service",
-  description: "Ray Novelo — U.S. Marine veteran, Boeing-trained electrical specialist, Tesla Toolbox 3 certified. Mobile EV repair based in Corona, CA.",
+  description: "Ray Novelo — U.S. Marine veteran, Aerospace-trained electrical specialist, Tesla Toolbox 3 certified. Mobile EV repair based in Corona, CA.",
 };
 
 const timeline = [
@@ -26,9 +26,9 @@ const timeline = [
     filled: true,
   },
   {
-    era: "Boeing",
+    era: "Aerospace",
     title: "Specialized repairs & diagnostics training",
-    body: "Boeing training in specialized electrical repairs and diagnostics — applied to some of the most safety-critical systems in existence. High-voltage architecture, complex fault trees, documentation discipline. The same toolkit that makes Tesla diagnostics tractable.",
+    body: "Aerospace training in specialized electrical repairs and diagnostics — applied to some of the most safety-critical systems in existence. High-voltage architecture, complex fault trees, documentation discipline. The same toolkit that makes Tesla diagnostics tractable.",
     chip: "Aerospace electrical",
     chipStyle: "bg-brand-blue-lt text-brand-blue border-brand-blue",
     filled: true,
@@ -61,7 +61,7 @@ const credentials = [
     tagStyle: "bg-brand-green text-white",
   },
   {
-    title: "Boeing-trained electrical specialist",
+    title: "Aerospace-trained electrical specialist",
     desc: "Advanced training in safety-critical high-voltage systems — the same discipline applied to aerospace electrical architecture, now applied to Tesla's battery and drive systems.",
     tag: "HV systems expertise",
     style: "border-brand-blue",
@@ -136,7 +136,7 @@ export default function AboutPage() {
             </h1>
             <p className="font-body text-brand-muted text-base leading-relaxed max-w-xl mb-4">
               Ray Novelo spent years working on some of the most demanding electrical systems in existence —
-              first in the U.S. Marine Corps, then in aerospace manufacturing, then through Boeing&apos;s
+              first in the U.S. Marine Corps, then in aerospace manufacturing, then through Aerospace&apos;s
               specialized electrical training. When he fixed a broken window regulator on his own car and
               found himself pulled into the EV world, it wasn&apos;t a career change. It was a familiar set of
               problems in a new vehicle.
