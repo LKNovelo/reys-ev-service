@@ -8,6 +8,7 @@ export default defineConfig({
   title:     "Ray's EV Service",
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset:   process.env.NEXT_PUBLIC_SANITY_DATASET ?? "production",
+  basePath:  "/studio",
 
   plugins: [
     structureTool({
