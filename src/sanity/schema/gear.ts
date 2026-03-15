@@ -95,8 +95,8 @@ export const gearSchema = defineType({
   ],
   preview: {
     select: { title: "name", subtitle: "brand", media: "productImage" },
-    prepare({ title, subtitle, media }: { title: string; subtitle: string; media: unknown }) {
-      return { title, subtitle, media };
+    prepare(selection: Record<string, unknown>) {
+      return { title: selection.title, subtitle: selection.subtitle, media: selection.media };
     },
   },
 });

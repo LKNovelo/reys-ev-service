@@ -70,8 +70,8 @@ export const serviceSchema = defineType({
   ],
   preview: {
     select: { title: "title", subtitle: "price" },
-    prepare({ title, subtitle }: { title: string; subtitle: number }) {
-      return { title, subtitle: `$${subtitle}` };
+    prepare(selection: Record<string, string>) {
+      return { title: selection.title, subtitle: `$${selection.subtitle}` };
     },
   },
 });
