@@ -1,0 +1,817 @@
+{
+  "_type": "blogPost",
+  "title": "Database Query Optimization: From N+1 Problems to Sublinear Scaling",
+  "slug": {
+    "_type": "slug",
+    "current": "database-query-optimization-n-plus-1"
+  },
+  "publishedAt": "2026-03-16T00:00:00Z",
+  "excerpt": "Learn how to identify and fix N+1 query problems, implement effective indexing strategies, analyze query plans, and balance denormalization trade-offs to achieve sublinear scaling in your database.",
+  "category": "EV 101",
+  "keywords": [
+    "database optimization",
+    "N+1 queries",
+    "indexing",
+    "query performance",
+    "denormalization",
+    "caching patterns"
+  ],
+  "coverImage": {
+    "_type": "image",
+    "asset": {
+      "_type": "reference",
+      "_ref": "image-placeholder"
+    },
+    "alt": "Database query optimization visualization showing query paths and optimization",
+    "caption": "Optimizing database queries leads to exponential performance improvements"
+  },
+  "body": [
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "The N+1 Query Trap"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "The N+1 problem is the most common performance bottleneck in database-backed applications. It happens when you fetch a parent record, then for each parent, you fetch related child records—resulting in 1 + N queries instead of a single optimized query."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Example: fetching 100 users without optimization means 1 query to get users, then 100 queries to fetch each user's orders. That's 101 queries when one join would suffice."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "text": "How to Identify N+1 Problems"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Enable query logging in your database:"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "SET GLOBAL log_queries_not_using_indexes = ON;"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Use your ORM's query counting tools. In Prisma, enable logging: "
+        },
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "log: [{ level: 'query', emit: 'event' }]"
+        },
+        {
+          "_type": "span",
+          "text": ". In Sequelize, use hooks to track query execution count. In raw SQL applications, instrument your query execution layer to count requests during a single page load."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "A request that issues 50+ queries loading a single page is a red flag. Solutions include:"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": ".include()"
+        },
+        {
+          "_type": "span",
+          "text": " or "
+        },
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": ".populate()"
+        },
+        {
+          "_type": "span",
+          "text": " in ORMs to eager-load relationships, "
+        },
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "JOIN"
+        },
+        {
+          "_type": "span",
+          "text": " queries in raw SQL, or using batch loaders like DataLoader to coalesce multiple requests into a single query per entity type."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Indexing Strategies That Actually Work"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Indexes are the most powerful tool for reducing query time. A bad index is worse than no index—it adds write overhead and wastes memory. The key is strategic placement."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Single-Column Indexes"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Index columns you filter on frequently:"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "CREATE INDEX idx_users_email ON users(email);"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "This reduces a full table scan of 1M users to logarithmic time—from O(n) to O(log n)."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Composite Indexes"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "For queries that filter on multiple columns, composite indexes are more efficient than multiple single-column indexes:"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "CREATE INDEX idx_orders_user_date ON orders(user_id, created_at);"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "The order matters: put your most selective (highest cardinality) columns first. This index services queries filtering by user_id and date simultaneously."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Covering Indexes"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Include non-key columns in your index to avoid table lookups entirely (\"covering query\"):"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "CREATE INDEX idx_users_active_name ON users(active) INCLUDE (first_name, last_name);"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Now a query like \"SELECT first_name, last_name FROM users WHERE active = true\" never touches the main table."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Reading Query Plans"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Query plans show your database's execution strategy. EXPLAIN shows the optimizer's chosen path; EXPLAIN ANALYZE actually runs the query and shows real numbers: estimated vs. actual rows, execution time, and I/O patterns. Look for Seq Scan (full table scan) on large tables or rows >> expected results—these are index opportunities."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "MySQL/PostgreSQL:"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "EXPLAIN ANALYZE SELECT * FROM orders WHERE user_id = 42 AND created_at > NOW() - INTERVAL 30 DAY;"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Tools: pgAdmin for PostgreSQL includes built-in EXPLAIN visualization. DBeaver and DataGrip (JetBrains) offer SQL analysis across databases. SolarWinds DPA is enterprise-grade but pricey."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Denormalization: When to Break the Rules"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Normalization (3NF) ensures data integrity but adds join overhead. Denormalization means duplicating data to avoid joins—a calculated risk: read speed vs. maintenance complexity. One row changes, but you must update it everywhere."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "text": "When Denormalization Makes Sense"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "The read-to-write ratio is your litmus test. You read a value 1000x more often than you write it? Candidate for denormalization. Store the product category name directly on orders, not as a foreign key requiring a join every time you display an order. The cost of updating category in 50,000 historical orders once per year is negligible compared to 365,000 reads annually."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Repeated aggregations are another signal. If you calculate monthly revenue 100 times daily, maintain a "
+        },
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "total_revenue"
+        },
+        {
+          "_type": "span",
+          "text": " column on a yearly summary table, updated via triggers or batch jobs. One expensive write per day beats 100 expensive reads."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Avoid denormalization if the value changes frequently (updating multiple rows is slow and error-prone), if consistency is critical (financial ledgers require 3NF), or if you haven't actually profiled and proven the join is slow. Premature denormalization is technical debt that haunts you for years."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Caching Patterns"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Caching moves frequently-accessed data closer to your application, eliminating database calls entirely. This is the fastest query: the one never issued."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Cache-Aside Pattern"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "On read: check cache first (Redis, Memcached). If miss, query database and populate cache with an expiration time. This is the simplest pattern and most debuggable—if something is wrong, remove the cache key and the app still works. The trade-off: stale data for a few minutes, and cache can grow unbounded if you're not careful with eviction policies."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Write-Through Caching"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Always write to cache before the database. Data in cache is always fresh and consistent, but writes are slower (you're doing two operations). Use this when consistency is paramount and reads vastly outnumber writes. The database becomes a durable backup; the cache is your source of truth."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Batch Invalidation"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Instead of invalidating on every write, batch updates and invalidate periodically (e.g., every 5 minutes). Trade stale data for lower coordination overhead. Good for reporting tables."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Tools: Redis (in-memory cache), Memcached (simpler but less featured), Varnish (HTTP caching layer), or managed solutions like ElastiCache (AWS) or Cloud Memorystore (GCP)."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Putting It Together: A Real Example"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Imagine an e-commerce platform listing product reviews. Naive implementation:"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "SELECT * FROM reviews WHERE product_id = ?;"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Then for each review, fetch the author."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Step 1: Add an index to eliminate the N+1:"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "CREATE INDEX idx_reviews_product_id ON reviews(product_id);"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Step 2: Use a join or eager-load to fetch authors in one query:"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "SELECT r.*, u.name, u.avatar FROM reviews r JOIN users u ON r.author_id = u.id WHERE r.product_id = ? ORDER BY r.created_at DESC LIMIT 10;"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Step 3: Cache the results for 1 hour (reviews don't change often):"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "GET cache:reviews:$product_id or query DB + SET cache:reviews:$product_id EX 3600"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Result: went from O(n) queries to O(1) with intelligent caching."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "h2",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Your Next Step: Profile Your Production Database"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "Generic advice is useless. You need real data. Here's exactly what to do:"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "1. Enable slow query logging at a 100ms threshold (adjust for your application):"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "SET GLOBAL slow_query_log = 'ON'; SET GLOBAL long_query_time = 0.1;"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "2. Run production traffic through your application for 24 hours."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "3. Analyze the slow query log with "
+        },
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "pt-query-digest"
+        },
+        {
+          "_type": "span",
+          "text": " (from Percona Toolkit—free). Identify the top 5 slowest query patterns by total time:"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "marks": [
+            "code"
+          ],
+          "text": "pt-query-digest /var/log/mysql-slow.log | head -50"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "4. Run EXPLAIN ANALYZE on each of those queries. If you see Seq Scan on large tables or rows >> expected, you've found your target."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "5. Build your index. Test in staging. Deploy."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "text": "A single well-placed index often yields 10-100x speedups. This is not theoretical; every slow query log analysis shows 3-5 missing indexes. Start there before denormalizing or adding caching complexity."
+        }
+      ]
+    }
+  ],
+  "references": [
+    {
+      "_type": "externalLink",
+      "group": "Further reading",
+      "title": "Use the Index, Luke! — Database Indexing Guide",
+      "url": "https://use-the-index-luke.com/",
+      "source": "use-the-index-luke.com",
+      "desc": "Comprehensive resource on database indexing with interactive examples and performance analysis"
+    },
+    {
+      "_type": "externalLink",
+      "group": "Further reading",
+      "title": "Percona Toolkit — pt-query-digest Documentation",
+      "url": "https://docs.percona.com/percona-toolkit/latest/pt-query-digest.html",
+      "source": "percona.com",
+      "desc": "Official documentation for analyzing slow query logs in production"
+    },
+    {
+      "_type": "externalLink",
+      "group": "Further reading",
+      "title": "PostgreSQL EXPLAIN Documentation",
+      "url": "https://www.postgresql.org/docs/current/sql-explain.html",
+      "source": "postgresql.org",
+      "desc": "Official PostgreSQL guide to reading and understanding query plans"
+    },
+    {
+      "_type": "externalLink",
+      "group": "Further reading",
+      "title": "Redis Caching Patterns",
+      "url": "https://redis.io/docs/get-started/",
+      "source": "redis.io",
+      "desc": "Getting started with Redis for caching and cache patterns"
+    },
+    {
+      "_type": "externalLink",
+      "group": "Tools",
+      "title": "DBeaver Database Tool",
+      "url": "https://dbeaver.io/",
+      "source": "dbeaver.io",
+      "desc": "Free SQL IDE with EXPLAIN visualization across multiple databases"
+    },
+    {
+      "_type": "externalLink",
+      "group": "Tools",
+      "title": "DataGrip by JetBrains",
+      "url": "https://www.jetbrains.com/datagrip/",
+      "source": "jetbrains.com",
+      "desc": "Professional-grade SQL IDE with advanced query analysis and optimization tools"
+    }
+  ],
+  "seoTitle": "Database Query Optimization: N+1 to Sublinear Scaling",
+  "seoDesc": "Master database query optimization. Identify N+1 problems, implement indexing strategies, analyze query plans, and optimize with caching and denormalization."
+}

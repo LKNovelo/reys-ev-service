@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { font-family: system-ui; background: #f5f5f5; padding: 40px; }
+.row { display: flex; align-items: center; gap: 30px; margin-bottom: 40px; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+.row.dark { background: #1a3a0a; }
+.label { font-size: 12px; color: #888; width: 100px; }
+.dark .label { color: #aaa; }
+h2 { font-size: 14px; color: #333; margin-bottom: 10px; }
+.nav-mock { display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: white; border-bottom: 1px solid #e5e5e5; border-radius: 8px; }
+.nav-text { line-height: 1.2; }
+.nav-text .name { font-weight: 600; font-size: 13px; color: #1a1a1a; }
+.nav-text .sub { font-size: 9px; color: #999; letter-spacing: 0.5px; }
+</style>
+</head>
+<body>
+<h2>Size comparison (light background)</h2>
+<div class="row">
+  <div><div class="label">24px</div><img src="/logo-rev.svg" width="20" height="24"></div>
+  <div><div class="label">32px</div><img src="/logo-rev.svg" width="27" height="32"></div>
+  <div><div class="label">38px (nav)</div><img src="/logo-rev.svg" width="32" height="38"></div>
+  <div><div class="label">48px</div><img src="/logo-rev.svg" width="40" height="48"></div>
+  <div><div class="label">64px</div><img src="/logo-rev.svg" width="53" height="64"></div>
+  <div><div class="label">96px</div><img src="/logo-rev.svg" width="80" height="96"></div>
+  <div><div class="label">128px</div><img src="/logo-rev.svg" width="107" height="128"></div>
+</div>
+
+<h2>Dark background</h2>
+<div class="row dark">
+  <div><div class="label">38px</div><img src="/logo-rev.svg" width="32" height="38"></div>
+  <div><div class="label">64px</div><img src="/logo-rev.svg" width="53" height="64"></div>
+  <div><div class="label">128px</div><img src="/logo-rev.svg" width="107" height="128"></div>
+</div>
+
+<h2>Nav bar mock-up</h2>
+<div class="nav-mock">
+  <img src="/logo-rev.svg" width="32" height="38">
+  <div class="nav-text">
+    <div class="name">Ray's EV Service</div>
+    <div class="sub">Mobile EV Repair · LA to San Diego</div>
+  </div>
+</div>
+
+</body>
+</html>
