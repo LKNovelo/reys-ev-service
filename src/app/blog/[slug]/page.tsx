@@ -8,6 +8,10 @@ import { fetchBlogPost, fetchAllSlugs, calcReadTime } from "@/lib/blogQueries";
 import { urlFor } from "@/lib/sanity";
 import type { Metadata } from "next";
 
+/* Allow on-demand rendering for slugs not yet in the static set */
+export const dynamicParams = true;
+export const revalidate = 60;
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }

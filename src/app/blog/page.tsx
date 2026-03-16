@@ -4,6 +4,8 @@ import BlogList from "@/components/BlogList";
 import { fetchAllBlogPosts, collectKeywords } from "@/lib/blogQueries";
 import type { Metadata } from "next";
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: "Blog — Field Notes & Guides — Ray's EV Service",
   description: "Tesla maintenance tips, service findings, software update notes, and EV guides from Ray Novelo — written from real jobs in Southern California.",
