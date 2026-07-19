@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Services & Pricing — Ray's EV Service",
-  description: "Mobile Tesla diagnostics, battery service, charging repair, and pre-purchase inspections. Serving LA to San Diego from Corona, CA.",
+  description: "Mobile Tesla diagnostics, warranty inspections, battery service, and electrical repair. Serving LA to San Diego, from Corona, CA.",
 };
 
 interface Service {
@@ -25,13 +25,23 @@ const SERVICES_QUERY = `*[_type == "service"] | order(order asc) {
   _id, title, shortDesc, price, priceSuffix, featured, tag, footerNote, slug
 }`;
 
+// Bullet lists keyed by the CURRENT service titles.
 const includes: Record<string, string[]> = {
-  "Full EV Diagnostic": ["All fault codes read and explained","Battery state-of-health report","Written findings document","Repair recommendation (no obligation)"],
-  "Battery & BMS Service": ["BMS calibration and reset","Individual cell health check","Range loss root-cause diagnosis","Written report"],
-  "Charging System Repair": ["Onboard charger fault diagnosis","Charge port inspection & latch check","12V charging circuit test","Parts quoted before work begins"],
-  "12V System & Electrical": ["12V battery test and replacement","HV contactor health check","Low-voltage wiring diagnosis","Model 3/Y/S/X units in stock"],
-  "Remote Pre-Diagnostic": ["Remote Toolbox 3 fault code review","Scope and parts confirmation","Written pre-visit summary","Credited toward on-site repair"],
+  "EV Diagnostics": ["All fault codes read and explained","Battery state-of-health estimate","Written findings document","Repair recommendation (no obligation)"],
+  "Remote Diagnostics": ["Remote Toolbox 3 fault code review","Scope and parts confirmation","Written pre-visit summary","Credited toward on-site repair"],
+  "High Voltage Diagnostics": ["Onboard charger fault diagnosis","Charge port inspection & latch check","HV battery pack health check","12V charging (DC-DC) circuit test"],
   "Pre-Purchase Inspection": ["Full Toolbox 3 diagnostic scan","Battery degradation assessment","Fault history review","Written PDF report"],
+  "Basic Warranty Inspection": ["Full inspection before 4 yr / 50k mi","Flags defects Tesla should fix free","Honest list of wear items (tires, brakes, alignment)","Written report you can act on"],
+  "Battery & Drivetrain Warranty Inspection": ["Battery capacity & state-of-health report","Full 24-hour calibration","Drive unit / powertrain scan","Catch claims before the 8-yr window closes"],
+  "12V/16V LV Battery Replacement": ["12V/16V battery test and replacement","Same-day pickup and install","Low-voltage wiring diagnosis","Model 3/Y/S/X units sourced"],
+  "HVAC Tune-Up": ["Full HVAC system tune-up","Refrigerant top-up","Cooling performance testing","Blower & cabin airflow check"],
+};
+
+// Section subtitles keyed by the tag used as the group name.
+const groupSubtitles: Record<string, string> = {
+  "Diagnostics": "Find the problem",
+  "Inspections": "Know before a deadline",
+  "Service & Repair": "Fix it and maintain it",
 };
 
 const warrantyNotes = [
@@ -42,6 +52,18 @@ const warrantyNotes = [
 
 export default async function ServicesPage() {
   const services = await sanityFetch<Service[]>(SERVICES_QUERY);
+
+  // Group services by their tag, preserving order.
+  const groups: { tag: string; items: Service[] }[] = [];
+  for (const s of services) {
+    const key = s.tag ?? "Services";
+    let group = groups.find((g) => g.tag === key);
+    if (!group) {
+      group = { tag: key, items: [] };
+      groups.push(group);
+    }
+    group.items.push(s);
+  }
 
   return (
     <>
@@ -75,48 +97,62 @@ export default async function ServicesPage() {
             <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-10">
               What we do
             </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {services.map(({ _id, title, shortDesc, price, priceSuffix, featured, tag, footerNote, slug }) => (
-                <div
-                  id={slug?.current}
-                  key={_id}
-                  className={`rounded-card border flex flex-col p-5 scroll-mt-20 ${
-                    featured ? "border-brand-green" : "border-brand-border"
-                  }`}
-                >
-                  {tag && (
-                    <span className="font-body text-[10px] font-semibold bg-brand-green text-white px-2.5 py-1 rounded-full mb-3 self-start">
-                      {tag}
-                    </span>
-                  )}
-                  <h3 className="font-display font-semibold text-brand-dark text-xl tracking-wide mb-2">
-                    {title}
+
+            {groups.map(({ tag, items }) => (
+              <div key={tag} className="mb-12 last:mb-0">
+                <div className="flex items-baseline gap-3 mb-5">
+                  <h3 className="font-display font-semibold text-brand-dark text-lg tracking-wide uppercase">
+                    {tag}
                   </h3>
-                  <p className="font-body text-brand-muted text-sm leading-relaxed mb-4 flex-1">
-                    {shortDesc}
-                  </p>
-                  <ul className="flex flex-col gap-1.5 mb-4">
-                    {(includes[title] ?? []).map((item) => (
-                      <li key={item} className="flex items-start gap-2 font-body text-xs text-brand-muted">
-                        <span className="text-brand-green mt-0.5 shrink-0">✓</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="pt-3 border-t border-brand-border flex items-center justify-between">
-                    <div>
-                      <span className="font-display font-semibold text-brand-green text-xl">${price}</span>
-                      <span className="font-body text-brand-muted text-xs ml-1">{priceSuffix}</span>
-                    </div>
-                    {footerNote && (
-                      <span className="font-body text-[10px] text-brand-blue bg-brand-blue-lt px-2 py-1 rounded-full">
-                        {footerNote}
-                      </span>
-                    )}
-                  </div>
+                  {groupSubtitles[tag] && (
+                    <span className="font-body text-brand-muted text-sm">{groupSubtitles[tag]}</span>
+                  )}
                 </div>
-              ))}
-            </div>
+
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {items.map(({ _id, title, shortDesc, price, priceSuffix, featured, footerNote, slug }) => (
+                    <div
+                      id={slug?.current}
+                      key={_id}
+                      className={`rounded-card border flex flex-col p-5 scroll-mt-20 ${
+                        featured ? "border-brand-green" : "border-brand-border"
+                      }`}
+                    >
+                      {featured && (
+                        <span className="font-body text-[10px] font-semibold bg-brand-green text-white px-2.5 py-1 rounded-full mb-3 self-start">
+                          Most requested
+                        </span>
+                      )}
+                      <h4 className="font-display font-semibold text-brand-dark text-xl tracking-wide mb-2">
+                        {title}
+                      </h4>
+                      <p className="font-body text-brand-muted text-sm leading-relaxed mb-4 flex-1">
+                        {shortDesc}
+                      </p>
+                      <ul className="flex flex-col gap-1.5 mb-4">
+                        {(includes[title] ?? []).map((item) => (
+                          <li key={item} className="flex items-start gap-2 font-body text-xs text-brand-muted">
+                            <span className="text-brand-green mt-0.5 shrink-0">✓</span>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="pt-3 border-t border-brand-border flex items-center justify-between">
+                        <div>
+                          <span className="font-display font-semibold text-brand-green text-xl">${price}</span>
+                          <span className="font-body text-brand-muted text-xs ml-1">{priceSuffix}</span>
+                        </div>
+                        {footerNote && (
+                          <span className="font-body text-[10px] text-brand-blue bg-brand-blue-lt px-2 py-1 rounded-full">
+                            {footerNote}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
