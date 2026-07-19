@@ -2,12 +2,14 @@ import Link from "next/link";
 import Logo from "./Logo";
 
 const serviceLinks = [
-  { href: "/services#diagnostic",  label: "EV Diagnostic"          },
-  { href: "/services#battery",     label: "Battery & BMS"          },
-  { href: "/services#charging",    label: "Charging System Repair"  },
-  { href: "/services#electrical",  label: "12V & Electrical"        },
-  { href: "/services#remote",      label: "Remote Pre-Diagnostic"   },
-  { href: "/services#inspection",  label: "Pre-Purchase Inspection" },
+  { href: "/services", label: "EV Diagnostics"                      },
+  { href: "/services", label: "Remote Diagnostics"                  },
+  { href: "/services", label: "High Voltage Diagnostics"            },
+  { href: "/services", label: "Pre-Purchase Inspection"             },
+  { href: "/services", label: "Basic Warranty Inspection"           },
+  { href: "/services", label: "Battery & Drivetrain Inspection"     },
+  { href: "/services", label: "12V/16V LV Battery Replacement"      },
+  { href: "/services", label: "HVAC Tune-Up"                        },
 ];
 
 const resourceLinks = [
@@ -60,7 +62,7 @@ export default function Footer() {
             </h3>
             <ul className="flex flex-col gap-2">
               {serviceLinks.map(({ href, label }) => (
-                <li key={href}>
+                <li key={label}>
                   <Link href={href} className="font-body text-white/55 hover:text-white text-sm transition-colors">
                     {label}
                   </Link>
