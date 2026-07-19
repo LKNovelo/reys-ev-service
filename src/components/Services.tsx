@@ -18,46 +18,85 @@ const SERVICES_QUERY = `*[_type == "service"] | order(order asc) {
   slug
 }`;
 
+// Section subtitles keyed by the tag used as the group name.
+const groupSubtitles: Record<string, string> = {
+  "Diagnostics": "Find the problem",
+  "Inspections": "Know before a deadline",
+  "Service & Repair": "Fix it and maintain it",
+};
+
+const defaultIcon = (
+  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+    <circle cx="11" cy="11" r="9" stroke="#1A5C00" strokeWidth="1.4" />
+    <path d="M7 11l3 3 5-5" stroke="#1A5C00" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+// Keyed by the CURRENT service titles.
 const icons: Record<string, React.ReactNode> = {
-  "Full EV Diagnostic": (
+  "EV Diagnostics": (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-      <circle cx="11" cy="11" r="9" stroke="#1A5C00" strokeWidth="1.4"/>
-      <path d="M7 11l3 3 5-5" stroke="#1A5C00" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+      <circle cx="11" cy="11" r="9" stroke="#1A5C00" strokeWidth="1.4" />
+      <path d="M7 11l3 3 5-5" stroke="#1A5C00" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
-  "Battery & BMS Service": (
+  "Remote Diagnostics": (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-      <rect x="3" y="7" width="14" height="10" rx="2" stroke="#2B5FA6" strokeWidth="1.4"/>
-      <path d="M7 7V5a4 4 0 018 0v2" stroke="#2B5FA6" strokeWidth="1.4" strokeLinecap="round"/>
+      <path d="M11 7v8M7 11h8" stroke="#2B5FA6" strokeWidth="1.4" strokeLinecap="round" />
+      <circle cx="11" cy="11" r="4" stroke="#2B5FA6" strokeWidth="1.4" />
     </svg>
   ),
-  "Charging System Repair": (
+  "High Voltage Diagnostics": (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-      <path d="M11 3L5 10h5l-1 8 8-10h-5z" stroke="#7a4d00" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  ),
-  "12V System & Electrical": (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-      <circle cx="11" cy="11" r="9" stroke="#1A5C00" strokeWidth="1.4"/>
-      <path d="M11 7v8M7 11h8" stroke="#1A5C00" strokeWidth="1.4" strokeLinecap="round"/>
-    </svg>
-  ),
-  "Remote Pre-Diagnostic": (
-    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-      <path d="M11 7v8M7 11h8" stroke="#2B5FA6" strokeWidth="1.4" strokeLinecap="round"/>
-      <circle cx="11" cy="11" r="4" stroke="#2B5FA6" strokeWidth="1.4"/>
+      <path d="M11 3L5 10h5l-1 8 8-10h-5z" stroke="#7a4d00" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
   "Pre-Purchase Inspection": (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-      <rect x="3" y="5" width="16" height="12" rx="2" stroke="#7a4d00" strokeWidth="1.4"/>
-      <path d="M7 10h8M7 13h5" stroke="#7a4d00" strokeWidth="1.4" strokeLinecap="round"/>
+      <rect x="3" y="5" width="16" height="12" rx="2" stroke="#2B5FA6" strokeWidth="1.4" />
+      <path d="M7 10h8M7 13h5" stroke="#2B5FA6" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  ),
+  "Basic Warranty Inspection": (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <path d="M11 3l6 2v5c0 4-3 6-6 7-3-1-6-3-6-7V5z" stroke="#2B5FA6" strokeWidth="1.4" strokeLinejoin="round" />
+      <path d="M8.5 11l2 2 3.5-4" stroke="#2B5FA6" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  "Battery & Drivetrain Warranty Inspection": (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <rect x="3" y="7" width="14" height="10" rx="2" stroke="#2B5FA6" strokeWidth="1.4" />
+      <path d="M7 7V5a4 4 0 018 0v2" stroke="#2B5FA6" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  ),
+  "12V/16V LV Battery Replacement": (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <circle cx="11" cy="11" r="9" stroke="#1A5C00" strokeWidth="1.4" />
+      <path d="M11 7v8M7 11h8" stroke="#1A5C00" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  ),
+  "HVAC Tune-Up": (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <circle cx="11" cy="11" r="2" stroke="#7a4d00" strokeWidth="1.4" />
+      <path d="M11 9V4M11 13v5M9 11H4M13 11h5" stroke="#7a4d00" strokeWidth="1.4" strokeLinecap="round" />
     </svg>
   ),
 };
 
 export default async function Services() {
   const services = await sanityFetch<Service[]>(SERVICES_QUERY);
+
+  // Group services by their tag, preserving order.
+  const groups: { tag: string; items: Service[] }[] = [];
+  for (const s of services) {
+    const key = s.tag ?? "Services";
+    let group = groups.find((g) => g.tag === key);
+    if (!group) {
+      group = { tag: key, items: [] };
+      groups.push(group);
+    }
+    group.items.push(s);
+  }
 
   return (
     <section className="py-16 px-5 bg-white">
@@ -72,49 +111,62 @@ export default async function Services() {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {services.map(({ _id, title, shortDesc, price, priceSuffix, featured, tag, footerNote, slug }) => (
-            <div
-              key={_id}
-              className={`rounded-card border flex flex-col p-5 transition-shadow hover:shadow-sm ${
-                featured ? "border-brand-green" : "border-brand-border"
-              }`}
-            >
-              {tag && (
-                <span className="font-body text-[10px] font-semibold bg-brand-green text-white px-2.5 py-1 rounded-full mb-3 self-start tracking-wide">
-                  {tag}
-                </span>
-              )}
-              <div className="mb-3">{icons[title]}</div>
-              <h3 className="font-display font-semibold text-brand-dark text-lg tracking-wide mb-2">
-                {title}
+        {groups.map(({ tag, items }) => (
+          <div key={tag} className="mb-10">
+            <div className="flex items-baseline gap-3 mb-4">
+              <h3 className="font-display font-semibold text-brand-dark text-lg tracking-wide uppercase">
+                {tag}
               </h3>
-              <p className="font-body text-brand-muted text-sm leading-relaxed flex-1 mb-4">
-                {shortDesc}
-              </p>
-              <div className="flex items-center justify-between pt-3 border-t border-brand-border">
-                <div>
-                  <span className="font-body font-semibold text-brand-green text-sm">
-                    ${price}
-                  </span>
-                  <span className="font-body text-brand-muted text-xs ml-1">{priceSuffix}</span>
-                </div>
-                {footerNote && (
-                  <span className="font-body text-[10px] text-brand-blue bg-brand-blue-lt px-2 py-1 rounded-full">
-                    {footerNote}
-                  </span>
-                )}
-              </div>
+              {groupSubtitles[tag] && (
+                <span className="font-body text-brand-muted text-sm">{groupSubtitles[tag]}</span>
+              )}
             </div>
-          ))}
-        </div>
 
-        <div className="mt-10 text-center">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {items.map(({ _id, title, shortDesc, price, priceSuffix, featured, footerNote }) => (
+                <div
+                  key={_id}
+                  className={`rounded-card border flex flex-col p-5 transition-shadow hover:shadow-sm ${
+                    featured ? "border-brand-green" : "border-brand-border"
+                  }`}
+                >
+                  {featured && (
+                    <span className="font-body text-[10px] font-semibold bg-brand-green text-white px-2.5 py-1 rounded-full mb-3 self-start tracking-wide">
+                      Most requested
+                    </span>
+                  )}
+                  <div className="mb-3">{icons[title] ?? defaultIcon}</div>
+                  <h4 className="font-display font-semibold text-brand-dark text-lg tracking-wide mb-2">
+                    {title}
+                  </h4>
+                  <p className="font-body text-brand-muted text-sm leading-relaxed flex-1 mb-4">
+                    {shortDesc}
+                  </p>
+                  <div className="flex items-center justify-between pt-3 border-t border-brand-border">
+                    <div>
+                      <span className="font-body font-semibold text-brand-green text-sm">
+                        ${price}
+                      </span>
+                      <span className="font-body text-brand-muted text-xs ml-1">{priceSuffix}</span>
+                    </div>
+                    {footerNote && (
+                      <span className="font-body text-[10px] text-brand-blue bg-brand-blue-lt px-2 py-1 rounded-full">
+                        {footerNote}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div className="mt-4 text-center">
           <Link
             href="/services"
             className="font-body inline-flex items-center gap-2 text-brand-green font-semibold text-sm border border-brand-green px-6 py-3 rounded-lg hover:bg-brand-green-lt transition-colors"
           >
-            View all services & pricing
+            View all services &amp; pricing
           </Link>
         </div>
       </div>
