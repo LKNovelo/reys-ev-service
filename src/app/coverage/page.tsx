@@ -4,11 +4,14 @@ import { CTABar } from "@/components/CTABlocks";
 import CoverageMap from "@/components/CoverageMap";
 import ZipChecker from "@/components/ZipChecker";
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/siteConfig";
+import JsonLd, { faqSchema } from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Coverage Area — Ray's EV Service",
+export const metadata: Metadata = pageMeta({
+  title: "Coverage Area",
   description: "Mobile Tesla repair serving Corona, Riverside, Anaheim, Santa Ana, Orange County, Los Angeles, Temecula, and San Diego.",
-};
+  path: "/coverage",
+});
 
 const zones = [
   {
@@ -57,6 +60,7 @@ const faq = [
 export default function CoveragePage() {
   return (
     <>
+      <JsonLd data={faqSchema(faq)} />
       <Nav />
       <main>
 

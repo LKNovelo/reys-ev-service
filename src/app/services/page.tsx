@@ -3,11 +3,14 @@ import Footer from "@/components/Footer";
 import { CTABar } from "@/components/CTABlocks";
 import { sanityFetch } from "@/lib/sanity";
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/siteConfig";
+import JsonLd, { servicesSchema } from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Services & Pricing — Ray's EV Service",
+export const metadata: Metadata = pageMeta({
+  title: "Services & Pricing",
   description: "Mobile Tesla diagnostics, warranty inspections, battery service, and electrical repair. Serving LA to San Diego, from Corona, CA.",
-};
+  path: "/services",
+});
 
 interface Service {
   _id: string;
@@ -67,6 +70,7 @@ export default async function ServicesPage() {
 
   return (
     <>
+      <JsonLd data={servicesSchema(services)} />
       <Nav />
       <main>
         {/* Page hero */}

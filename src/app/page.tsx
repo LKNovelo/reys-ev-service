@@ -6,10 +6,13 @@ import Coverage     from "@/components/Coverage";
 import { AboutStrip, CTABar } from "@/components/CTABlocks";
 import Footer       from "@/components/Footer";
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/siteConfig";
 
-export const metadata: Metadata = {
-  title: "Mobile Tesla Repair, LA to San Diego — Ray's EV Service",
-};
+export const metadata: Metadata = pageMeta({
+  title: "Mobile Tesla Repair, LA to San Diego",
+  description: "Veteran-owned mobile Tesla diagnostics and repair, LA to San Diego. Tesla Toolbox 3 certified. No tow truck, no dealership waitlist — Ray comes to you.",
+  path: "/",
+});
 
 export default function HomePage() {
   return (

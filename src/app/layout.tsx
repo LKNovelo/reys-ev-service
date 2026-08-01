@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Oswald, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
+import { SITE_URL } from "@/lib/siteConfig";
+import JsonLd, { localBusinessSchema } from "@/components/JsonLd";
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -16,39 +18,54 @@ const sourceSans = Source_Sans_3({
   display: "swap",
 });
 
+const DEFAULT_TITLE = "Ray's EV Service — Mobile Tesla Repair, LA to San Diego";
+const DEFAULT_DESCRIPTION =
+  "Veteran-owned mobile EV diagnostics and repair for Tesla S/3/X/Y. " +
+  "Aerospace-trained electrical specialist, Tesla Toolbox 3 certified. " +
+  "Serving Corona, Riverside, Anaheim, Santa Ana, OC, LA, and San Diego.";
+
 export const metadata: Metadata = {
+  // Required for relative OG/canonical URLs to resolve correctly.
+  metadataBase: new URL(SITE_URL),
   title: {
+    // Page titles supply their own text; the brand is appended here only.
+    // Pages must NOT repeat "Ray's EV Service" in their own title.
     template: "%s | Ray's EV Service",
-    default: "Ray's EV Service — Mobile Tesla Repair, LA to San Diego",
+    default: DEFAULT_TITLE,
   },
-  description:
-    "Veteran-owned mobile EV diagnostics and repair for Tesla S/3/X/Y. " +
-    "Aerospace-trained electrical specialist, Tesla Toolbox 3 certified. " +
-    "Serving Corona, Riverside, Anaheim, Santa Ana, OC, LA, and San Diego.",
-  keywords: [
-    "Tesla repair Southern California",
-    "mobile EV repair Corona CA",
-    "Tesla diagnostics Riverside",
-    "Tesla Toolbox 3 certified",
-    "veteran-owned EV service",
-    "mobile Tesla repair Orange County",
-    "Tesla repair Anaheim",
-  ],
+  description: DEFAULT_DESCRIPTION,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Ray's EV Service — Mobile Tesla Repair",
-    description: "Mobile EV diagnostics & repair, LA to San Diego. Veteran-owned.",
-    url: "https://raysevservice.com",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    url: SITE_URL,
     siteName: "Ray's EV Service",
     locale: "en_US",
     type: "website",
   },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: "summary_large_image",
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${oswald.variable} ${sourceSans.variable}`}>
-      <body>{children}</body>
+      <body>
+        {/* Business identity — referenced by @id from the Service and
+            BlogPosting schemas on individual pages, so it belongs on every
+            page. Google accepts JSON-LD in the body, which is what Next
+            recommends over hand-rolling a <head>. */}
+        <JsonLd data={localBusinessSchema()} />
+        {children}
+      </body>
     </html>
   );
 }

@@ -2,11 +2,14 @@ import Nav    from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ContactForm from "@/components/ContactForm";
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/siteConfig";
+import JsonLd, { faqSchema } from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Contact — Ray's EV Service",
+export const metadata: Metadata = pageMeta({
+  title: "Contact & Booking",
   description: "Book a mobile Tesla diagnostic or repair. Call, text, or email Ray directly. Serving Corona, OC, LA, and San Diego.",
-};
+  path: "/contact",
+});
 
 const faq = [
   { q: "Do I need to tow my car to you?", a: "No — Ray comes to you. Home, office, or roadside. If the car can't be driven, describe the situation and we'll confirm the right approach. For completely dead cars, call directly rather than waiting on a form." },
@@ -18,6 +21,7 @@ const faq = [
 export default function ContactPage() {
   return (
     <>
+      <JsonLd data={faqSchema(faq)} />
       <Nav />
       <main>
         {/* Hero */}

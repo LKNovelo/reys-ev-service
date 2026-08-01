@@ -3,13 +3,15 @@ import Footer from "@/components/Footer";
 import BlogList from "@/components/BlogList";
 import { fetchAllBlogPosts, collectKeywords } from "@/lib/blogQueries";
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/siteConfig";
 
 export const revalidate = 60;
 
-export const metadata: Metadata = {
-  title: "Blog — Field Notes & Guides — Ray's EV Service",
+export const metadata: Metadata = pageMeta({
+  title: "Blog — Field Notes & Guides",
   description: "Tesla maintenance tips, service findings, software update notes, and EV guides from Ray Novelo — written from real jobs in Southern California.",
-};
+  path: "/blog",
+});
 
 export default async function BlogPage() {
   const posts = await fetchAllBlogPosts();

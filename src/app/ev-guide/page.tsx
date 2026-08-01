@@ -3,11 +3,13 @@ import Footer from "@/components/Footer";
 import { CTABar } from "@/components/CTABlocks";
 import Link from "next/link";
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/siteConfig";
 
-export const metadata: Metadata = {
-  title: "New EV Owners Guide — Ray's EV Service",
+export const metadata: Metadata = pageMeta({
+  title: "New EV Owners Guide",
   description: "A plain-language guide for new Tesla owners. Charging, maintenance, what changes from gas, and what to watch for in your first 90 days.",
-};
+  path: "/ev-guide",
+});
 
 export default function EvGuidePage() {
   return (

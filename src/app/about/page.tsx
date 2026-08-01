@@ -2,11 +2,13 @@ import Nav    from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { CTABar } from "@/components/CTABlocks";
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/siteConfig";
 
-export const metadata: Metadata = {
-  title: "About Ray — Ray's EV Service",
+export const metadata: Metadata = pageMeta({
+  title: "About Ray",
   description: "Ray Novelo — U.S. Marine veteran, Aerospace-trained electrical specialist, Tesla Toolbox 3 certified. Mobile EV repair based in Corona, CA.",
-};
+  path: "/about",
+});
 
 const timeline = [
   {

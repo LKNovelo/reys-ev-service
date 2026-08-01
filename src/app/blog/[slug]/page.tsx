@@ -6,6 +6,8 @@ import { PortableText } from "@portabletext/react";
 import type { PortableTextComponents } from "@portabletext/react";
 import { fetchBlogPost, fetchAllSlugs, calcReadTime } from "@/lib/blogQueries";
 import { urlFor } from "@/lib/sanity";
+import { SITE_URL } from "@/lib/siteConfig";
+import JsonLd, { blogPostingSchema, breadcrumbSchema } from "@/components/JsonLd";
 import type { Metadata } from "next";
 
 /* Allow on-demand rendering for slugs not yet in the static set */
@@ -25,9 +27,35 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const post = await fetchBlogPost(slug);
   if (!post) return { title: "Post not found" };
+
+  // Brand is appended by the root layout template — don't repeat it here.
+  const title = post.seoTitle || post.title;
+  const description = post.seoDesc || post.excerpt || undefined;
+  const image = post.coverImage
+    ? urlFor(post.coverImage).width(1200).height(630).url()
+    : undefined;
+
   return {
-    title: post.seoTitle || `${post.title} — Ray's EV Service`,
-    description: post.seoDesc || post.excerpt || undefined,
+    title,
+    description,
+    alternates: { canonical: `/blog/${slug}` },
+    openGraph: {
+      title: `${title} | Ray's EV Service`,
+      description,
+      url: `${SITE_URL}/blog/${slug}`,
+      siteName: "Ray's EV Service",
+      locale: "en_US",
+      type: "article",
+      publishedTime: post.publishedAt,
+      authors: ["Ray Novelo"],
+      ...(image ? { images: [{ url: image, width: 1200, height: 630 }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | Ray's EV Service`,
+      description,
+      ...(image ? { images: [image] } : {}),
+    },
   };
 }
 
@@ -191,6 +219,24 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd
+        data={blogPostingSchema({
+          title: post.title,
+          slug,
+          excerpt: post.excerpt,
+          publishedAt: post.publishedAt,
+          imageUrl: post.coverImage
+            ? urlFor(post.coverImage).width(1200).height(630).url()
+            : null,
+        })}
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Blog", path: "/blog" },
+          { name: post.title, path: `/blog/${slug}` },
+        ])}
+      />
       <Nav />
       <main>
 
