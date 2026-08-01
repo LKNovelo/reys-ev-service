@@ -45,8 +45,8 @@ const groupSubtitles: Record<string, string> = {
 };
 
 const warrantyNotes = [
-  { miles: "Under 50,000 miles", note: "Use your Tesla bumper-to-bumper warranty first. Ray will tell you this himself." },
-  { miles: "Under 120,000 miles (HV battery issues)", note: "Tesla's HV battery warranty may apply. Check before booking." },
+  { miles: "Under 4 years / 50,000 miles", note: "Your Tesla bumper-to-bumper warranty likely covers it. Use it first — Ray will tell you this himself." },
+  { miles: "Under 8 years (battery & drive unit)", note: "Mileage cap is 100k, 120k, or 150k depending on your model, and coverage runs to 70% capacity. Check before booking." },
   { miles: "Outside warranty or not covered", note: "That's where we come in — same Toolbox 3 diagnosis at a fraction of dealer cost." },
 ];
 

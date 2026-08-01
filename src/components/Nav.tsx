@@ -4,11 +4,13 @@ import Link from "next/link";
 import { useState } from "react";
 import Logo from "./Logo";
 
+// "Ray's Gear" is intentionally omitted until the gear posts are written and
+// real affiliate links replace the placeholders. The /gear route stays live so
+// existing inbound links don't 404 — it's just not advertised.
 const links = [
   { href: "/services",   label: "Services"   },
   { href: "/ev-guide",   label: "EV Guide"   },
   { href: "/blog",       label: "Blog"       },
-  { href: "/gear",       label: "Ray's Gear" },
   { href: "/about",      label: "About"      },
   { href: "/contact",    label: "Contact"    },
 ];

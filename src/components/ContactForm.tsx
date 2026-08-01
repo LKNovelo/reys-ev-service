@@ -15,12 +15,16 @@ const modelOptions = ["Model 3", "Model Y", "Model S", "Model X", "Not sure"];
 const yearOptions = [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018];
 const contactPrefs = ["Phone call", "Text message", "Email"];
 
+type Status = "idle" | "sending" | "sent" | "error";
+
 export default function ContactForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const [warrantyChecked, setWarrantyChecked] = useState(false);
   const [showWarrantyAlert, setShowWarrantyAlert] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     // ── Warranty checkbox validation ──
@@ -33,50 +37,83 @@ export default function ContactForm() {
     if (!form) return;
 
     const data = new FormData(form);
-    const service = data.get("service") as string || "Not specified";
-    const name = data.get("name") as string || "";
-    const phone = data.get("phone") as string || "";
-    const email = data.get("email") as string || "";
-    const model = data.get("model") as string || "";
-    const year = data.get("year") as string || "";
-    const location = data.get("location") as string || "";
-    const faultcodes = data.get("faultcodes") as string || "";
-    const issue = data.get("issue") as string || "";
-    const contactpref = data.get("contactpref") as string || "Phone call";
+    const payload = {
+      service: (data.get("service") as string) || "",
+      name: (data.get("name") as string) || "",
+      phone: (data.get("phone") as string) || "",
+      email: (data.get("email") as string) || "",
+      model: (data.get("model") as string) || "",
+      year: (data.get("year") as string) || "",
+      location: (data.get("location") as string) || "",
+      faultcodes: (data.get("faultcodes") as string) || "",
+      issue: (data.get("issue") as string) || "",
+      contactpref: (data.get("contactpref") as string) || "Phone call",
+      company: (data.get("company") as string) || "", // honeypot
+      warrantyAck: true,
+    };
 
-    // ── Build subject line ──
-    const subjectParts = ["Service Request"];
-    if (model) subjectParts.push(model);
-    if (year) subjectParts.push(year);
-    subjectParts.push(`— ${service}`);
-    const subject = subjectParts.join(" ");
+    setStatus("sending");
+    setErrorMsg("");
 
-    // ── Build body ──
-    const lines = [
-      `Service Request from raysevservice.com`,
-      ``,
-      `Service needed: ${service}`,
-      `Name: ${name}`,
-      `Phone: ${phone}`,
-      email ? `Email: ${email}` : null,
-      ``,
-      `Tesla: ${model || "Not specified"} ${year || ""}`.trim(),
-      location ? `Location/Zip: ${location}` : null,
-      `Preferred contact: ${contactpref}`,
-      ``,
-      faultcodes ? `Fault codes / alerts:\n${faultcodes}` : null,
-      faultcodes ? `` : null,
-      issue ? `Issue description:\n${issue}` : null,
-      issue ? `` : null,
-      `---`,
-      `Warranty acknowledgment: Customer confirmed they have reviewed warranty coverage information.`,
-    ].filter((line): line is string => line !== null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    const body = lines.join("\n");
+      if (!res.ok) {
+        const { error } = await res.json().catch(() => ({ error: "" }));
+        setErrorMsg(
+          error || "Something went wrong. Please call (951) 622-6222."
+        );
+        setStatus("error");
+        return;
+      }
 
-    // ── Open mailto ──
-    const mailto = `mailto:RaysEVService@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
+      form.reset();
+      setWarrantyChecked(false);
+      setStatus("sent");
+    } catch {
+      setErrorMsg(
+        "Couldn't reach the server. Please call or text (951) 622-6222."
+      );
+      setStatus("error");
+    }
+  }
+
+  // ── Success state ─────────────────────────────────────────────────────────
+  if (status === "sent") {
+    return (
+      <div
+        role="status"
+        className="bg-brand-green-lt border border-brand-green rounded-card p-7 text-center"
+      >
+        <p className="font-display font-semibold text-brand-dark text-xl tracking-wide mb-2">
+          Request sent
+        </p>
+        <p className="font-body text-brand-dark text-sm leading-relaxed max-w-md mx-auto mb-5">
+          Ray has your details and will follow up to confirm availability and
+          scope — typically within 1–2 hours during business hours. If your
+          Tesla can&apos;t be driven, call directly rather than waiting.
+        </p>
+        <div className="flex flex-wrap gap-3 justify-center">
+          <a
+            href="tel:+19516226222"
+            className="font-body font-semibold text-sm bg-brand-green text-white px-6 py-3 rounded-lg hover:bg-brand-green-dk transition-colors"
+          >
+            Call (951) 622-6222
+          </a>
+          <button
+            type="button"
+            onClick={() => setStatus("idle")}
+            className="font-body font-semibold text-sm border border-brand-green text-brand-green px-6 py-3 rounded-lg hover:bg-white transition-colors"
+          >
+            Send another request
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -85,6 +122,12 @@ export default function ContactForm() {
       className="flex flex-col gap-5"
       onSubmit={handleSubmit}
     >
+
+      {/* Honeypot — hidden from users, catches bots. Not a real field. */}
+      <div aria-hidden="true" className="absolute left-[-9999px] w-px h-px overflow-hidden">
+        <label htmlFor="company">Company (leave blank)</label>
+        <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
 
       {/* Coverage check */}
       <div className="bg-brand-surface border border-brand-border rounded-card p-4">
@@ -235,7 +278,7 @@ export default function ContactForm() {
           }}
         />
         <label htmlFor="warranty" className="font-body text-sm text-brand-dark leading-relaxed cursor-pointer">
-          <strong className="font-semibold">Warranty check</strong> — I understand that if my Tesla is under 50k miles, the bumper-to-bumper warranty may cover this issue. Under 120k miles with HV battery issues, the battery warranty likely applies. I should check my warranty coverage before booking independent service.{" "}
+          <strong className="font-semibold">Warranty check</strong> — I understand that if my Tesla is under 4 years / 50k miles, the bumper-to-bumper warranty may cover this issue. Battery and drive unit are covered 8 years (to 100k, 120k, or 150k miles depending on model). I should check my warranty coverage before booking independent service.{" "}
           <span className="text-brand-muted">Ray will remind you either way.</span>
         </label>
       </div>
@@ -249,16 +292,35 @@ export default function ContactForm() {
         </div>
       )}
 
+      {/* Send failure */}
+      {status === "error" && (
+        <div
+          role="alert"
+          className="bg-red-50 border border-red-300 rounded-lg px-4 py-3 flex items-start gap-2"
+        >
+          <span className="text-red-500 shrink-0 mt-0.5">!</span>
+          <p className="font-body text-sm text-red-700 leading-relaxed">
+            {errorMsg}{" "}
+            <a href="tel:+19516226222" className="font-semibold underline">
+              Call or text (951) 622-6222
+            </a>{" "}
+            and Ray will pick it up directly.
+          </p>
+        </div>
+      )}
+
       {/* Submit */}
       <div className="flex items-center gap-4">
         <button
           type="submit"
-          className="font-body font-semibold text-sm bg-brand-green text-white px-7 py-3 rounded-lg hover:bg-brand-green-dk transition-colors"
+          disabled={status === "sending"}
+          className="font-body font-semibold text-sm bg-brand-green text-white px-7 py-3 rounded-lg hover:bg-brand-green-dk transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Send request
+          {status === "sending" ? "Sending…" : "Send request"}
         </button>
         <p className="font-body text-xs text-brand-muted leading-relaxed max-w-xs">
-          Opens your email app with the request pre-filled. Ray typically responds within 1–2 hours during business hours.
+          Goes straight to Ray. He typically responds within 1–2 hours during
+          business hours. Urgent? Call (951) 622-6222.
         </p>
       </div>
     </form>
