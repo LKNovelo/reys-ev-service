@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { loadGoogleMaps } from "@/lib/googleMaps";
 import {
   distanceFromServiceCenter,
   formatServiceAreaFee,
@@ -40,23 +39,21 @@ export default function ZipChecker({ compact = false, showCoverageLink = false }
     setResult(null);
 
     try {
-      const google = await loadGoogleMaps();
-      const geocoder = new google.maps.Geocoder();
-      const matches: any[] = await new Promise((resolve, reject) => {
-        geocoder.geocode(
-          {
-            address: `${cleaned}, California`,
-            componentRestrictions: { country: "US", postalCode: cleaned },
-          },
-          (geocodeResults: any[], status: string) => {
-            if (status === "OK" && geocodeResults?.length) resolve(geocodeResults);
-            else reject(new Error(status));
-          },
-        );
+      const response = await fetch(`https://api.zippopotam.us/us/${cleaned}`, {
+        headers: { Accept: "application/json" },
       });
+      if (!response.ok) throw new Error("ZIP code not found");
 
-      const location = matches[0].geometry.location;
-      const distanceMiles = distanceFromServiceCenter(location.lat(), location.lng());
+      const data = (await response.json()) as {
+        places?: Array<{ latitude?: string; longitude?: string }>;
+      };
+      const latitude = Number(data.places?.[0]?.latitude);
+      const longitude = Number(data.places?.[0]?.longitude);
+      if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+        throw new Error("ZIP code coordinates unavailable");
+      }
+
+      const distanceMiles = distanceFromServiceCenter(latitude, longitude);
       const ring = getServiceRing(distanceMiles);
 
       if (!ring) {
