@@ -4,6 +4,7 @@ import {
   SERVICE_AREA_CITIES,
   OPENING_HOURS,
 } from "@/lib/siteConfig";
+import { SERVICE_AREA_CENTER } from "@/lib/serviceArea";
 
 /**
  * Renders a JSON-LD block. Next injects this into the HTML as-is, so every
@@ -117,10 +118,10 @@ export function servicesSchema(services: SchemaService[]) {
           "@type": "GeoCircle",
           geoMidpoint: {
             "@type": "GeoCoordinates",
-            latitude: BUSINESS.latitude,
-            longitude: BUSINESS.longitude,
+            latitude: SERVICE_AREA_CENTER.lat,
+            longitude: SERVICE_AREA_CENTER.lng,
           },
-          geoRadius: "120000",
+          geoRadius: "160934.4",
         },
         ...(typeof s.price === "number"
           ? {

@@ -97,7 +97,7 @@ export default function ContactPage() {
             <div className="bg-white rounded-card border border-brand-border p-5">
               <h3 className="font-display font-semibold text-brand-dark text-base tracking-wide mb-3">Availability</h3>
               {[
-                { day: "Mon – Fri", time: "7:00 AM – 6:00 PM" },
+                { day: "Mon – Fri", time: "10:00 AM – 6:00 PM" },
                 { day: "Saturday", time: "By appointment" },
                 { day: "Sunday",   time: "By appointment" },
               ].map(({ day, time }) => (
@@ -107,7 +107,7 @@ export default function ContactPage() {
                 </div>
               ))}
               <p className="font-body text-xs text-brand-muted mt-3 leading-relaxed">
-                Hours are a guide — Ray takes calls outside these windows for urgent situations.
+                Appointments outside 10:00 AM–6:00 PM include a flat $50 Extended Service Hours fee.
               </p>
             </div>
           </div>

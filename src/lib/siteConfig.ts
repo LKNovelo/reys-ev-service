@@ -40,7 +40,7 @@ export const SERVICE_AREA_CITIES = [
 export const OPENING_HOURS = [
   {
     days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-    opens: "07:00",
+    opens: "10:00",
     closes: "18:00",
   },
 ] as const;

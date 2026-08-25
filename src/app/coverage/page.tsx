@@ -1,4 +1,4 @@
-import Nav    from "@/components/Nav";
+import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { CTABar } from "@/components/CTABlocks";
 import CoverageMap from "@/components/CoverageMap";
@@ -6,55 +6,40 @@ import ZipChecker from "@/components/ZipChecker";
 import type { Metadata } from "next";
 import { pageMeta } from "@/lib/siteConfig";
 import JsonLd, { faqSchema } from "@/components/JsonLd";
+import {
+  EXTENDED_HOURS_FEE,
+  NORMAL_SERVICE_HOURS,
+  SERVICE_AREA_CENTER,
+  SERVICE_RINGS,
+} from "@/lib/serviceArea";
 
 export const metadata: Metadata = pageMeta({
-  title: "Coverage Area",
-  description: "Mobile Tesla repair serving Corona, Riverside, Anaheim, Santa Ana, Orange County, Los Angeles, Temecula, and San Diego.",
+  title: "Coverage Area & Travel Fees",
+  description: "Mobile Tesla service within 100 miles of Eastvale, California. See 20-mile coverage rings, service-area fees, and extended-hours pricing.",
   path: "/coverage",
 });
 
-const zones = [
-  {
-    id: "primary",
-    dot: "bg-brand-green",
-    name: "91 Corridor & Inland Empire",
-    fee: "No travel fee",
-    feeStyle: "bg-brand-green-lt text-brand-green",
-    highway: "Via 91 Freeway from Corona · I-15 south to Lake Elsinore",
-    cities: ["Corona ★ home base","Riverside","Anaheim","Santa Ana","Garden Grove","Orange","Fullerton","Irvine","Huntington Beach","Ontario","Rancho Cucamonga","Norco","Lake Elsinore","Perris"],
-    note: "Home base is Corona. The 91 west makes Anaheim and OC quick and predictable. I-15 south covers Lake Elsinore.",
-    active: true,
-  },
-  {
-    id: "secondary",
-    dot: "bg-brand-blue",
-    name: "LA County",
-    fee: "Small travel fee",
-    feeStyle: "bg-brand-blue-lt text-brand-blue",
-    highway: "I-10 west · 60 west · 91 west",
-    cities: ["Los Angeles","Long Beach","Pasadena","Torrance","Compton","Pomona","Glendale","Alhambra","Downey","Whittier","Inglewood"],
-    note: "LA County adds meaningful drive time. Small flat fee confirmed at booking.",
-    active: false,
-  },
-  {
-    id: "extended",
-    dot: "bg-brand-amber",
-    name: "San Diego / Temecula",
-    fee: "Call first",
-    feeStyle: "bg-amber-50 text-amber-800",
-    highway: "I-15 south past Lake Elsinore",
-    cities: ["Temecula","Murrieta","San Diego","Chula Vista","Oceanside","Carlsbad","Escondido","Encinitas","El Cajon","Vista","Santee","Poway","National City"],
-    note: "Temecula and south — available depending on scheduling. Ray will give a straight answer on timing and fee.",
-    active: false,
-  },
-];
-
 const faq = [
-  { q: "Why is Anaheim no fee but Temecula has a travel fee?", a: "Zones are based on drive time from Corona, not straight-line distance. From Corona, Anaheim is a direct shot west on the 91 — predictable and quick. Temecula is south on the I-15 past Lake Elsinore, which adds real time depending on traffic." },
-  { q: "My car can't be driven — can you still come?", a: "Yes. Call directly rather than submitting a form — Ray can triage faster over the phone. For completely dead cars (12V failure, won't unlock), he carries replacement units in the van." },
-  { q: "How far in advance do I need to book?", a: "Same-day is often available in the primary zone. LA is usually next day. San Diego and Temecula depend on the week. For anything affecting your ability to drive, call immediately — Ray will prioritize." },
-  { q: "Can you come to my workplace or apartment?", a: "Yes — home, office, or any parking area with safe working space alongside the vehicle. Underground garages can depend on clearance; mention it when you book." },
-  { q: "What if I'm just outside the service area?", a: "Call anyway. The zone lines aren't rigid — if the job is right and the route works, Ray will find a way." },
+  {
+    q: "How is my service-area fee calculated?",
+    a: `Fees are based on straight-line distance from our service-area center at ${SERVICE_AREA_CENTER.address}. We confirm the exact service address and fee before dispatch.`,
+  },
+  {
+    q: "Is there a fee within 20 miles?",
+    a: "No. Appointments within 20 miles of the service-area center have no service-area fee.",
+  },
+  {
+    q: "What is the Extended Service Hours fee?",
+    a: `Appointments scheduled outside our normal ${NORMAL_SERVICE_HOURS} service window include a flat $${EXTENDED_HOURS_FEE} Extended Service Hours fee.`,
+  },
+  {
+    q: "What if I am more than 100 miles away?",
+    a: "Call or text Ray. Locations beyond 100 miles are outside the regular coverage area, but availability may vary depending on the repair and schedule.",
+  },
+  {
+    q: "My car cannot be driven—can you still come?",
+    a: "Yes. Call directly so Ray can triage the situation and confirm the service location, timing, and fee before dispatch.",
+  },
 ];
 
 export default function CoveragePage() {
@@ -63,148 +48,94 @@ export default function CoveragePage() {
       <JsonLd data={faqSchema(faq)} />
       <Nav />
       <main>
-
-        {/* Hero */}
-        <div className="bg-brand-surface border-b border-brand-border px-5 py-14">
-          <div className="max-w-4xl mx-auto">
-            <span className="section-label">Service area</span>
-            <h1 className="font-display font-semibold text-brand-dark text-4xl sm:text-5xl tracking-wide mb-4">
-              Based in Corona —<br className="hidden sm:block" /> serving the 91 corridor and beyond
+        <section className="bg-brand-surface border-b border-brand-border px-5 py-14">
+          <div className="max-w-5xl mx-auto">
+            <span className="section-label">Mobile service area</span>
+            <h1 className="font-display font-semibold text-brand-dark text-4xl sm:text-5xl tracking-wide mb-4 max-w-3xl">
+              Southern California coverage, priced by distance
             </h1>
-            <p className="font-body text-brand-muted text-lg leading-relaxed max-w-xl mb-8">
-              Zones are based on drive time, not distance on a map. Not sure if you&apos;re in range?
-              Check your zip or call — Ray will confirm before you fill anything out.
+            <p className="font-body text-brand-muted text-lg leading-relaxed max-w-2xl mb-3">
+              Our regular mobile service area extends 100 miles from Eastvale in clear 20-mile rings.
+              The first 20 miles have no service-area fee; each additional ring adds $25.
+            </p>
+            <p className="font-body text-brand-dark text-sm font-semibold mb-8">
+              Service-area center: {SERVICE_AREA_CENTER.address}
             </p>
             <ZipChecker />
           </div>
-        </div>
+        </section>
 
-        {/* 91 insight */}
-        <div className="bg-brand-blue-lt border-b border-brand-blue border-opacity-30 px-5 py-4">
-          <div className="max-w-4xl mx-auto flex items-start gap-3">
-            <span className="text-brand-blue text-lg shrink-0">→</span>
-            <p className="font-body text-brand-blue text-sm leading-relaxed">
-              Zones follow real drive times. Anaheim and Santa Ana are quick on the 91 from Corona — no travel fee.
-              Temecula is farther south on the I-15 past Lake Elsinore — call first.
-            </p>
-          </div>
-        </div>
-
-        {/* Map + zone panel */}
-        <div className="grid lg:grid-cols-[1fr_300px] border-b border-brand-border">
-
-          {/* Map */}
-          <div className="flex flex-col border-r border-brand-border">
+        <section className="grid lg:grid-cols-[minmax(0,1fr)_340px] border-b border-brand-border bg-white">
+          <div className="lg:border-r border-brand-border">
             <CoverageMap />
-            <div className="bg-white border-t border-brand-border px-5 py-3 flex flex-wrap gap-4">
-              {[
-                { dot: "bg-brand-green", label: "Primary — 91 corridor & IE (no fee)" },
-                { dot: "bg-brand-blue",  label: "LA County (small fee)" },
-                { dot: "bg-brand-amber", label: "San Diego / Temecula (call first)" },
-              ].map(({ dot, label }) => (
-                <div key={label} className="flex items-center gap-2">
-                  <span className={`w-2.5 h-2.5 rounded-full ${dot} shrink-0`} />
-                  <span className="font-body text-xs text-brand-muted">{label}</span>
-                </div>
-              ))}
-            </div>
           </div>
 
-          {/* Zone panel */}
-          <div className="flex flex-col">
-            <div className="px-5 py-4 border-b border-brand-border bg-white">
-              <h3 className="font-display font-semibold text-brand-dark text-base tracking-wide">Coverage zones</h3>
-              <p className="font-body text-xs text-brand-muted mt-1">Based on drive time from Corona</p>
-            </div>
-            {zones.map(({ id, dot, name, fee, feeStyle, highway, cities, note, active }) => (
-              <div key={id} className={`p-5 border-b border-brand-border ${active ? "bg-brand-green-lt" : "bg-white"}`}>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className={`w-3 h-3 rounded-full ${dot} shrink-0`} />
-                  <span className="font-display font-semibold text-brand-dark text-sm tracking-wide">{name}</span>
-                  <span className={`font-body text-[10px] font-semibold px-2 py-0.5 rounded-full ml-auto ${feeStyle}`}>{fee}</span>
-                </div>
-                <p className="font-body text-[10px] font-semibold text-brand-muted mb-2">{highway}</p>
-                <p className="font-body text-xs text-brand-muted leading-relaxed mb-2">
-                  {cities.slice(0, 5).join(" · ")}{cities.length > 5 ? ` · +${cities.length - 5} more` : ""}
-                </p>
-                <p className="font-body text-xs text-brand-muted italic leading-relaxed">{note}</p>
-              </div>
-            ))}
-            <div className="p-5 bg-brand-surface mt-auto">
-              <p className="font-body text-xs text-brand-muted mb-3 leading-relaxed">
-                Not seeing your city? Text your zip to (951) 622-6222.
-              </p>
-              <a href="tel:+19516226222"
-                className="font-body font-semibold text-sm text-white bg-brand-green px-4 py-2.5 rounded-lg block text-center hover:bg-brand-green-dk transition-colors">
-                Call (951) 622-6222
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Full city list */}
-        <section className="py-16 px-5 bg-white border-b border-brand-border">
-          <div className="max-w-4xl mx-auto">
-            <span className="section-label">Full city list</span>
-            <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-3">Cities we serve</h2>
-            <p className="font-body text-brand-muted text-base mb-8 max-w-xl leading-relaxed">
-              The 91 corridor makes Anaheim and OC closer in drive time than many IE cities.
+          <div className="p-5 sm:p-7">
+            <span className="section-label">Distance fees</span>
+            <h2 className="font-display font-semibold text-brand-dark text-2xl tracking-wide mb-2">
+              Five simple coverage rings
+            </h2>
+            <p className="font-body text-brand-muted text-sm leading-relaxed mb-5">
+              The applicable fee is added to the quoted service price and confirmed before dispatch.
             </p>
-            <div className="grid sm:grid-cols-3 gap-5">
-              {zones.map(({ id, dot, name, fee, feeStyle, cities }) => (
-                <div key={id} className="bg-brand-surface rounded-card border border-brand-border p-5">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className={`w-3 h-3 rounded-full ${dot} shrink-0`} />
-                    <h3 className="font-display font-semibold text-brand-dark text-base tracking-wide">{name}</h3>
+
+            <div className="border border-brand-border rounded-card overflow-hidden">
+              {SERVICE_RINGS.map((ring) => (
+                <div key={ring.maxMiles} className="flex items-center gap-3 p-4 border-b border-brand-border last:border-0">
+                  <span
+                    className="w-3.5 h-3.5 rounded-full shrink-0"
+                    style={{ backgroundColor: ring.color }}
+                  />
+                  <div className="min-w-0">
+                    <p className="font-body font-semibold text-brand-dark text-sm">{ring.range}</p>
+                    <p className="font-body text-brand-muted text-xs">{ring.label}</p>
                   </div>
-                  <span className={`font-body text-xs font-semibold px-2.5 py-1 rounded-full inline-block mb-3 ${feeStyle}`}>{fee}</span>
-                  <ul className="flex flex-col">
-                    {cities.map((city) => (
-                      <li key={city} className={`font-body text-sm py-1.5 border-b border-brand-border last:border-0 ${city.includes("★") ? "text-brand-green font-semibold" : "text-brand-muted"}`}>
-                        {city}
-                      </li>
-                    ))}
-                  </ul>
+                  <span className="font-display font-semibold text-brand-dark text-lg ml-auto">
+                    ${ring.fee}
+                  </span>
                 </div>
               ))}
             </div>
+
+            <p className="font-body text-brand-muted text-xs leading-relaxed mt-4">
+              Rings show straight-line distance. Your ZIP result is an estimate; the exact appointment address determines the final fee.
+            </p>
           </div>
         </section>
 
-        {/* Travel fees */}
         <section className="py-16 px-5 bg-brand-surface border-b border-brand-border">
-          <div className="max-w-4xl mx-auto">
-            <span className="section-label">Travel fees</span>
-            <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-3">Honest about the costs</h2>
-            <p className="font-body text-brand-muted text-base mb-8 max-w-xl">Always confirmed before dispatch. Never added after the fact.</p>
-            <div className="grid sm:grid-cols-3 gap-5 mb-6">
-              {[
-                { v: "$0", name: "91 Corridor & IE", desc: "Corona, Riverside, Anaheim, Santa Ana, OC along the 91, south to Lake Elsinore.", dot: "bg-brand-green" },
-                { v: "TBD", name: "LA County", desc: "Small flat fee confirmed at booking based on exact location.", dot: "bg-brand-blue" },
-                { v: "Call first", name: "San Diego / Temecula", desc: "Available depending on scheduling. Ray will give a straight answer.", dot: "bg-brand-amber" },
-              ].map(({ v, name, desc, dot }) => (
-                <div key={name} className="bg-white rounded-card border border-brand-border p-5 text-center">
-                  <span className={`w-4 h-4 rounded-full ${dot} block mx-auto mb-3`} />
-                  <p className="font-display font-semibold text-brand-dark text-2xl tracking-wide mb-1">{v}</p>
-                  <p className="font-body font-semibold text-brand-dark text-sm mb-2">{name}</p>
-                  <p className="font-body text-brand-muted text-xs leading-relaxed">{desc}</p>
-                </div>
-              ))}
+          <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-5">
+            <div className="bg-white rounded-card border border-brand-border p-6">
+              <span className="section-label">Standard hours</span>
+              <p className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-2">
+                {NORMAL_SERVICE_HOURS}
+              </p>
+              <p className="font-body text-brand-muted text-sm leading-relaxed">
+                Regular appointments scheduled within this service window do not have an extended-hours fee.
+              </p>
             </div>
-            <div className="bg-white border border-brand-border rounded-card p-4 font-body text-sm text-brand-muted leading-relaxed">
-              Travel fee is disclosed before dispatch and never added after the fact. If it wasn&apos;t on the quote, it&apos;s not on the invoice.
+
+            <div className="bg-brand-dark rounded-card border border-brand-dark p-6">
+              <span className="font-body text-brand-amber text-xs font-semibold uppercase tracking-widest block mb-2">
+                Extended Service Hours
+              </span>
+              <p className="font-display font-semibold text-white text-3xl tracking-wide mb-2">
+                ${EXTENDED_HOURS_FEE} flat fee
+              </p>
+              <p className="font-body text-white/70 text-sm leading-relaxed">
+                Applies to appointments scheduled before 10:00 AM or after 6:00 PM. This is separate from any service-area fee.
+              </p>
             </div>
           </div>
         </section>
 
-        {/* FAQ */}
         <section className="py-16 px-5 bg-white border-b border-brand-border">
           <div className="max-w-4xl mx-auto">
             <span className="section-label">Common questions</span>
             <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-8">Coverage FAQ</h2>
             <div className="border border-brand-border rounded-card overflow-hidden">
-              {faq.map(({ q, a }, i) => (
-                <div key={q} className={`bg-white p-5 ${i < faq.length - 1 ? "border-b border-brand-border" : ""}`}>
+              {faq.map(({ q, a }, index) => (
+                <div key={q} className={`bg-white p-5 ${index < faq.length - 1 ? "border-b border-brand-border" : ""}`}>
                   <p className="font-body font-semibold text-brand-dark text-sm mb-2">{q}</p>
                   <p className="font-body text-brand-muted text-sm leading-relaxed">{a}</p>
                 </div>
