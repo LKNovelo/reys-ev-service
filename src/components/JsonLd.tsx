@@ -39,7 +39,7 @@ export function localBusinessSchema() {
     email: BUSINESS.email,
     priceRange: BUSINESS.priceRange,
     image: `${SITE_URL}/opengraph-image`,
-    logo: `${SITE_URL}/logo-rev.svg`,
+    logo: `${SITE_URL}/rays-ev-service-logo.webp`,
     founder: {
       "@type": "Person",
       name: BUSINESS.founder,
