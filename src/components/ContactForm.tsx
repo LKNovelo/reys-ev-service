@@ -12,7 +12,7 @@ const serviceOptions = [
 ];
 
 const modelOptions = ["Model 3", "Model Y", "Model S", "Model X", "Not sure"];
-const yearOptions = [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018];
+const yearOptions = [2026, 2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018];
 const contactPrefs = ["Phone call", "Text message", "Email"];
 
 type Status = "idle" | "sending" | "sent" | "error";
@@ -94,7 +94,7 @@ export default function ContactForm() {
         </p>
         <p className="font-body text-brand-dark text-sm leading-relaxed max-w-md mx-auto mb-5">
           Ray has your details and will follow up to confirm availability and
-          scope — typically within 1–2 hours during business hours. If your
+          scope, typically within one to two business hours. If your
           Tesla can&apos;t be driven, call directly rather than waiting.
         </p>
         <div className="flex flex-wrap gap-3 justify-center">
@@ -234,6 +234,9 @@ export default function ContactForm() {
           placeholder="e.g. BMS_a066, CP_a146, or paste the full alert message..."
           className="font-mono w-full border border-brand-border rounded-lg px-3.5 py-2.5 text-sm text-brand-dark placeholder-brand-muted focus:outline-none focus:border-brand-blue bg-white resize-none"
         />
+        <p className="font-body text-xs text-brand-muted mt-3 leading-relaxed">
+          Do not send your Tesla password. If remote diagnostics are appropriate, Ray will request owner-authorized access through Tesla using the VIN and Tesla-registered email address.
+        </p>
       </div>
 
       {/* Issue description */}
@@ -278,8 +281,7 @@ export default function ContactForm() {
           }}
         />
         <label htmlFor="warranty" className="font-body text-sm text-brand-dark leading-relaxed cursor-pointer">
-          <strong className="font-semibold">Warranty check</strong> — I understand that if my Tesla is under 4 years / 50k miles, the bumper-to-bumper warranty may cover this issue. Battery and drive unit are covered 8 years (to 100k, 120k, or 150k miles depending on model). I should check my warranty coverage before booking independent service.{" "}
-          <span className="text-brand-muted">Ray will remind you either way.</span>
+          <strong className="font-semibold">Warranty check</strong> — I understand that my vehicle may still have Tesla warranty coverage. Ray will recommend checking that coverage before independent paid work when the issue may qualify.
         </label>
       </div>
 
@@ -319,8 +321,8 @@ export default function ContactForm() {
           {status === "sending" ? "Sending…" : "Send request"}
         </button>
         <p className="font-body text-xs text-brand-muted leading-relaxed max-w-xs">
-          Goes straight to Ray. He typically responds within 1–2 hours during
-          business hours. Urgent? Call (951) 622-6222.
+          Goes straight to Ray. He typically responds within one to two business hours.
+          Urgent? Call (951) 622-6222.
         </p>
       </div>
     </form>

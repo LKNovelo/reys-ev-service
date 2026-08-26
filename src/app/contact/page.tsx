@@ -6,16 +6,16 @@ import { pageMeta } from "@/lib/siteConfig";
 import JsonLd, { faqSchema } from "@/components/JsonLd";
 
 export const metadata: Metadata = pageMeta({
-  title: "Contact & Booking",
-  description: "Book a mobile Tesla diagnostic or repair. Call, text, or email Ray directly. Serving Corona, OC, LA, and San Diego.",
+  title: "Book Mobile Tesla Service",
+  description: "Request mobile Tesla diagnostics or repair in Southern California. Send Ray your vehicle details, location, symptoms, and alert messages.",
   path: "/contact",
 });
 
 const faq = [
-  { q: "Do I need to tow my car to you?", a: "No — Ray comes to you. Home, office, or roadside. If the car can't be driven, describe the situation and we'll confirm the right approach. For completely dead cars, call directly rather than waiting on a form." },
-  { q: "What if you can't fix it on-site?", a: "You'll get a written diagnostic report regardless. If the repair needs parts not on the van, Ray will quote the return visit. No charge for a second dispatch if the scope was confirmed in advance." },
-  { q: "Will this void my Tesla warranty?", a: "No. Federal law (Magnuson-Moss) protects your right to use third-party service. Ray documents everything so you're covered if a warranty claim comes up later." },
-  { q: "How do I pay?", a: "Card, cash, or Venmo — all accepted on-site. Diagnostic fee is due at time of service. Repair labor and parts quoted before any work begins." },
+  { q: "Do I need a tow?", a: "Many diagnostics and selected repairs can be completed where the vehicle sits, provided the location is safe and the procedure is suitable for mobile work. Some conditions require transport or a controlled shop environment. Call with the symptoms before arranging a tow when the vehicle is safely parked." },
+  { q: "What if the repair cannot be completed on the first visit?", a: "You will still receive the agreed diagnostic findings. If parts or another procedure are needed, Ray will explain and quote the next visit before work continues. When the repair scope was confirmed before the first dispatch, a required second dispatch does not carry an additional dispatch charge." },
+  { q: "Will independent service void my Tesla warranty?", a: "Independent service does not automatically void a U.S. consumer warranty. Tesla can deny coverage for damage caused by an improper outside repair, modification, or part. Warranty repairs are performed through Tesla; Ray's report can document what was observed." },
+  { q: "How do I pay?", a: "Card, cash, and Venmo are accepted on site. The diagnostic fee is due when service is performed. Parts and repair labor are quoted before authorization." },
 ];
 
 export default function ContactPage() {
@@ -27,12 +27,12 @@ export default function ContactPage() {
         {/* Hero */}
         <div className="bg-brand-green-dk px-5 py-14">
           <div className="max-w-4xl mx-auto">
-            <span className="section-label text-white/40">Get in touch</span>
+            <span className="section-label text-white/40">Contact Ray</span>
             <h1 className="font-display font-semibold text-white text-4xl sm:text-5xl tracking-wide mb-4">
-              Book a visit, ask a question,<br className="hidden sm:block" /> or send your fault codes
+              Book a Visit or Ask About a Tesla Problem
             </h1>
             <p className="font-body text-white/65 text-lg leading-relaxed max-w-xl mb-6">
-              Ray answers directly — no call center, no service writer. If he&apos;s on a job he&apos;ll call back within the hour.
+              Call, text, email, or use the form below. Ray typically responds within one to two business hours. If the vehicle is stranded or unsafe to drive, call instead of waiting for the form.
             </p>
             <div className="flex flex-wrap items-center gap-6">
               <a href="tel:+19516226222" className="font-body font-semibold text-brand-amber text-base hover:underline">
@@ -51,13 +51,13 @@ export default function ContactPage() {
 
           {/* Form */}
           <div className="px-5 py-12 lg:px-10 lg:border-r lg:border-brand-border">
-            <span className="section-label">Request form</span>
+            <span className="section-label">Request Form</span>
             <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-2">
-              Tell us about your Tesla
+              Tell Ray About the Vehicle
             </h2>
             <p className="font-body text-brand-muted text-sm mb-8 max-w-lg leading-relaxed">
-              Fill this out and Ray will follow up to confirm availability and scope.
-              Not sure what&apos;s wrong? Describe it in plain language — that&apos;s fine.
+              Plain language is fine. Include the model, year, exact location, when the problem started,
+              and the full alert text when possible.
             </p>
 
             <ContactForm />
@@ -68,7 +68,7 @@ export default function ContactPage() {
 
             {/* Direct contact */}
             <div className="bg-white rounded-card border border-brand-border p-5">
-              <h3 className="font-display font-semibold text-brand-dark text-lg tracking-wide mb-4">Reach Ray directly</h3>
+              <h3 className="font-display font-semibold text-brand-dark text-lg tracking-wide mb-4">Reach Ray Directly</h3>
               {[
                 { label: "Call or text", value: "(951) 622-6222", sub: "Ray answers — not a call center", href: "tel:+19516226222", bg: "bg-brand-green-lt" },
                 { label: "Email", value: "RaysEVService@gmail.com", sub: "Good for non-urgent questions", href: "mailto:RaysEVService@gmail.com", bg: "bg-brand-blue-lt" },
@@ -87,9 +87,9 @@ export default function ContactPage() {
 
             {/* Response time */}
             <div className="bg-brand-green-lt border border-brand-green border-opacity-40 rounded-card p-4">
-              <h3 className="font-display font-semibold text-brand-green text-base tracking-wide mb-2">Response time</h3>
+              <h3 className="font-display font-semibold text-brand-green text-base tracking-wide mb-2">Response Time</h3>
               <p className="font-body text-sm leading-relaxed" style={{ color: "#1a3a0a" }}>
-                Ray responds within 1–2 hours on weekdays, same day on weekends. For roadside situations, call directly — don&apos;t wait on a form.
+                Ray typically responds within one to two business hours. For a stranded vehicle, call directly instead of waiting on a form.
               </p>
             </div>
 
@@ -97,7 +97,7 @@ export default function ContactPage() {
             <div className="bg-white rounded-card border border-brand-border p-5">
               <h3 className="font-display font-semibold text-brand-dark text-base tracking-wide mb-3">Availability</h3>
               {[
-                { day: "Mon – Fri", time: "10:00 AM – 6:00 PM" },
+                { day: "Mon – Fri", time: "9:00 AM – 5:00 PM" },
                 { day: "Saturday", time: "By appointment" },
                 { day: "Sunday",   time: "By appointment" },
               ].map(({ day, time }) => (
@@ -107,7 +107,7 @@ export default function ContactPage() {
                 </div>
               ))}
               <p className="font-body text-xs text-brand-muted mt-3 leading-relaxed">
-                Appointments outside 10:00 AM–6:00 PM include a flat $50 Extended Service Hours fee.
+                Appointments outside 9:00 AM–5:00 PM include a flat $50 Extended Service Hours fee.
               </p>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function ContactPage() {
         {/* FAQ */}
         <div className="py-14 px-5 bg-brand-surface">
           <div className="max-w-4xl mx-auto">
-            <h2 className="font-display font-semibold text-brand-dark text-2xl tracking-wide mb-6">Common questions before booking</h2>
+            <h2 className="font-display font-semibold text-brand-dark text-2xl tracking-wide mb-6">Questions Before Booking</h2>
             <div className="border border-brand-border rounded-card overflow-hidden">
               {faq.map(({ q, a }, i) => (
                 <div key={q} className={`bg-white p-5 ${i < faq.length - 1 ? "border-b border-brand-border" : ""}`}>

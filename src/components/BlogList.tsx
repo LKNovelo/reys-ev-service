@@ -85,7 +85,7 @@ export default function BlogList({ posts, keywords }: BlogListProps) {
                 href={`/blog/${featuredPost.slug}`}
                 className="inline-block text-brand-green font-display font-bold hover:text-brand-green-dk transition-colors"
               >
-                Read →
+                Read Article →
               </a>
             </div>
           </div>
@@ -190,13 +190,13 @@ export default function BlogList({ posts, keywords }: BlogListProps) {
               onClick={() => setDisplayCount(20)}
               className="px-6 py-3 bg-brand-green text-white font-display font-bold rounded-card hover:bg-brand-green-dk transition-colors"
             >
-              Show more
+              Show More
             </button>
             <button
               onClick={() => setDisplayCount(filteredPosts.length)}
               className="px-6 py-3 bg-brand-blue-lt text-brand-dark font-display font-bold rounded-card hover:bg-brand-blue transition-colors"
             >
-              Show all
+              Show All
             </button>
           </div>
           <p className="text-sm text-brand-muted font-body">

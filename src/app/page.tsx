@@ -9,8 +9,8 @@ import type { Metadata } from "next";
 import { pageMeta } from "@/lib/siteConfig";
 
 export const metadata: Metadata = pageMeta({
-  title: "Mobile Tesla Repair, LA to San Diego",
-  description: "Veteran-owned mobile Tesla diagnostics and repair, LA to San Diego. Tesla Toolbox 3 certified. No tow truck, no dealership waitlist — Ray comes to you.",
+  title: "Mobile Tesla Repair in Southern California",
+  description: "Mobile Tesla diagnostics and selected repairs at your home, office, or safe roadside location. Serving Southern California from Corona.",
   path: "/",
 });
 

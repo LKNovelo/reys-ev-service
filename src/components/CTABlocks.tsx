@@ -6,27 +6,25 @@ export function AboutStrip() {
     <section className="py-16 px-5 bg-white border-t border-brand-border">
       <div className="max-w-6xl mx-auto grid md:grid-cols-[1fr_auto] gap-8 items-center">
         <div>
-          <span className="section-label">The person behind the van</span>
+          <span className="section-label">The Person Behind the Van</span>
           <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-4">
-            Aerospace-trained. Marine-disciplined.<br className="hidden sm:block" />
-            EV-obsessed since 2018.
+            Electrical Troubleshooting Has Been the Thread Through Ray&apos;s Career
           </h2>
           <p className="font-body text-brand-muted text-base leading-relaxed max-w-2xl">
-            Ray Novelo was a satellite and radar technician in the U.S. Marine Corps,
-            then an Aerospace-trained electrical specialist — before a broken window regulator
-            on his own car pulled him into the EV world. He apprenticed at Tesla-specialized
-            garages starting in 2018, launched his own mobile service in 2023, and hasn&apos;t
-            looked back. Every job gets a written report. Every price is quoted before work begins.
+            Ray Novelo served as a satellite and radar technician in the U.S. Marine Corps,
+            then worked in electronic component manufacturing and specialized electrical repair
+            for a major aerospace manufacturer. He began working around Tesla repair in 2018 and
+            launched Ray&apos;s EV Service in 2023.
           </p>
           <div className="flex flex-wrap gap-3 mt-6">
             <span className="font-body text-xs font-semibold bg-brand-blue-lt text-brand-blue px-3 py-1.5 rounded-full border border-brand-blue border-opacity-30">
               U.S. Marine veteran
             </span>
             <span className="font-body text-xs font-semibold bg-brand-green-lt text-brand-green px-3 py-1.5 rounded-full border border-brand-green border-opacity-30">
-              Tesla Toolbox 3 certified
+              Qualified independent repairer
             </span>
             <span className="font-body text-xs font-semibold bg-brand-blue-lt text-brand-blue px-3 py-1.5 rounded-full border border-brand-blue border-opacity-30">
-              Aerospace electrical training
+              Aerospace electrical experience
             </span>
             <span className="font-body text-xs font-semibold bg-brand-green-lt text-brand-green px-3 py-1.5 rounded-full border border-brand-green border-opacity-30">
               EV since 2018
@@ -51,13 +49,13 @@ export function CTABar() {
   return (
     <section className="bg-brand-green-dk py-14 px-5">
       <div className="max-w-6xl mx-auto text-center">
-        <span className="section-label text-white/40">Ready to book</span>
+        <span className="section-label text-white/40">Contact Ray</span>
         <h2 className="font-display font-semibold text-white text-4xl tracking-wide mb-3">
-          Get your Tesla back on the road
+          Tell Ray What Your Tesla Is Doing
         </h2>
         <p className="font-body text-white/65 text-base mb-8 max-w-lg mx-auto leading-relaxed">
-          Call or text — Ray answers directly. No call center, no hold music.
-          Text your fault codes and we&apos;ll pre-screen before dispatch.
+          Include the model, year, location, and exact alert message if one appears.
+          Ray will confirm the next step, availability, and any travel fee before dispatch.
         </p>
         <div className="flex flex-wrap gap-3 justify-center">
           <a
@@ -70,11 +68,11 @@ export function CTABar() {
             href="mailto:RaysEVService@gmail.com"
             className="font-body font-semibold text-base px-7 py-3.5 rounded-lg border border-white/30 text-white hover:border-white/60 hover:bg-white/5 transition-all"
           >
-            Email for a quote
+            Request an Appointment
           </a>
         </div>
         <p className="font-body text-white/35 text-xs mt-6">
-          Or text your fault codes to (951) 622-6222 — we&apos;ll pre-diagnose before dispatch
+          Call or text (951) 622-6222
         </p>
       </div>
     </section>

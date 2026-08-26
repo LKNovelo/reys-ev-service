@@ -1,362 +1,218 @@
-import Nav    from "@/components/Nav";
+import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { CTABar } from "@/components/CTABlocks";
-import Link from "next/link";
 import type { Metadata } from "next";
 import { pageMeta } from "@/lib/siteConfig";
 
 export const metadata: Metadata = pageMeta({
-  title: "New EV Owners Guide",
-  description: "A plain-language guide for new Tesla owners. Charging, maintenance, what changes from gas, and what to watch for in your first 90 days.",
+  title: "New Tesla Owner Guide: Charging, Maintenance, and Safety",
+  description: "A practical guide to Tesla charging, routine maintenance, phone keys, software updates, warning messages, and battery health.",
   path: "/ev-guide",
 });
+
+const maintenanceItems = [
+  "Rotate tires every 6,250 miles or when tread-depth difference reaches 2/32 inch, whichever comes first.",
+  "Check brake-fluid health every four years and replace it if needed.",
+  "Replace the cabin air filter every two years.",
+  "Replace Model Y HEPA and carbon filters every three years when equipped.",
+  "Replace wiper blades about yearly or when their condition requires it.",
+  "Clean and lubricate brake calipers every year or 12,500 miles in regions that salt winter roads.",
+];
+
+const ownerBasics = [
+  {
+    title: "The Low-Voltage Battery",
+    body: "A separate 12V or lithium low-voltage system powers the computers, locks, controls, and electronics needed to wake the vehicle. Act promptly on a replacement or electrical-system alert. If the car is unresponsive, follow the model-specific procedure in the owner's manual or call roadside assistance.",
+  },
+  {
+    title: "Phone Key and Key Card",
+    body: "The phone key is convenient, but keep a paired key card with you. It provides a separate way to authenticate the vehicle if the phone is lost, discharged, or not recognized.",
+  },
+  {
+    title: "Software Updates",
+    body: "Install updates when the vehicle says they are ready and read Controls > Software > Release Notes. The notes shown in the car are specific to its configuration and can include operating or safety information.",
+  },
+  {
+    title: "Regenerative Braking",
+    body: "Regenerative braking slows the car when you ease off the accelerator and returns some energy to the battery. It can be limited when the battery is cold or nearly full. The brake pedal remains available, and the driver remains responsible for stopping.",
+  },
+];
+
+const questions = [
+  {
+    q: "Can Any Repair Shop Service a Tesla?",
+    a: "Tire, glass, cosmetic, and some mechanical work can be handled by many qualified shops. Electrical, charging, high-voltage, software, and Tesla-specific diagnostics require the right training, information, tools, and safety procedures.",
+  },
+  {
+    q: "Does Independent Maintenance Void the Warranty?",
+    a: "Not automatically in the United States. Tesla can still exclude damage caused by an outside repair, part, or modification. Approved warranty repairs are handled through Tesla.",
+  },
+  {
+    q: "Should I Charge to 100 Percent?",
+    a: "Follow the recommendation in the car or Tesla app. Some LFP-equipped vehicles receive different instructions from vehicles with an 80 percent daily recommendation.",
+  },
+  {
+    q: "How Do I Check Battery Degradation?",
+    a: "Start with the available state-of-health estimate or Battery Health screen and compare similar energy use over time. For the most accurate result, run Tesla's Battery Health Test when supported. The process can take up to 24 hours. Dashboard miles alone are not a capacity test.",
+  },
+];
 
 export default function EvGuidePage() {
   return (
     <>
       <Nav />
       <main>
-
-        {/* Hero */}
-        <div className="bg-brand-green-lt border-b border-brand-border px-5 py-14">
+        <section className="bg-brand-green-lt border-b border-brand-border px-5 py-14">
           <div className="max-w-4xl mx-auto">
-            <div className="flex items-center gap-3 mb-5">
-              <span className="font-body text-xs font-semibold bg-brand-green text-white px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                ⚡ New to EV
-              </span>
-              <span className="font-body text-xs text-brand-muted">Free guide — no signup required</span>
-            </div>
+            <span className="section-label">New to Tesla Ownership</span>
             <h1 className="font-display font-semibold text-brand-dark text-4xl sm:text-5xl tracking-wide mb-4">
-              Switching from gas to electric?<br className="hidden lg:block" /> Here&apos;s what actually changes.
+              The First Things a New Tesla Owner Should Know
             </h1>
-            <p className="font-body text-brand-muted text-lg leading-relaxed max-w-2xl mb-6">
-              A plain-language guide for new Tesla owners. Written from the field by an Aerospace-trained EV specialist
-              who has seen what trips people up in the first 90 days.
+            <p className="font-body text-brand-muted text-lg leading-relaxed max-w-3xl">
+              An EV removes oil changes, spark plugs, exhaust work, and many engine-related repairs from the schedule.
+              It adds a few habits of its own: charging where the car normally parks, reading release notes, watching
+              tire wear, and understanding the low-voltage system.
             </p>
-            <div className="flex flex-wrap gap-2 mb-6">
-              {["Tesla S/3/X/Y", "No jargon", "Field-tested advice"].map(t => (
-                <span key={t} className="font-body text-xs font-semibold bg-white border border-brand-border text-brand-muted px-3 py-1.5 rounded-full">{t}</span>
-              ))}
-            </div>
-            {/* Scroll pills / jump links */}
-            <div className="flex flex-wrap gap-2">
-              {[
-                { href: "#what-changes", label: "What changes" },
-                { href: "#charging",     label: "Home charging" },
-                { href: "#maintenance",  label: "Maintenance"   },
-                { href: "#tesla-quirks", label: "Tesla quirks"  },
-                { href: "#when-to-call", label: "When to call"  },
-                { href: "#faq",          label: "FAQ"           },
-              ].map(({ href, label }) => (
-                <a key={href} href={href} className="font-body text-xs bg-white border border-brand-border text-brand-muted px-3.5 py-2 rounded-full hover:border-brand-green hover:text-brand-green transition-colors">
-                  {label} →
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Section 1 — What changes */}
-        <section id="what-changes" className="py-16 px-5 bg-white border-b border-brand-border scroll-mt-20">
-          <div className="max-w-4xl mx-auto">
-            <span className="section-label">What changes</span>
-            <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-8">
-              Gas vs. electric — the real differences
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-5">
-              {/* Habits to drop */}
-              <div className="rounded-card border border-brand-border overflow-hidden">
-                <div className="bg-brand-surface px-5 py-3 border-b border-brand-border flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-gray-100 flex items-center justify-center text-sm">✕</div>
-                  <div>
-                    <p className="font-display font-semibold text-brand-dark text-base tracking-wide">Gas car habits to drop</p>
-                    <p className="font-body text-xs text-brand-muted">Things that no longer apply</p>
-                  </div>
-                </div>
-                {[
-                  ["Weekly gas station stops", "You'll charge at home overnight — like a phone"],
-                  ["Oil changes every 3,000 miles", "No engine oil in an EV. Not a thing."],
-                  ["Warming up the engine", "EVs are ready instantly, hot or cold"],
-                  ["Spark plugs, timing belts", "None of these exist on a Tesla"],
-                  ["Frequent brake pad replacement", "Regen braking does most of the work"],
-                ].map(([title, sub]) => (
-                  <div key={title} className="flex items-start gap-3 px-5 py-3 border-b border-brand-border last:border-0">
-                    <span className="text-brand-muted mt-0.5 shrink-0">—</span>
-                    <div>
-                      <p className="font-body font-semibold text-brand-dark text-sm">{title}</p>
-                      <p className="font-body text-brand-muted text-xs">{sub}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Habits to build */}
-              <div className="rounded-card border border-brand-green overflow-hidden">
-                <div className="bg-brand-green-lt px-5 py-3 border-b border-brand-green border-opacity-40 flex items-center gap-3">
-                  <div className="w-7 h-7 rounded-lg bg-brand-green-lt border border-brand-green flex items-center justify-center text-sm">✓</div>
-                  <div>
-                    <p className="font-display font-semibold text-brand-dark text-base tracking-wide">New habits to build</p>
-                    <p className="font-body text-xs text-brand-muted">What EV ownership looks like day-to-day</p>
-                  </div>
-                </div>
-                {[
-                  ["Plug in at home every night", "Wake up with a full charge, every day"],
-                  ["Plan Supercharger stops on long trips", "Tesla navigation does this automatically"],
-                  ["Watch for over-the-air updates", "New features arrive while your car sleeps"],
-                  ["Check tire pressure more often", "EV weight stresses tires differently"],
-                  ["Learn one-pedal driving", "Takes a week to feel natural, then you'll love it"],
-                ].map(([title, sub]) => (
-                  <div key={title} className="flex items-start gap-3 px-5 py-3 border-b border-brand-border last:border-0">
-                    <span className="text-brand-green mt-0.5 shrink-0">✓</span>
-                    <div>
-                      <p className="font-body font-semibold text-brand-dark text-sm">{title}</p>
-                      <p className="font-body text-brand-muted text-xs">{sub}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <p className="font-body text-brand-muted text-sm leading-relaxed max-w-3xl mt-4">
+              Features and intervals vary by model, build date, configuration, and software. The owner&apos;s manual in
+              the vehicle is the best source for that specific car.
+            </p>
           </div>
         </section>
 
-        {/* Section 2 — Charging */}
-        <section id="charging" className="py-16 px-5 bg-brand-surface border-b border-brand-border scroll-mt-20">
+        <section className="py-16 px-5 bg-white border-b border-brand-border">
           <div className="max-w-4xl mx-auto">
-            <span className="section-label">Range & charging</span>
-            <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-4">
-              Range anxiety is real — here&apos;s how to get past it
+            <span className="section-label">Charging</span>
+            <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-6">
+              Follow the Limit Shown by the Vehicle
             </h2>
-            <p className="font-body text-brand-muted text-base leading-relaxed max-w-2xl mb-8">
-              Most new EV owners worry about range far more than they need to. Most people drive under 50 miles a day.
-              Even entry-level Teslas carry 270+ miles of range.
-            </p>
-            <div className="grid sm:grid-cols-2 gap-6 items-start">
-              {/* Charging table */}
-              <div className="bg-white rounded-card border border-brand-border overflow-hidden">
-                <div className="px-5 py-3 border-b border-brand-border">
-                  <p className="font-display font-semibold text-brand-dark text-base tracking-wide">Charging options — speed comparison</p>
-                </div>
-                {[
-                  { level: "Level 1 — standard outlet", sub: "Any 120V household plug", stat: "3–5 mi/hr", note: "Slow — emergency only", bg: "bg-gray-50" },
-                  { level: "Level 2 — home charger", sub: "240V NEMA 14-50 or Wall Connector", stat: "20–30 mi/hr", note: "Recommended for home", bg: "bg-brand-blue-lt" },
-                  { level: "Supercharger — Tesla DC fast", sub: "Public Tesla network", stat: "Up to 200 mi", note: "In ~15–20 min (V3)", bg: "bg-brand-green-lt" },
-                ].map(({ level, sub, stat, note, bg }) => (
-                  <div key={level} className={`flex items-center gap-3 px-5 py-4 border-b border-brand-border last:border-0 ${bg}`}>
-                    <div className="flex-1">
-                      <p className="font-body font-semibold text-brand-dark text-sm">{level}</p>
-                      <p className="font-body text-brand-muted text-xs">{sub}</p>
-                    </div>
-                    <div className="text-right shrink-0">
-                      <p className="font-display font-semibold text-brand-dark text-sm">{stat}</p>
-                      <p className="font-body text-brand-muted text-xs">{note}</p>
-                    </div>
-                  </div>
-                ))}
-                <p className="font-body text-xs text-brand-muted px-5 py-3 leading-relaxed">
-                  Most owners do 95% of charging at home on Level 2. Superchargers are for road trips, not daily use.
+            <div className="grid md:grid-cols-2 gap-5">
+              <div className="bg-brand-surface rounded-card border border-brand-border p-6">
+                <h3 className="font-display font-semibold text-brand-dark text-xl tracking-wide mb-3">Daily Charge Limit</h3>
+                <p className="font-body text-brand-muted text-sm leading-relaxed mb-3">
+                  If the charging screen recommends an 80 percent daily limit, keep the daily setting near 80 percent
+                  and use a higher limit when a trip requires it. Some LFP-equipped vehicles give different instructions.
+                  Follow the exact recommendation on the touchscreen or in the Tesla app.
+                </p>
+                <p className="font-body text-brand-muted text-sm leading-relaxed">
+                  On supported Model 3 vehicles, open Controls &gt; Software &gt; Additional Vehicle Information. Tesla
+                  displays the high-voltage battery type there when the vehicle has an LFP battery. Use the charge-screen
+                  message as a cross-check, not the only proof of chemistry.
                 </p>
               </div>
-
-              {/* Advice col */}
-              <div className="flex flex-col gap-4">
-                <div>
-                  <h3 className="font-display font-semibold text-brand-dark text-xl tracking-wide mb-3">The honest rule: charge at home, plan for trips</h3>
-                  <p className="font-body text-brand-muted text-sm leading-relaxed mb-3">
-                    Set your daily charge limit to 80%. Tesla recommends this to preserve long-term battery health.
-                    Only charge to 100% the night before a long trip.
-                  </p>
-                  <p className="font-body text-brand-muted text-sm leading-relaxed">
-                    For home charging, a NEMA 14-50 outlet or a dedicated Tesla Wall Connector is the right setup.
-                    A licensed electrician installs it — usually $300–600 depending on panel distance.
-                  </p>
-                </div>
-                <div className="bg-brand-green-lt border border-brand-green border-opacity-40 rounded-card p-4">
-                  <p className="font-body text-[10px] font-semibold text-brand-green uppercase tracking-wider mb-2">Ray&apos;s field note</p>
-                  <p className="font-body text-sm leading-relaxed" style={{ color: "#1a3a0a" }}>
-                    The most common first-year mistake: owners charge to 100% every night thinking it helps. It doesn&apos;t —
-                    it stresses the cells. Keep the daily limit at 80% and your battery will thank you in year five.
-                    Exception: LFP battery packs (some Model 3s) should charge to 100% regularly. Check your battery chemistry.
-                  </p>
-                </div>
+              <div className="bg-brand-surface rounded-card border border-brand-border p-6">
+                <h3 className="font-display font-semibold text-brand-dark text-xl tracking-wide mb-3">Charging Levels</h3>
+                <p className="font-body text-brand-muted text-sm leading-relaxed mb-3">
+                  Level 1 uses a standard household outlet and adds energy slowly. Level 2 uses a compatible 240-volt
+                  circuit or Wall Connector and is the practical home option for many drivers. A qualified electrician
+                  should size and install the circuit.
+                </p>
+                <p className="font-body text-brand-muted text-sm leading-relaxed">
+                  Use Tesla navigation when traveling to a Supercharger so the car can precondition the battery and
+                  estimate the charge needed for the next leg.
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Section 3 — Maintenance */}
-        <section id="maintenance" className="py-16 px-5 bg-white border-b border-brand-border scroll-mt-20">
+        <section className="py-16 px-5 bg-brand-surface border-b border-brand-border">
           <div className="max-w-4xl mx-auto">
-            <span className="section-label">Maintenance</span>
+            <span className="section-label">Routine Maintenance</span>
             <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-4">
-              What still needs service — and what never will
+              What Still Needs Service
             </h2>
-            <p className="font-body text-brand-muted text-base mb-8 max-w-2xl leading-relaxed">
-              EVs have far fewer moving parts. But some maintenance still applies,
-              and a few Tesla-specific items catch new owners off guard.
+            <p className="font-body text-brand-muted text-base leading-relaxed mb-8 max-w-3xl">
+              Current Model 3 and Model Y owner information lists the following common items as applicable. Intervals
+              differ for some Model S and Model X vehicles, so check the manual and Controls &gt; Service &gt; Maintenance.
             </p>
-            <div className="grid sm:grid-cols-3 gap-5">
-              {[
-                {
-                  label: "Never needed", labelStyle: "bg-brand-green-lt text-brand-green",
-                  items: ["Oil changes","Spark plugs","Timing belt","Transmission fluid","Exhaust system","Fuel injectors","Catalytic converter"],
-                },
-                {
-                  label: "Still needed — less often", labelStyle: "bg-amber-50 text-amber-800",
-                  items: ["Tire rotation — every 6,250 mi","Brake fluid check — every 5 yrs","Cabin air filter — every 2 yrs","HEPA filter (if equipped) — 3 yrs","AC desiccant bag — every 5 yrs","Wiper blades — as needed"],
-                },
-                {
-                  label: "Watch carefully — Tesla-specific", labelStyle: "bg-red-50 text-red-700",
-                  items: ["12V battery — fails silently at 3–5 yrs","Tire wear — EVs are heavy, wears faster","Brake calipers — can seize from underuse","Charging port latch — known failure point","Coolant (Model S/X) — check every 4 yrs"],
-                },
-              ].map(({ label, labelStyle, items }) => (
-                <div key={label} className="bg-brand-surface rounded-card border border-brand-border p-5">
-                  <span className={`font-body text-xs font-semibold px-2.5 py-1 rounded-full inline-block mb-4 ${labelStyle}`}>{label}</span>
-                  <ul className="flex flex-col gap-2">
-                    {items.map(item => (
-                      <li key={item} className="font-body text-sm text-brand-muted flex items-start gap-2">
-                        <span className="mt-1 shrink-0 w-1.5 h-1.5 rounded-full bg-brand-muted inline-block" />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            <ul className="grid md:grid-cols-2 gap-3">
+              {maintenanceItems.map((item) => (
+                <li key={item} className="bg-white rounded-card border border-brand-border p-4 flex gap-3 font-body text-brand-muted text-sm leading-relaxed">
+                  <span className="text-brand-green font-semibold">✓</span>
+                  {item}
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
 
-        {/* Section 4 — Tesla Quirks */}
-        <section id="tesla-quirks" className="py-16 px-5 bg-brand-surface border-b border-brand-border scroll-mt-20">
+        <section className="py-16 px-5 bg-white border-b border-brand-border">
           <div className="max-w-4xl mx-auto">
-            <span className="section-label">Tesla specifics</span>
+            <span className="section-label">Owner Basics</span>
             <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-8">
-              Things unique to Tesla ownership
+              Systems Worth Understanding
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
-              {[
-                { n: "01", title: "Over-the-air software updates", body: "Tesla pushes updates while your car sleeps. These can change behavior, add features, or fix bugs. Always read the release notes — occasionally an update affects charging speed or regen braking feel." },
-                { n: "02", title: "The 12V battery is not your main battery", body: "Teslas have a small 12V battery alongside the main high-voltage pack. When the 12V dies, the car goes completely dead — won't unlock, won't start. It fails silently and often. Most owners don't know it exists." },
-                { n: "03", title: "Autopilot is not self-driving", body: "Autopilot and FSD require a fully attentive driver at all times. The car will prompt you to touch the wheel. Treat it as adaptive cruise control — useful but not autonomous." },
-                { n: "04", title: "No key — and that's fine until it's not", body: "Your phone is your key. Keep a key card in your wallet as backup. If your phone battery dies and you don't have the card, you're locked out. It's rare but it happens." },
-                { n: "05", title: "Sentry mode and vampire drain", body: "Sentry mode camera surveillance draws power. Can drain 10–15 miles of range per day. Disable it when parked at home or in a trusted garage." },
-                { n: "06", title: "Service centers vs. mobile service", body: "Tesla's service centers are often booked weeks out. Many repairs and all diagnostics can be done mobile — without towing, without waiting. That's where we come in." },
-              ].map(({ n, title, body }) => (
-                <div key={n} className="bg-white rounded-card border border-brand-border p-5 flex gap-4">
-                  <span className="font-display font-semibold text-brand-green text-2xl shrink-0 leading-none mt-0.5">{n}</span>
-                  <div>
-                    <h3 className="font-display font-semibold text-brand-dark text-base tracking-wide mb-2">{title}</h3>
-                    <p className="font-body text-brand-muted text-sm leading-relaxed">{body}</p>
-                  </div>
+              {ownerBasics.map(({ title, body }) => (
+                <div key={title} className="bg-brand-surface rounded-card border border-brand-border p-5">
+                  <h3 className="font-display font-semibold text-brand-dark text-lg tracking-wide mb-2">{title}</h3>
+                  <p className="font-body text-brand-muted text-sm leading-relaxed">{body}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Section 5 — When to Call */}
-        <section id="when-to-call" className="py-16 px-5 bg-white border-b border-brand-border scroll-mt-20">
+        <section className="py-16 px-5 bg-brand-surface border-b border-brand-border">
           <div className="max-w-4xl mx-auto">
-            <span className="section-label">When to call a pro</span>
+            <span className="section-label">Battery Health</span>
             <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-4">
-              Don&apos;t troubleshoot these alone
+              Range Is Not a Capacity Test
             </h2>
-            <p className="font-body text-brand-muted text-base mb-8 max-w-2xl">Some things are fine to handle yourself. Others warrant a call first.</p>
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div>
-                <h3 className="font-display font-semibold text-brand-muted text-lg tracking-wide mb-4">Handle yourself</h3>
-                <div className="flex flex-col gap-3">
-                  {[
-                    ["Cabin air filter swap", "5-minute job, watch a quick video"],
-                    ["Wiper blade replacement", "Standard — any auto shop carries them"],
-                    ["Tire inflation check", "More often than a gas car — EV weight matters"],
-                    ["Soft reboot", "Hold brake + both scroll wheels. Fixes most screen freezes."],
-                    ["Adjusting charge limit", "Do it in the app — no repair needed"],
-                  ].map(([title, sub]) => (
-                    <div key={title} className="flex items-start gap-3 bg-brand-surface rounded-lg border border-brand-border p-3">
-                      <span className="text-brand-green mt-0.5 shrink-0">✓</span>
-                      <div>
-                        <p className="font-body font-semibold text-brand-dark text-sm">{title}</p>
-                        <p className="font-body text-brand-muted text-xs">{sub}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h3 className="font-display font-semibold text-red-700 text-lg tracking-wide mb-4">Call a pro first</h3>
-                <div className="flex flex-col gap-3">
-                  {[
-                    ["Car won't turn on or unlock", "Likely 12V — don't jump it like a gas car"],
-                    ["Won't charge or stops early", "Could be charger, port, or onboard charger fault"],
-                    ["Sudden range loss (20%+ overnight)", "Could be cell degradation or BMS issue"],
-                    ["Any red warning on the screen", "Red = stop driving. Pull over, call us."],
-                    ["Clicking or grinding when braking", "Caliper may be seized — common in SoCal heat"],
-                  ].map(([title, sub]) => (
-                    <div key={title} className="flex items-start gap-3 bg-red-50 rounded-lg border border-red-200 p-3">
-                      <span className="text-red-500 mt-0.5 shrink-0">⚠</span>
-                      <div>
-                        <p className="font-body font-semibold text-brand-dark text-sm">{title}</p>
-                        <p className="font-body text-brand-muted text-xs">{sub}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <p className="font-body text-brand-muted text-base leading-relaxed mb-4 max-w-3xl">
+              Displayed rated range is an estimate. Weather, speed, elevation, tires, climate use, and route affect
+              real-world consumption. Compare similar trips and review the vehicle&apos;s Energy information before
+              deciding that a difference is battery degradation.
+            </p>
+            <p className="font-body text-brand-muted text-base leading-relaxed max-w-3xl">
+              On supported vehicles, Ray can retrieve and interpret the available state-of-health estimate through
+              owner-authorized diagnostic access. A fresh Battery Health Test is the more accurate measurement because
+              it recalibrates the estimate through a controlled process. It requires compatible AC charging and can
+              take up to 24 hours.
+            </p>
           </div>
         </section>
 
-        {/* FAQ */}
-        <section id="faq" className="py-16 px-5 bg-brand-surface border-b border-brand-border scroll-mt-20">
+        <section className="py-16 px-5 bg-white border-b border-brand-border">
           <div className="max-w-4xl mx-auto">
-            <span className="section-label">Common questions</span>
-            <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-8">
-              FAQ from new Tesla owners
+            <span className="section-label">Warning Messages</span>
+            <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-4">
+              Read the Alert and Follow Its Instruction
             </h2>
+            <p className="font-body text-brand-muted text-base leading-relaxed mb-4 max-w-3xl">
+              Tesla alerts include condition-specific instructions. Touch Learn More when available and follow the
+              direction on the screen. Do not continue driving when the vehicle tells you to stop safely or says it
+              may shut down.
+            </p>
+            <p className="font-body text-brand-muted text-base leading-relaxed max-w-3xl">
+              If the touchscreen becomes unresponsive, park and hold both steering-wheel scroll buttons until the
+              screen turns black. Wait for the restart. Tesla says the brake pedal is not required; this procedure
+              restarts only the touchscreen.
+            </p>
+          </div>
+        </section>
+
+        <section className="py-16 px-5 bg-brand-surface border-b border-brand-border">
+          <div className="max-w-4xl mx-auto">
+            <span className="section-label">Common Questions</span>
+            <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-8">New Owner FAQ</h2>
             <div className="border border-brand-border rounded-card overflow-hidden">
-              {[
-                { q: "Will a software update break something on my car?", a: "Rarely, but it happens. Tesla updates occasionally change charging behavior or adjust regen braking. If something feels different after an update, that's likely why. We can run a Toolbox scan to confirm everything is nominal post-update." },
-                { q: "My range says 280 miles but I only get 230. Is something wrong?", a: "Probably not. Tesla's rated range is EPA-tested under ideal conditions. Real-world range varies with temperature, speed, AC/heat use, and elevation. A 15–20% gap is normal. A gap larger than 25% is worth investigating." },
-                { q: "Can I take my Tesla to any mechanic?", a: "For basic things like tires and windshields, yes. For anything electrical or battery-related, no — most shops lack the tools to read Tesla's proprietary systems. We use the same Toolbox 3 software Tesla service centers use." },
-                { q: "Does mobile service void my warranty?", a: "No. The Magnuson-Moss Warranty Act prohibits manufacturers from voiding a warranty simply because you used a third-party service provider. We document all work and provide written reports for your records." },
-                { q: "How do I know if my battery is degrading?", a: "The clearest signal is maximum range at 100% charge compared to when the car was new. A full battery diagnostic with Toolbox 3 shows individual cell health across the pack. We recommend a battery health check every 2 years or if you notice range trending down." },
-              ].map(({ q, a }, i, arr) => (
-                <div key={q} className={`bg-white p-5 ${i < arr.length - 1 ? "border-b border-brand-border" : ""}`}>
-                  <p className="font-body font-semibold text-brand-dark text-sm mb-2">{q}</p>
+              {questions.map(({ q, a }, index) => (
+                <div key={q} className={`bg-white p-5 ${index < questions.length - 1 ? "border-b border-brand-border" : ""}`}>
+                  <h3 className="font-display font-semibold text-brand-dark text-base tracking-wide mb-2">{q}</h3>
                   <p className="font-body text-brand-muted text-sm leading-relaxed">{a}</p>
                 </div>
               ))}
             </div>
-          </div>
-        </section>
-
-        {/* Related from blog */}
-        <section className="py-16 px-5 bg-white border-b border-brand-border">
-          <div className="max-w-4xl mx-auto">
-            <span className="section-label">From the field</span>
-            <h2 className="font-display font-semibold text-brand-dark text-2xl tracking-wide mb-6">Recent from the blog</h2>
-            <div className="grid sm:grid-cols-3 gap-5">
-              {[
-                { slug: "12v-battery-blind-spot", cat: "Battery", title: "The 12V battery — the most dangerous blind spot in Tesla ownership", date: "Mar 2025" },
-                { slug: "nmc-vs-lfp-battery",     cat: "EV 101",  title: "NMC vs LFP battery chemistry — which one is in your Tesla",       date: "Jan 2025" },
-                { slug: "regen-braking-explained", cat: "EV 101",  title: "Regen braking explained — why your brake pads last 120k miles",   date: "Nov 2024" },
-              ].map(({ slug, cat, title, date }) => (
-                <Link key={slug} href={`/blog/${slug}`} className="group rounded-card border border-brand-border overflow-hidden hover:border-brand-green transition-colors">
-                  <div className="bg-brand-surface h-20 flex items-center justify-center border-b border-brand-border">
-                    <span className="text-2xl">📄</span>
-                  </div>
-                  <div className="p-4">
-                    <span className="font-body text-[10px] font-semibold text-brand-blue uppercase tracking-wider block mb-2">{cat}</span>
-                    <h3 className="font-display font-semibold text-brand-dark text-sm tracking-wide leading-snug mb-2 group-hover:text-brand-green transition-colors">{title}</h3>
-                    <span className="font-body text-xs text-brand-muted">{date}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-            <div className="mt-6 text-center">
-              <Link href="/blog" className="font-body text-sm text-brand-muted border border-brand-border px-6 py-2.5 rounded-lg hover:border-brand-green hover:text-brand-green transition-colors inline-block">
-                View all posts →
-              </Link>
+            <div className="font-body text-brand-muted text-sm leading-relaxed mt-8">
+              <p className="font-semibold text-brand-dark mb-2">Primary Sources</p>
+              <ul className="flex flex-col gap-2">
+                <li><a className="text-brand-blue underline" href="https://www.tesla.com/ownersmanual/model3/en_us/" target="_blank" rel="noreferrer">Tesla Model 3 Owner&apos;s Manual</a></li>
+                <li><a className="text-brand-blue underline" href="https://www.tesla.com/ownersmanual/modely/en_us/" target="_blank" rel="noreferrer">Tesla Model Y Owner&apos;s Manual</a></li>
+                <li><a className="text-brand-blue underline" href="https://service.tesla.com/docs/Public/ServiceMode/service_mode_user_guide.pdf" target="_blank" rel="noreferrer">Tesla Service Mode System Health Test</a></li>
+                <li><a className="text-brand-blue underline" href="https://www.tesla.com/support/vehicle-warranty" target="_blank" rel="noreferrer">Tesla Vehicle Warranty</a></li>
+              </ul>
             </div>
           </div>
         </section>

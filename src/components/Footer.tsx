@@ -74,7 +74,7 @@ function renderFooter(serviceLinks: { href: string; label: string }[]) {
               </div>
             </Link>
             <p className="font-body text-white/75 text-sm leading-relaxed mb-4">
-              Veteran-owned mobile Tesla diagnostics and repair. Serving LA to San Diego from Corona, CA.
+              Mobile Tesla diagnostics and selected repairs across Southern California. Based in Corona; travel fees are calculated from the Eastvale service-area center.
             </p>
             <div className="flex flex-col gap-1.5">
               <a href="tel:+19516226222" className="font-body text-white/70 hover:text-white text-sm transition-colors">
@@ -125,7 +125,7 @@ function renderFooter(serviceLinks: { href: string; label: string }[]) {
             </h3>
             <div className="flex flex-col gap-2 mb-6">
               {[
-                { day: "Monday – Friday", time: "10:00 AM – 6:00 PM" },
+                { day: "Monday – Friday", time: "9:00 AM – 5:00 PM" },
                 { day: "Saturday",        time: "By appointment"    },
                 { day: "Sunday",          time: "By appointment"    },
               ].map(({ day, time }) => (
@@ -136,7 +136,7 @@ function renderFooter(serviceLinks: { href: string; label: string }[]) {
               ))}
             </div>
             <p className="font-body text-white/70 text-xs leading-relaxed mb-4">
-              Appointments outside 10:00 AM–6:00 PM include a flat $50 Extended Service Hours fee.
+              Appointments outside 9:00 AM–5:00 PM include a flat $50 Extended Service Hours fee.
             </p>
             <a
               href="tel:+19516226222"

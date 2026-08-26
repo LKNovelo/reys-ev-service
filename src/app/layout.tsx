@@ -18,11 +18,10 @@ const sourceSans = Source_Sans_3({
   display: "swap",
 });
 
-const DEFAULT_TITLE = "Ray's EV Service — Mobile Tesla Repair, LA to San Diego";
+const DEFAULT_TITLE = "Mobile Tesla Repair in Southern California | Ray's EV Service";
 const DEFAULT_DESCRIPTION =
-  "Veteran-owned mobile EV diagnostics and repair for Tesla S/3/X/Y. " +
-  "Aerospace-trained electrical specialist, Tesla Toolbox 3 certified. " +
-  "Serving Corona, Riverside, Anaheim, Santa Ana, OC, LA, and San Diego.";
+  "Mobile Tesla diagnostics and selected repairs at your home, office, or safe roadside location. " +
+  "Qualified independent repairer serving Southern California from Corona.";
 
 export const metadata: Metadata = {
   // Required for relative OG/canonical URLs to resolve correctly.

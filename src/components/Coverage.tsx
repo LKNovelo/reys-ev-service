@@ -11,13 +11,13 @@ export default function Coverage() {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 mb-9">
           <div>
-            <span className="section-label">Where we go</span>
+            <span className="section-label">Where We Go</span>
             <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide">
-              Mobile coverage up to 100 miles
+              Mobile Coverage up to 100 Miles
             </h2>
             <p className="font-body text-brand-muted text-base mt-2 max-w-2xl leading-relaxed">
-              Coverage is measured from Eastvale in 20-mile rings. The first 20 miles are free;
-              extended-area fees increase by $25 per ring.
+              Ray&apos;s EV Service is based in Corona. Travel fees are measured from the Eastvale
+              service-area center in 20-mile bands and confirmed before dispatch.
             </p>
           </div>
           <Link href="/coverage" className="font-body font-semibold text-sm text-brand-blue hover:underline shrink-0">

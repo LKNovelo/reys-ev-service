@@ -9,9 +9,8 @@ export const BUSINESS = {
   name: "Ray's EV Service",
   legalName: "Ray's EV Service",
   description:
-    "Veteran-owned mobile EV diagnostics and repair for Tesla Model S, 3, X, and Y. " +
-    "Tesla Toolbox 3 certified, aerospace-trained electrical specialist. " +
-    "Serving Corona, the Inland Empire, Orange County, Los Angeles, and San Diego.",
+    "Veteran-owned mobile diagnostics and selected repairs for Tesla Model S, Model 3, Model X, and Model Y. " +
+    "Qualified independent repairer serving Southern California from Corona.",
   phone: "+1-951-622-6222",
   email: "RaysEVService@gmail.com",
   founder: "Ray Novelo",
@@ -40,8 +39,8 @@ export const SERVICE_AREA_CITIES = [
 export const OPENING_HOURS = [
   {
     days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-    opens: "10:00",
-    closes: "18:00",
+    opens: "09:00",
+    closes: "17:00",
   },
 ] as const;
 

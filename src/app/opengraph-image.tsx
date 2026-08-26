@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Ray's EV Service — Mobile Tesla Repair, LA to San Diego";
+export const alt = "Ray's EV Service — Mobile Tesla Repair in Southern California";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -34,7 +34,7 @@ export default async function OpengraphImage() {
               marginBottom: 28,
             }}
           >
-            Veteran-Owned · Tesla Toolbox 3 Certified
+            Veteran-Owned · Qualified Independent Repairer
           </div>
           <div
             style={{
@@ -47,10 +47,8 @@ export default async function OpengraphImage() {
               flexDirection: "column",
             }}
           >
-            <span>Your Tesla.</span>
-            <span>
-              Fixed <span style={{ color: "#F5A623" }}>where you are.</span>
-            </span>
+            <span>Your Tesla, Diagnosed</span>
+            <span style={{ color: "#F5A623" }}>Where It Sits</span>
           </div>
         </div>
 
@@ -70,7 +68,7 @@ export default async function OpengraphImage() {
               Ray&apos;s EV Service
             </span>
             <span style={{ fontSize: 24, color: "rgba(255,255,255,0.7)" }}>
-              Mobile EV Repair · LA to San Diego
+              Mobile Tesla Service · Southern California
             </span>
           </div>
           <div

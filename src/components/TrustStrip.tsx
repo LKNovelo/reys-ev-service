@@ -1,8 +1,8 @@
 const stats = [
-  { value: "Tesla S / 3 / X / Y", label: "Models served — no hybrids" },
-  { value: "Same-day",            label: "Dispatch in primary zone"    },
-  { value: "Aerospace-trained",      label: "Electrical specialist"       },
-  { value: "U.S. Marine",         label: "Veteran-owned & operated"    },
+  { value: "Tesla S / 3 / X / Y", label: "Tesla-focused service" },
+  { value: "Same-Day", label: "Low-voltage battery service may be available" },
+  { value: "Toolbox 3", label: "Licensed diagnostic access" },
+  { value: "U.S. Marine", label: "Veteran-owned and operated" },
 ];
 
 export default function TrustStrip() {

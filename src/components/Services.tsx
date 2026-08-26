@@ -102,12 +102,12 @@ export default async function Services() {
     <section className="py-16 px-5 bg-white">
       <div className="max-w-6xl mx-auto">
         <div className="mb-10">
-          <span className="section-label">Core services</span>
+          <span className="section-label">Core Services</span>
           <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide">
-            What we do
+            Popular Services
           </h2>
           <p className="font-body text-brand-muted text-base mt-2 max-w-xl">
-            All work performed on-site at your location. No shop drop-off, no waiting rooms.
+            Mobile diagnostics, inspections, low-voltage battery service, and selected repairs at your location.
           </p>
         </div>
 
@@ -132,7 +132,7 @@ export default async function Services() {
                 >
                   {featured && (
                     <span className="font-body text-[10px] font-semibold bg-brand-green text-white px-2.5 py-1 rounded-full mb-3 self-start tracking-wide">
-                      Most requested
+                      Most Requested
                     </span>
                   )}
                   <div className="mb-3">{icons[title] ?? defaultIcon}</div>
@@ -166,7 +166,7 @@ export default async function Services() {
             href="/services"
             className="font-body inline-flex items-center gap-2 text-brand-green font-semibold text-sm border border-brand-green px-6 py-3 rounded-lg hover:bg-brand-green-lt transition-colors"
           >
-            View all services &amp; pricing
+            View All Services &amp; Pricing
           </Link>
         </div>
       </div>

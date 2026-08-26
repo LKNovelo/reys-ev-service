@@ -48,7 +48,7 @@ export const SERVICE_RINGS = [
 ] as const;
 
 export const EXTENDED_HOURS_FEE = 50;
-export const NORMAL_SERVICE_HOURS = "10:00 AM–6:00 PM";
+export const NORMAL_SERVICE_HOURS = "9:00 AM–5:00 PM";
 
 export function getServiceRing(distanceMiles: number) {
   return SERVICE_RINGS.find(({ maxMiles }) => distanceMiles <= maxMiles) ?? null;

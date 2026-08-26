@@ -7,8 +7,8 @@ import { pageMeta } from "@/lib/siteConfig";
 import JsonLd, { servicesSchema } from "@/components/JsonLd";
 
 export const metadata: Metadata = pageMeta({
-  title: "Services & Pricing",
-  description: "Mobile Tesla diagnostics, warranty inspections, battery service, and electrical repair. Serving LA to San Diego, from Corona, CA.",
+  title: "Mobile Tesla Diagnostics and Repair Services",
+  description: "Compare prices for mobile Tesla diagnostics, inspections, low-voltage battery service, charging-system diagnosis, and selected repairs.",
   path: "/services",
 });
 
@@ -30,14 +30,14 @@ const SERVICES_QUERY = `*[_type == "service"] | order(order asc) {
 
 // Bullet lists keyed by the CURRENT service titles.
 const includes: Record<string, string[]> = {
-  "EV Diagnostics": ["All fault codes read and explained","Battery state-of-health estimate","Written findings document","Repair recommendation (no obligation)"],
-  "Remote Diagnostics": ["Remote Toolbox 3 fault code review","Scope and parts confirmation","Written pre-visit summary","Credited toward on-site repair"],
-  "High Voltage Diagnostics": ["Onboard charger fault diagnosis","Charge port inspection & latch check","HV battery pack health check","12V charging (DC-DC) circuit test"],
-  "Pre-Purchase Inspection": ["Full Toolbox 3 diagnostic scan","Battery degradation assessment","Fault history review","Written PDF report"],
-  "Basic Warranty Inspection": ["Full inspection before 4 yr / 50k mi","Flags defects Tesla should fix free","Honest list of wear items (tires, brakes, alignment)","Written report you can act on"],
-  "Battery & Drivetrain Warranty Inspection": ["Battery capacity & state-of-health report","Full 24-hour calibration","Drive unit / powertrain scan","Catch claims before the 8-yr window closes"],
-  "12V/16V LV Battery Replacement": ["12V/16V battery test and replacement","Same-day pickup and install","Low-voltage wiring diagnosis","Model 3/Y/S/X units sourced"],
-  "HVAC Tune-Up": ["Full HVAC system tune-up","Refrigerant top-up","Cooling performance testing","Blower & cabin airflow check"],
+  "EV Diagnostics": ["Relevant alerts and diagnostic data reviewed", "Current battery SOH estimate when supported", "Written findings and next steps", "Repair recommendation without an obligation to proceed"],
+  "Remote Diagnostics": ["Owner-authorized Toolbox 3 review", "Initial scope and parts planning", "Written pre-visit summary", "Credited toward an eligible on-site repair"],
+  "High Voltage Diagnostics": ["Charging and onboard-charger diagnosis", "Charge-port and latch inspection", "Available high-voltage battery data", "DC-to-DC system testing when indicated"],
+  "Pre-Purchase Inspection": ["Available Toolbox and Service Mode information", "Visible safety and condition checks", "Available battery-health information", "Written purchase report"],
+  "Basic Warranty Inspection": ["Inspection before 4 years or 50,000 miles", "Possible defects documented for Tesla to evaluate", "Maintenance and wear items separated", "Written findings"],
+  "Battery & Drivetrain Warranty Inspection": ["Current SOH estimate when supported", "Full Battery Health Test when booked", "Drive-unit and powertrain review", "Written result identifying the method used"],
+  "12V/16V LV Battery Replacement": ["Low-voltage system test and replacement", "Same-day service may be available", "Low-voltage wiring diagnosis", "Correct battery confirmed by vehicle"],
+  "HVAC Tune-Up": ["Cooling-performance test", "Blower and cabin-airflow check", "Leak and refrigerant-charge diagnosis", "Certified top-off or recharge when indicated"],
 };
 
 // Section subtitles keyed by the tag used as the group name.
@@ -48,9 +48,9 @@ const groupSubtitles: Record<string, string> = {
 };
 
 const warrantyNotes = [
-  { miles: "Under 4 years / 50,000 miles", note: "Your Tesla bumper-to-bumper warranty likely covers it. Use it first — Ray will tell you this himself." },
-  { miles: "Under 8 years (battery & drive unit)", note: "Mileage cap is 100k, 120k, or 150k depending on your model, and coverage runs to 70% capacity. Check before booking." },
-  { miles: "Outside warranty or not covered", note: "That's where we come in — same Toolbox 3 diagnosis at a fraction of dealer cost." },
+  { miles: "Basic Vehicle Limited Warranty", note: "Tesla currently lists four years or 50,000 miles for new U.S. vehicles. Tesla decides whether a fault is covered under the warranty issued with the vehicle." },
+  { miles: "Battery and drive-unit warranty", note: "Time, mileage, and capacity terms vary by model and configuration. Check the vehicle's warranty document before booking paid work." },
+  { miles: "Independent service", note: "Independent service does not automatically void a U.S. warranty, but damage caused by an outside repair, part, or modification may be excluded. Warranty repairs are handled through Tesla." },
 ];
 
 export default async function ServicesPage() {
@@ -76,16 +76,16 @@ export default async function ServicesPage() {
         {/* Page hero */}
         <div className="bg-brand-surface border-b border-brand-border px-5 py-14">
           <div className="max-w-4xl mx-auto">
-            <span className="section-label">What we fix</span>
+            <span className="section-label">Services and Starting Prices</span>
             <h1 className="font-display font-semibold text-brand-dark text-4xl sm:text-5xl tracking-wide mb-4">
-              EV repair that comes to you
+              Mobile Tesla Diagnostics, Inspections, and Selected Repairs
             </h1>
             <p className="font-body text-brand-muted text-lg leading-relaxed max-w-2xl mb-6">
-              Diagnostics, battery service, and electrical repair for Tesla Model S, 3, X, and Y.
-              We come to your home, office, or roadside — no tow truck needed.
+              Ray services Tesla Model S, Model 3, Model X, and Model Y at homes, offices,
+              and safe roadside locations. Scope, price, and travel fees are confirmed before dispatch.
             </p>
             <div className="flex flex-wrap gap-2">
-              {["Tesla Toolbox 3 certified", "Remote diagnostics", "Veteran-owned", "Strictly EV — no hybrids"].map((t) => (
+              {["Qualified independent repairer", "Tesla Toolbox 3 access", "EPA Section 609 certified", "Veteran-owned"].map((t) => (
                 <span key={t} className="font-body text-xs font-semibold bg-white border border-brand-border text-brand-muted px-3 py-1.5 rounded-full">
                   {t}
                 </span>
@@ -97,9 +97,9 @@ export default async function ServicesPage() {
         {/* Service cards */}
         <section className="py-16 px-5 bg-white">
           <div className="max-w-5xl mx-auto">
-            <span className="section-label">Core services</span>
+            <span className="section-label">Core Services</span>
             <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-10">
-              What we do
+              Services and Prices
             </h2>
 
             {groups.map(({ tag, items }) => (
@@ -163,15 +163,15 @@ export default async function ServicesPage() {
         {/* How it works */}
         <section className="py-16 px-5 bg-brand-surface border-t border-brand-border">
           <div className="max-w-4xl mx-auto">
-            <span className="section-label">The process</span>
+            <span className="section-label">The Process</span>
             <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-10">
-              How it works
+              How an Appointment Works
             </h2>
             <div className="grid sm:grid-cols-3 gap-8">
               {[
-                { n: "1", title: "Call or text", body: "Describe your issue. Share fault codes if you have them. We confirm model and location — remote pre-check available.", tag: "Remote pre-check available" },
-                { n: "2", title: "We come to you", body: "Fully equipped mobile van dispatched to your home, office, or roadside — same or next day in the primary zone.", tag: "Corona · OC · IE · LA · SD" },
-                { n: "3", title: "Diagnose and fix", body: "Tesla Toolbox 3 on-site scan, written report, repair on the spot when parts are available. Everything quoted first.", tag: "Transparent pricing" },
+                { n: "1", title: "Call, Text, or Send the Form", body: "Share the model, year, location, symptoms, and exact alert text. Ray confirms whether remote review or an on-site visit is the right first step.", tag: "Direct response from Ray" },
+                { n: "2", title: "Approve the Scope", body: "You receive the appointment window, service price, and travel fee before dispatch. Parts are quoted before ordering.", tag: "Price confirmed first" },
+                { n: "3", title: "Get Written Findings", body: "Ray performs the agreed service and documents the result. Additional work is quoted before you authorize it.", tag: "Clear next steps" },
               ].map(({ n, title, body, tag }) => (
                 <div key={n} className="flex flex-col gap-3">
                   <div className="w-11 h-11 rounded-full border-2 border-brand-green flex items-center justify-center font-display font-semibold text-brand-green text-xl">
@@ -189,12 +189,12 @@ export default async function ServicesPage() {
         {/* Warranty note */}
         <section className="py-16 px-5 bg-white border-t border-brand-border">
           <div className="max-w-4xl mx-auto">
-            <span className="section-label">Before you book</span>
+            <span className="section-label">Before You Book</span>
             <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-3">
-              Check your warranty first
+              Check the Vehicle Warranty First
             </h2>
             <p className="font-body text-brand-muted text-base mb-8 max-w-2xl">
-              Ray will tell you this himself. If your car is under warranty and the issue is covered, use it.
+              Possible warranty items should be evaluated under the document issued with the vehicle. Ray will recommend checking Tesla coverage before independent paid work when appropriate.
             </p>
             <div className="flex flex-col gap-3 max-w-2xl">
               {warrantyNotes.map(({ miles, note }) => (

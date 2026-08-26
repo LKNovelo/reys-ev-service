@@ -2,23 +2,23 @@ import Link from "next/link";
 
 const credentials = [
   {
-    label: "Tesla Toolbox 3",
-    desc: "Factory-level diagnostics — the same software Tesla service centers use",
+    label: "Qualified Independent Repairer",
+    desc: "Licensed access to Tesla Toolbox 3 and Service Mode Plus.",
     color: "bg-brand-green-lt text-brand-green border-brand-green",
   },
   {
-    label: "Aerospace-trained",
-    desc: "High-voltage electrical specialist. Aerospace precision applied to EVs.",
+    label: "Electrical Background",
+    desc: "Military, electronics manufacturing, and aerospace electrical experience.",
     color: "bg-brand-blue-lt text-brand-blue border-brand-blue",
   },
   {
-    label: "U.S. Marine veteran",
-    desc: "Show up when you say you will. Do the job right. Stand behind your work.",
+    label: "U.S. Marine Veteran",
+    desc: "A systematic, documented approach to electrical troubleshooting.",
     color: "bg-brand-blue-lt text-brand-blue border-brand-blue",
   },
   {
-    label: "Mobile — no tow needed",
-    desc: "Ray comes to your home, office, or roadside. LA to San Diego.",
+    label: "Mobile Service",
+    desc: "Home, office, or safe roadside visits across Southern California.",
     color: "bg-brand-green-lt text-brand-green border-brand-green",
   },
 ];
@@ -30,21 +30,20 @@ export default function Hero() {
       {/* LEFT — dark green headline panel */}
       <div className="bg-brand-green-dk px-8 py-16 md:px-14 md:py-20 flex flex-col justify-center">
         <p className="font-body text-[10px] font-semibold tracking-[1.4px] uppercase text-white/50 mb-5">
-          Veteran-Owned &middot; Tesla Toolbox 3 Certified &middot; Southern California
+          Veteran-Owned &middot; Qualified Independent Repairer &middot; Southern California
         </p>
 
         <h1
           className="font-display text-white leading-[1.05] tracking-wide mb-5"
           style={{ fontSize: "clamp(36px, 5.5vw, 60px)", fontWeight: 600 }}
         >
-          Your Tesla.<br />
-          Fixed{" "}
-          <em className="not-italic text-brand-amber">where you are.</em>
+          Your Tesla, Diagnosed<br />
+          <em className="not-italic text-brand-amber">Where It Sits</em>
         </h1>
 
         <p className="font-body text-white/70 text-base sm:text-lg leading-relaxed mb-8 max-w-md">
-          Mobile EV diagnostics and repair from LA to San Diego. No tow truck,
-          no dealership waitlist. Ray comes to you — same day in most of the IE and OC.
+          Mobile diagnostics and selected repairs for Tesla Model S, Model 3, Model X, and Model Y.
+          Many appointments can be completed without a tow or service-center wait.
         </p>
 
         <div className="flex flex-wrap gap-3">
@@ -63,7 +62,7 @@ export default function Hero() {
         </div>
 
         <p className="font-body text-white/35 text-xs mt-7 tracking-wide">
-          Mon–Fri 7 am–6 pm &nbsp;&middot;&nbsp; Sat–Sun by appointment
+          Mon–Fri 9 AM–5 PM &nbsp;&middot;&nbsp; Sat–Sun by appointment
         </p>
       </div>
 

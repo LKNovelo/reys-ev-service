@@ -129,7 +129,7 @@ const ptComponents: PortableTextComponents = {
     fieldNote: ({ value }) => (
       <div className="border-l-4 border-brand-green bg-brand-green-lt rounded-r-lg px-5 py-4 my-6">
         <p className="font-body text-[10px] font-semibold text-brand-green uppercase tracking-wider mb-2 flex items-center gap-1.5">
-          ⚡ Field note — Ray Novelo
+          Field Note: Ray Novelo
         </p>
         <p className="font-body text-sm leading-relaxed" style={{ color: "#1a3a0a" }}>
           {value.body}
@@ -147,7 +147,7 @@ const ptComponents: PortableTextComponents = {
     faultCodeBlock: ({ value }) => (
       <div className="bg-brand-dark rounded-lg p-4 my-5">
         <p className="font-body text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-3">
-          Relevant fault codes
+          Relevant Fault Codes
         </p>
         {value.codes?.map((fc: { code: string; desc: string }, i: number) => (
           <div key={i} className="mb-3 last:mb-0">
@@ -316,7 +316,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             {post.references && post.references.length > 0 && (
               <div className="border-t border-brand-border pt-8 mt-10">
                 <h2 className="font-display font-semibold text-brand-dark text-xl tracking-wide mb-1">
-                  References &amp; further reading
+                  References &amp; Further Reading
                 </h2>
                 <p className="font-body text-brand-muted text-xs mb-6">
                   External resources related to this post. We link directly — no paywalls, no affiliate links.
@@ -366,7 +366,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             {toc.length > 0 && (
               <div className="bg-white border border-brand-border rounded-card p-4">
                 <h3 className="font-body text-[10px] font-semibold text-brand-muted uppercase tracking-wider mb-3">
-                  In this post
+                  In This Post
                 </h3>
                 <div className="flex flex-col">
                   {toc.map((item, i) => (
@@ -387,9 +387,9 @@ export default async function BlogPostPage({ params }: PageProps) {
 
             {/* Sidebar CTA */}
             <div className="bg-brand-green-dk rounded-card p-5 text-center">
-              <h3 className="font-display font-semibold text-white text-base tracking-wide mb-2">Need help?</h3>
+              <h3 className="font-display font-semibold text-white text-base tracking-wide mb-2">Need Help?</h3>
               <p className="font-body text-white/60 text-xs leading-relaxed mb-4">
-                Text your fault codes first — Ray will pre-screen before dispatch.
+                Send the model, year, location, and exact alert message when possible.
               </p>
               <a
                 href="tel:+19516226222"
@@ -398,7 +398,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 Call (951) 622-6222
               </a>
               <span className="font-body text-[10px] text-white/35 mt-2 block">
-                Ray answers directly · same-day dispatch
+                Ray answers directly
               </span>
             </div>
 
@@ -406,7 +406,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             {post.keywords && post.keywords.length > 0 && (
               <div>
                 <h3 className="font-body text-[10px] font-semibold text-brand-muted uppercase tracking-wider mb-3">
-                  Related topics
+                  Related Topics
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {post.keywords.map((tag) => (
@@ -430,10 +430,9 @@ export default async function BlogPostPage({ params }: PageProps) {
               <p className="font-display font-semibold text-brand-dark text-base tracking-wide">Ray Novelo</p>
               <p className="font-body text-xs text-brand-green mb-2">Owner, Ray&apos;s EV Service · Tesla specialist</p>
               <p className="font-body text-brand-muted text-sm leading-relaxed">
-                U.S. Marine veteran and Aerospace-trained electrical specialist. Ray has been diagnosing and
-                repairing Teslas since 2018 — apprenticing at EV-specialized garages before launching his
-                own mobile service in 2023. Every post is based on real jobs, real fault codes, and real
-                conversations with Tesla owners across Southern California.
+                U.S. Marine veteran and mobile Tesla diagnostic technician. Ray began working around Tesla
+                repair in 2018 and launched his mobile service in 2023. Articles separate field observations
+                from manufacturer guidance and link to primary sources when a claim depends on published information.
               </p>
             </div>
           </div>
@@ -443,7 +442,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         {post.relatedPosts && post.relatedPosts.length > 0 && (
           <div className="bg-white border-b border-brand-border px-5 py-12">
             <div className="max-w-4xl mx-auto">
-              <h2 className="font-display font-semibold text-brand-dark text-2xl tracking-wide mb-6">Related posts</h2>
+              <h2 className="font-display font-semibold text-brand-dark text-2xl tracking-wide mb-6">Related Posts</h2>
               <div className="grid sm:grid-cols-3 gap-5">
                 {post.relatedPosts.map((related) => (
                   <Link key={related._id} href={`/blog/${related.slug}`} className="group rounded-card border border-brand-border overflow-hidden hover:border-brand-green transition-colors">
@@ -474,11 +473,11 @@ export default async function BlogPostPage({ params }: PageProps) {
         {/* Post-level CTA */}
         <div className="bg-brand-green-dk px-5 py-14 text-center">
           <h2 className="font-display font-semibold text-white text-3xl tracking-wide mb-3">
-            Think this applies to your Tesla?
+            Does This Sound Like Your Tesla?
           </h2>
           <p className="font-body text-white/65 text-base mb-8 max-w-lg mx-auto leading-relaxed">
-            Text your fault codes to (951) 622-6222 and Ray will pre-screen before rolling the van.
-            Remote diagnostic is $100 flat — credited toward repair if you book service.
+            Call or text the model, year, location, and exact alert message. Ray will confirm whether
+            remote review or an on-site visit is the right next step.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a
@@ -491,7 +490,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               href="/services"
               className="font-body font-semibold text-base border border-white/30 text-white px-7 py-3.5 rounded-lg hover:border-white/60 hover:bg-white/5 transition-all"
             >
-              View all services
+              View All Services
             </Link>
           </div>
         </div>

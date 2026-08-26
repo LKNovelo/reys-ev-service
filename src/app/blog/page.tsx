@@ -8,8 +8,8 @@ import { pageMeta } from "@/lib/siteConfig";
 export const revalidate = 60;
 
 export const metadata: Metadata = pageMeta({
-  title: "Blog — Field Notes & Guides",
-  description: "Tesla maintenance tips, service findings, software update notes, and EV guides from Ray Novelo — written from real jobs in Southern California.",
+  title: "Tesla Maintenance Guides and Field Notes",
+  description: "Practical Tesla maintenance, charging, battery, warranty, tire, and diagnostic guidance from a Southern California mobile EV technician.",
   path: "/blog",
 });
 
@@ -25,16 +25,16 @@ export default async function BlogPage() {
         {/* Hero */}
         <div className="bg-brand-green-dk px-5 py-14 border-b border-brand-border">
           <div className="max-w-4xl mx-auto">
-            <span className="section-label text-white/40">Field notes &amp; guides</span>
+            <span className="section-label text-white/40">Field Notes and Owner Guides</span>
             <h1 className="font-display font-semibold text-white text-4xl sm:text-5xl tracking-wide mb-4">
-              From the shop
+              Practical Tesla Information From the Service Van
             </h1>
             <p className="font-body text-white/65 text-lg max-w-xl leading-relaxed mb-6">
-              Tesla news, service findings, and EV advice. Written by Ray Novelo —
-              not marketing copy. Real jobs, real Teslas, real Southern California roads.
+              Ray writes about questions that come up during service calls: low-voltage warnings,
+              charging behavior, tires, battery care, warranty terms, and what an alert means for the next step.
             </p>
             <div className="flex flex-wrap gap-4 font-body text-sm">
-              <span className="text-white/60">Aerospace-trained electrical specialist</span>
+              <span className="text-white/60">Qualified independent repairer</span>
               <span className="text-white/30">·</span>
               <span className="text-white/60">U.S. Marine veteran</span>
               <span className="text-white/30">·</span>
@@ -53,11 +53,10 @@ export default async function BlogPage() {
           <div className="max-w-4xl mx-auto grid sm:grid-cols-[1fr_auto] gap-8 items-center">
             <div>
               <h2 className="font-display font-semibold text-white text-2xl tracking-wide mb-2">
-                New post when there&apos;s something worth saying
+                Get a Note When Ray Publishes a Useful Field Report
               </h2>
               <p className="font-body text-white/60 text-sm leading-relaxed max-w-md">
-                No newsletter cadence, no filler content. Ray posts when there&apos;s a real finding —
-                a common failure, a software change that affects your car. Usually once or twice a month.
+                New posts cover recurring faults, owner questions, and changes that affect how a Tesla is maintained or charged.
               </p>
             </div>
             <div className="flex flex-col gap-2 min-w-[220px]">
@@ -84,8 +83,8 @@ export default async function BlogPage() {
               <p className="font-display font-semibold text-brand-dark text-base tracking-wide">Ray Novelo</p>
               <p className="font-body text-xs text-brand-green mb-1">Owner, Ray&apos;s EV Service · Tesla specialist</p>
               <p className="font-body text-brand-muted text-sm leading-relaxed">
-                U.S. Marine veteran and Aerospace-trained electrical specialist. Every post is based on real jobs,
-                real fault codes, and real conversations with Tesla owners across Southern California.
+                U.S. Marine veteran and mobile Tesla diagnostic technician. Articles separate Ray&apos;s field observations
+                from manufacturer guidance and link to primary sources when a claim depends on published technical information.
               </p>
             </div>
             <a href="/about" className="font-body text-sm font-semibold text-brand-green border border-brand-green px-4 py-2 rounded-lg hover:bg-brand-green-lt transition-colors shrink-0">

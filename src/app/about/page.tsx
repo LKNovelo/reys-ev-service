@@ -5,48 +5,48 @@ import type { Metadata } from "next";
 import { pageMeta } from "@/lib/siteConfig";
 
 export const metadata: Metadata = pageMeta({
-  title: "About Ray",
-  description: "Ray Novelo — U.S. Marine veteran, Aerospace-trained electrical specialist, Tesla Toolbox 3 certified. Mobile EV repair based in Corona, CA.",
+  title: "About Ray Novelo | Mobile Tesla Diagnostic Technician",
+  description: "Meet Ray Novelo, a U.S. Marine veteran with electronics, manufacturing, aerospace, and Tesla diagnostic experience in Southern California.",
   path: "/about",
 });
 
 const timeline = [
   {
     era: "U.S. Marine Corps",
-    title: "Satellite & radar technician",
-    body: "Ray's foundational electrical and circuits education came from the Marines — working on satellite and radar systems where precision isn't optional. The diagnostic discipline and systematic approach to fault-finding that defines how he works on every Tesla started here.",
-    chip: "Military service",
+    title: "Satellite & Radar Technician",
+    body: "Satellite and radar work built the habit that still guides a vehicle diagnosis: understand the system, verify the symptom, test one possibility at a time, and record the result.",
+    chip: "Military Service",
     chipStyle: "bg-brand-blue-lt text-brand-blue border-brand-blue",
     filled: true,
   },
   {
     era: "Anaheim / South Korea",
-    title: "Electronic component manufacturing",
-    body: "After the Marines, Ray worked with electronic component manufacturers in Anaheim, including travel to South Korea to manage factory operations. High-volume, precision electronics — reinforcing the standard that mistakes at scale have consequences.",
-    chip: "International manufacturing",
+    title: "Electronic Component Manufacturing",
+    body: "Ray worked with electronic component manufacturers in Anaheim and traveled to South Korea for factory operations. That experience added process-control and component-manufacturing context.",
+    chip: "International Manufacturing",
     chipStyle: "bg-brand-blue-lt text-brand-blue border-brand-blue",
     filled: true,
   },
   {
     era: "Aerospace",
-    title: "Specialized repairs & diagnostics training",
-    body: "Aerospace training in specialized electrical repairs and diagnostics — applied to some of the most safety-critical systems in existence. High-voltage architecture, complex fault trees, documentation discipline. The same toolkit that makes Tesla diagnostics tractable.",
-    chip: "Aerospace electrical",
+    title: "Specialized Electrical Repair",
+    body: "Ray performed specialized electrical repair for a major aerospace manufacturer, where documentation and repeatable procedures matter.",
+    chip: "Aerospace Electrical Work",
     chipStyle: "bg-brand-blue-lt text-brand-blue border-brand-blue",
     filled: true,
   },
   {
     era: "November 2018",
-    title: "Entered the EV world",
-    body: "It started with a broken window regulator on Ray's own car. The search for parts pulled him into the EV repair ecosystem — and what he found was a gap. Shops with deep Tesla expertise were rare. The diagnostic tools existed. The trained hands didn't. He began apprenticing at garages specializing in Tesla repair and never looked back.",
-    chip: "Tesla Toolbox 3 certified",
+    title: "Entered the EV Field",
+    body: "A failed window regulator on Ray's own car led him to EV parts, service information, and Tesla-focused garages. He began apprenticing in Tesla repair and continued building experience with electrical systems and diagnostic software.",
+    chip: "Tesla Diagnostics Since 2018",
     chipStyle: "bg-brand-green-lt text-brand-green border-brand-green",
     filled: true,
   },
   {
-    era: "2023 — today",
-    title: "Ray's EV Service — mobile, LA to San Diego",
-    body: "Launched his own mobile operation: fully equipped van, parts in stock, Tesla Toolbox 3 on board. The goal was simple — bring factory-level diagnostics directly to the owner without making them tow the car or wait weeks for a service center appointment.",
+    era: "2023 to Today",
+    title: "Ray's EV Service",
+    body: "Ray launched a mobile operation that brings Tesla diagnostic equipment and commonly requested parts directly to owners across Southern California.",
     chip: "Active · Corona, CA",
     chipStyle: "bg-brand-green text-white border-brand-green",
     filled: false,
@@ -56,54 +56,54 @@ const timeline = [
 
 const credentials = [
   {
-    title: "Tesla Toolbox 3 certified",
-    desc: "The same factory diagnostic software Tesla service centers use. Reads all proprietary fault codes, battery cell data, and system logs that generic OBD scanners can't touch.",
-    tag: "Factory-level access",
+    title: "Qualified Independent Repairer",
+    desc: "Ray's EV Service has licensed access to Tesla Toolbox 3 and Service Mode Plus for available alerts, live data, and guided diagnostic routines.",
+    tag: "Tesla Diagnostic Access",
     style: "border-brand-green bg-brand-green-lt",
     tagStyle: "bg-brand-green text-white",
   },
   {
-    title: "Aerospace-trained electrical specialist",
-    desc: "Advanced training in safety-critical high-voltage systems — the same discipline applied to aerospace electrical architecture, now applied to Tesla's battery and drive systems.",
-    tag: "HV systems expertise",
+    title: "Aerospace Electrical Experience",
+    desc: "Specialized electrical repair for a major aerospace manufacturer strengthened Ray's focus on documentation and repeatable procedures.",
+    tag: "Electrical Background",
     style: "border-brand-blue",
     tagStyle: "bg-brand-blue-lt text-brand-blue",
   },
   {
-    title: "Remote diagnostics capability",
-    desc: "Can review Tesla fault codes and API data before rolling the van — confirming job scope and parts needed in advance. No wasted dispatch, no surprise costs on arrival.",
-    tag: "Pre-dispatch screening",
+    title: "Remote Diagnostics Capability",
+    desc: "Owner-authorized Tesla access can support alert review, initial scope, and parts planning before an on-site visit. Ray never needs the owner's Tesla password.",
+    tag: "Pre-Visit Review",
     style: "border-brand-border",
     tagStyle: "bg-brand-blue-lt text-brand-blue",
   },
   {
-    title: "Fully equipped mobile unit",
-    desc: "Common Tesla parts carried in-van: 12V batteries, charge port hardware, fuses, connectors. Most straightforward repairs completed same visit.",
-    tag: "Parts on-hand",
+    title: "EPA Section 609 Certified",
+    desc: "Ray holds the technician certification required for paid motor-vehicle air-conditioning refrigerant service and uses compliant equipment.",
+    tag: "Certified HVAC Service",
     style: "border-brand-border",
     tagStyle: "bg-brand-green-lt text-brand-green",
   },
   {
-    title: "Written reports for every job",
-    desc: "Every diagnostic produces a written findings document — fault codes, battery health data, and repair recommendations. Useful for warranty claims, resale, or a second opinion.",
-    tag: "Full documentation",
+    title: "Written Diagnostic Findings",
+    desc: "Diagnostic appointments include written findings and next steps. Repair documentation identifies the work performed and parts used.",
+    tag: "Clear Documentation",
     style: "border-brand-border",
     tagStyle: "bg-brand-green-lt text-brand-green",
   },
   {
-    title: "Magnuson-Moss warranty safe",
-    desc: "Third-party service does not void your Tesla warranty under federal law. Ray documents all work thoroughly so you're protected if a warranty claim arises afterward.",
-    tag: "Warranty-safe repairs",
+    title: "Warranty-Aware Recommendations",
+    desc: "When a possible defect may fall within Tesla's warranty, Ray recommends checking coverage before paying for independent repair. Tesla decides warranty claims.",
+    tag: "Check Coverage First",
     style: "border-brand-border",
     tagStyle: "bg-amber-50 text-amber-800",
   },
 ];
 
 const principles = [
-  { n: "1", title: "Diagnose before you recommend", body: "No repair gets recommended without a Toolbox 3 scan first. Guessing costs the customer money and wastes a dispatch." },
-  { n: "2", title: "Transparent scope before work begins", body: "Parts cost quoted before ordering. Labor explained before starting. No surprises on the invoice." },
-  { n: "3", title: "Warranty first — always", body: "If your car is under Tesla's bumper-to-bumper or HV battery warranty, Ray will tell you to use it. He only steps in when it doesn't cover the issue." },
-  { n: "4", title: "You get a written report regardless", body: "Whether we fix it or not, you leave with documented findings. Useful for resale, insurance, or a second opinion." },
+  { n: "1", title: "Diagnose Before Recommending Parts", body: "The complaint and available alerts guide the first tests. A scan is useful, but it is one part of diagnosis, not a substitute for inspection and measurement." },
+  { n: "2", title: "Confirm Scope and Price First", body: "The appointment price and travel fee are confirmed before dispatch. Parts and additional labor are quoted before authorization." },
+  { n: "3", title: "Check Tesla Warranty Coverage", body: "If a possible defect appears to fall within the vehicle's warranty period, Ray recommends that the owner check with Tesla before paying for independent repair." },
+  { n: "4", title: "Document the Visit", body: "Diagnostic appointments include written findings. Repair documentation describes the work performed and parts used." },
 ];
 
 export default function AboutPage() {
@@ -132,24 +132,16 @@ export default function AboutPage() {
 
           {/* Copy col */}
           <div className="px-8 py-14 md:px-14 flex flex-col justify-center">
-            <span className="section-label">The person behind the van</span>
+            <span className="section-label">The Person Who Answers the Phone</span>
             <h1 className="font-display font-semibold text-brand-dark text-3xl sm:text-4xl tracking-wide mb-5">
-              From Marine Corps electrical systems<br className="hidden lg:block" /> to Tesla diagnostics
+              A Career Spent Tracing Electrical Faults
             </h1>
             <p className="font-body text-brand-muted text-base leading-relaxed max-w-xl mb-4">
-              Ray Novelo spent years working on some of the most demanding electrical systems in existence —
-              first in the U.S. Marine Corps, then in aerospace manufacturing, then through Aerospace&apos;s
-              specialized electrical training. When he fixed a broken window regulator on his own car and
-              found himself pulled into the EV world, it wasn&apos;t a career change. It was a familiar set of
-              problems in a new vehicle.
+              Ray Novelo learned electrical troubleshooting in the U.S. Marine Corps as a satellite and radar
+              technician. He later worked in electronic component manufacturing, including factory operations
+              in South Korea, and performed specialized electrical repair for a major aerospace manufacturer.
+              He began working around Tesla repair in 2018 and launched Ray&apos;s EV Service in 2023.
             </p>
-            <blockquote className="border-l-2 border-brand-green pl-4 my-2">
-              <p className="font-body text-brand-dark italic text-base leading-relaxed">
-                &ldquo;I didn&apos;t retrain for EVs. I just applied what I already knew to a vehicle that finally
-                made electrical work interesting again.&rdquo;
-              </p>
-              <cite className="font-body text-brand-muted text-xs not-italic block mt-2">— Ray Novelo</cite>
-            </blockquote>
           </div>
         </div>
 
@@ -158,7 +150,7 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto">
             <span className="section-label">Background</span>
             <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-12">
-              How Ray got here
+              Ray&apos;s Background
             </h2>
             <div className="relative pl-12">
               <div className="absolute left-[14px] top-2 bottom-2 w-px bg-brand-border" />
@@ -192,9 +184,9 @@ export default function AboutPage() {
         <div className="bg-brand-green-dk">
           <div className="max-w-6xl mx-auto grid grid-cols-3">
             {[
-              { v: "Tesla S/3/X/Y", l: "Strictly Tesla — no hybrids" },
-              { v: "LA → San Diego", l: "Full corridor, based in Corona" },
-              { v: "Same-day", l: "Dispatch in primary zone" },
+              { v: "Tesla S/3/X/Y", l: "Tesla-focused service" },
+              { v: "Southern California", l: "Based in Corona" },
+              { v: "Same-Day", l: "Low-voltage battery service may be available" },
             ].map(({ v, l }, i) => (
               <div key={v} className={`px-8 py-6 text-center ${i < 2 ? "border-r border-white/20" : ""}`}>
                 <span className="font-display font-semibold text-white text-xl block">{v}</span>
@@ -209,7 +201,7 @@ export default function AboutPage() {
           <div className="max-w-5xl mx-auto">
             <span className="section-label">Credentials</span>
             <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-10">
-              What&apos;s behind the diagnosis
+              What&apos;s Behind the Diagnosis
             </h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {credentials.map(({ title, desc, tag, style, tagStyle }) => (
@@ -227,22 +219,21 @@ export default function AboutPage() {
         <section className="py-16 px-5 bg-white border-b border-brand-border">
           <div className="max-w-5xl mx-auto grid md:grid-cols-[1fr_1fr] gap-12 items-start">
             <div>
-              <span className="section-label">How Ray works</span>
+              <span className="section-label">How Ray Works</span>
               <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-5">
-                A few things that don&apos;t change job to job
+                A Clear Process for Every Appointment
               </h2>
               <p className="font-body text-brand-muted text-base leading-relaxed mb-4">
-                Diagnose correctly the first time. Tell the owner exactly what you found.
-                Don&apos;t fix what isn&apos;t broken. Charge a fair price for the work.
+                Ray starts with the complaint, available alerts, and the tests that fit the vehicle.
+                The goal is to identify the next sound step before recommending parts.
               </p>
               <p className="font-body text-brand-muted text-base leading-relaxed mb-4">
-                Ray turned down the dealership service model on purpose. No upsell quotas.
-                No service writer between the technician and the customer. When you call,
-                you&apos;re talking to the person who will actually open the hood.
+                The person answering the questions is the person evaluating the car. Scope, price,
+                and travel fees are confirmed before work begins.
               </p>
               <p className="font-body text-brand-muted text-base leading-relaxed">
-                Strictly Tesla, strictly EV — because specialization means every tool, every part,
-                and every hour of diagnostic experience is focused on one platform. That focus shows in the diagnosis.
+                When a procedure requires a lift, controlled environment, or different equipment,
+                Ray recommends the appropriate facility instead of forcing a mobile repair.
               </p>
             </div>
             <div className="flex flex-col gap-4">
@@ -271,19 +262,16 @@ export default function AboutPage() {
               </svg>
             </div>
             <div>
-              <span className="section-label">Veteran-owned business</span>
+              <span className="section-label">Veteran-Owned Business</span>
               <h2 className="font-display font-semibold text-brand-dark text-3xl tracking-wide mb-4">
-                What military service taught Ray about doing this work right
+                What Military Service Taught Ray About Electrical Work
               </h2>
               <p className="font-body text-brand-muted text-base leading-relaxed mb-3 max-w-2xl">
-                The Marine Corps doesn&apos;t train you to guess. It trains you to work systematically under pressure,
-                document what you find, and take responsibility for the outcome. That carries directly into how Ray
-                runs every diagnostic — even when the fault is intermittent, even when the fix isn&apos;t obvious.
+                Marine Corps satellite and radar work taught Ray to troubleshoot systematically under pressure,
+                document the evidence, and take responsibility for the result. Those habits still shape every vehicle diagnosis.
               </p>
               <p className="font-body text-brand-muted text-base leading-relaxed max-w-2xl">
-                Veteran-owned isn&apos;t a marketing badge here. It&apos;s shorthand for a specific set of values:
-                show up when you say you will, do the job right, don&apos;t overcharge, and stand behind your work.
-                That&apos;s the whole business model.
+                Customers receive direct communication, a confirmed scope, and written findings for diagnostic work.
               </p>
             </div>
           </div>
