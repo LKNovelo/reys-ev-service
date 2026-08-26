@@ -69,7 +69,7 @@ function renderFooter(serviceLinks: { href: string; label: string }[]) {
                   Ray&apos;s EV Service
                 </span>
                 <span className="font-body text-white/70 text-[10px] block">
-                  Mobile EV Repair
+                  Mobile Tesla Service
                 </span>
               </div>
             </Link>

@@ -30,7 +30,7 @@ export default function Nav() {
               Ray&rsquo;s EV Service
             </span>
             <span className="text-brand-muted text-[10px] tracking-wide block font-body">
-              Mobile EV Repair &middot; LA to San Diego
+              Mobile Tesla Service &middot; Southern California
             </span>
           </div>
         </Link>

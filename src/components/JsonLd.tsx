@@ -86,7 +86,7 @@ export function localBusinessSchema() {
       "high voltage systems",
       "EV pre-purchase inspection",
     ],
-    slogan: "Your Tesla. Fixed where you are.",
+    slogan: "Your Tesla, Diagnosed Where It Sits.",
   };
 }
 
