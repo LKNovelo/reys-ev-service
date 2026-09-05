@@ -32,6 +32,18 @@ export const blogPostSchema = defineType({
     }),
     defineField({ name: "body", title: "Body", type: "array", of: [
       defineArrayMember({ type: "block" }),
+      defineArrayMember({ type: "object", name: "specTable", title: "Spec / comparison table", fields: [
+        defineField({ name: "caption", title: "Lead-in line (above table)", type: "string",
+          description: 'e.g. "The Battery and Drive Unit in your vehicle are covered for a period of:"' }),
+        defineField({ name: "col1Header", title: "Left column header", type: "string", initialValue: "Vehicle" }),
+        defineField({ name: "col2Header", title: "Right column header", type: "string", initialValue: "Coverage" }),
+        defineField({ name: "rows", title: "Rows", type: "array", of: [defineArrayMember({ type: "object", fields: [
+          defineField({ name: "col1", title: "Left cell", type: "text", rows: 3,
+            description: "One item per line \u2014 each line renders on its own row of text", validation: (r) => r.required() }),
+          defineField({ name: "col2", title: "Right cell", type: "text", rows: 3, validation: (r) => r.required() }),
+        ], preview: { select: { title: "col1", subtitle: "col2" } }})], validation: (r) => r.required().min(1) }),
+        defineField({ name: "footnote", title: "Footnote (below table)", type: "text", rows: 2 }),
+      ]}),
       defineArrayMember({ type: "image", name: "inlineImage", options: { hotspot: true }, fields: [
         defineField({ name: "alt", title: "Alt text", type: "string" }),
         defineField({ name: "caption", title: "Caption", type: "string" }),

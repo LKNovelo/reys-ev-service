@@ -111,6 +111,69 @@ const ptComponents: PortableTextComponents = {
     number: ({ children }) => <li className="text-base">{children}</li>,
   },
   types: {
+    specTable: ({ value }) => (
+      <figure className="my-6">
+        {value.caption && (
+          <figcaption className="font-body text-sm text-brand-dark mb-3">
+            {value.caption}
+          </figcaption>
+        )}
+
+        {/* Mobile: stacked cards */}
+        <div className="flex flex-col gap-3 sm:hidden">
+          {value.rows?.map((row: { col1: string; col2: string }, i: number) => (
+            <div key={i} className="border border-brand-border rounded-card overflow-hidden">
+              <div className="bg-brand-green-lt px-4 py-2.5">
+                <span className="font-body text-[10px] font-semibold text-brand-green uppercase tracking-wider block mb-1">
+                  {value.col1Header || "Vehicle"}
+                </span>
+                <span className="font-display font-semibold text-brand-dark text-sm whitespace-pre-line leading-snug">
+                  {row.col1}
+                </span>
+              </div>
+              <div className="px-4 py-3">
+                <span className="font-body text-[10px] font-semibold text-brand-muted uppercase tracking-wider block mb-1">
+                  {value.col2Header || "Coverage"}
+                </span>
+                <span className="font-body text-sm text-brand-dark leading-relaxed">{row.col2}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: real table */}
+        <div className="hidden sm:block border border-brand-border rounded-card overflow-hidden">
+          <table className="w-full border-collapse text-left">
+            <thead>
+              <tr className="bg-brand-green-lt">
+                <th scope="col" className="font-body text-[10px] font-semibold text-brand-green uppercase tracking-wider px-4 py-2.5 w-2/5">
+                  {value.col1Header || "Vehicle"}
+                </th>
+                <th scope="col" className="font-body text-[10px] font-semibold text-brand-green uppercase tracking-wider px-4 py-2.5">
+                  {value.col2Header || "Coverage"}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {value.rows?.map((row: { col1: string; col2: string }, i: number) => (
+                <tr key={i} className="border-t border-brand-border align-top">
+                  <th scope="row" className="font-display font-semibold text-brand-dark text-sm px-4 py-3 whitespace-pre-line leading-snug text-left">
+                    {row.col1}
+                  </th>
+                  <td className="font-body text-sm text-brand-dark px-4 py-3 leading-relaxed">
+                    {row.col2}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {value.footnote && (
+          <p className="font-body text-xs text-brand-muted mt-2 leading-relaxed">{value.footnote}</p>
+        )}
+      </figure>
+    ),
     inlineImage: ({ value }) => {
       if (!value?.asset) return null;
       return (
